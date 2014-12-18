@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <% include main/global_css_sheets.ejs %>
+    <!--HIER EIGENE(auf diese spezielle Seite bezogen) STYLESHEETS-->
+</head>
+
+<body>
+    <div class="container">
+        <% include main/navbar.ejs %>
+
+        <!--HIER SEITENINHALT-->
+        <button class="btn btn-primary">FLAT BUTTON!</button>
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce
+                    dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+                    fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui.</p>
+                <p>
+                    <a class="btn btn-success" href="#" role="button">Success
+                        &raquo;</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce
+                    dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+                    fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui.</p>
+                <p>
+                    <a class="btn btn-info" href="#" role="button">Info
+                        &raquo;</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
+                    egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+                    Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+                    nibh, ut fermentum massa justo sit amet risus.</p>
+                <p>
+                    <a class="btn btn-default" href="#" role="button">Default
+                        &raquo;</a>
+                </p>
+            </div>
+        </div>
+
+        <% include main/footer.ejs %>
+    </div>
+
+    <!--HIER EIGENE(auf diese spezielle Seite bezogen) JS-Scripts-->
+    <% include main/global_js_scripts.ejs %>
+</body>
