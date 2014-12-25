@@ -6,4 +6,9 @@ router.get('/', function(req, res) {
   res.render('home', {title:"DMMW"});
 });
 
+router.get('/game', function(req, res) {
+  res.render('canvas', {title:"DMMW"});
+});
+
+
 module.exports = router;
