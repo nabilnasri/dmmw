@@ -5,6 +5,6 @@ var app = require('../app');
 app.set('port', process.env.PORT || 8082);
 
 var server = app.listen(app.get('port'), function() {
-  console.log("ariba");
+  console.log("ariba ariba");
   debug('Express server listening on port ' + server.address().port);
 });
