@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <head>
     <% include main/global_css_sheets.ejs %>
+    <script src="/js/canvas.js"></script>
+
     <!--HIER EIGENE(auf diese spezielle Seite bezogen) STYLESHEETS-->
 </head>
 
@@ -8,7 +10,9 @@
     <div class="container">
         <% include main/navbar.ejs %>
         <div class="row">
-            <canvas id="playground">Spielfeld</canvas>
+            <div id="display"><span id="score">0</span></div>
+            <canvas id="playground" height="650" width="1400"></canvas>
+            <div id="button"><span id="start">START</span></div>
         </div>
 
         <% include main/footer.ejs %>
