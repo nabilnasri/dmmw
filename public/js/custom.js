@@ -14,4 +14,4 @@ function fullscreen(){
         canvas.width = window.screen.availWidth * (2/3);
 }
 
-document.getElementById('playground').addEventListener("click",fullscreen);
+document.getElementById('fullscreen').addEventListener("click",fullscreen);

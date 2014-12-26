@@ -10,9 +10,13 @@
     <div class="container">
         <% include main/navbar.ejs %>
         <div class="row">
-            <div id="display"><span id="score">0</span></div>
+            <div class="btn btn-default btn-group-lg" id="display"><span id="score">0</span></div>
             <canvas id="playground" height="650" width="1400"></canvas>
-            <div id="button"><span id="start">START</span></div>
+        </div>
+
+        <div class="row">
+            <div class="btn btn-info" id="button"><span id="start">START</span></div>
+            <div class="btn btn-danger" id="fullscreen">FULLSCREEN</div>
         </div>
 
         <% include main/footer.ejs %>
