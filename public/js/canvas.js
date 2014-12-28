@@ -1,4 +1,7 @@
 function breakout() {
+
+    var canvas = new PlayingField(1400, 650, 10, 20);
+    console.log(canvas.getRows());
     "use strict";
     var x = 350,
         y = 500,
@@ -10,7 +13,6 @@ function breakout() {
         col,
         rowheight,
         colwidth,
-        canvas,
         ctx,
         WIDTH,
         HEIGHT,
@@ -22,9 +24,6 @@ function breakout() {
         canvasMinX = 0,
         canvasMaxX = 0,
         intervalId = 0,
-        bricks,
-        NROWS = 10,
-        NCOLS = 20,
         BRICKWIDTH = 60,
         BRICKHEIGHT = 20,
         PADDING = 9.5,
@@ -33,9 +32,7 @@ function breakout() {
         rowcolors = ["#9CF", "#9CF", "#C9F", "#C9F", "#F9C", "#F9C", "#FC9", "#FC9", "#CF9", "#CF9"],
         paddlecolor = "#ddd",
         ballcolor = "green",
-        backcolor = "#111",
-        //brickTrack = document.getElementById("brick"),
-        paddleTrack = document.getElementById("paddle");
+        backcolor = "#111";
     function circle(x, y, r) {
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2, true);
@@ -53,10 +50,10 @@ function breakout() {
         rect(0, 0, WIDTH, HEIGHT);
     }
     function drawbricks() {
-        for (i = 0; i < NROWS; i++) {
+        for (i = 0; i < canvas.nRows; i++) {
             ctx.fillStyle = rowcolors[i];
             ctx.lineWidth = 2;
-            for (j = 0; j < NCOLS; j++) {
+            for (j = 0; j < canvas.nCols; j++) {
                 if (bricks[i][j] === 1) {
                     rect((j * (BRICKWIDTH + PADDING)) + PADDING,
                         (i * (BRICKHEIGHT + PADDING)) + PADDING,
@@ -86,7 +83,7 @@ function breakout() {
         colwidth = BRICKWIDTH + PADDING;
         row = Math.floor(y / rowheight);
         col = Math.floor(x / colwidth);
-        if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] === 1) {
+        if (y < canvas.nRows * rowheight && row >= 0 && col >= 0 && bricks[row][col] === 1) {
             dy = -dy;
             bricks[row][col] = 0;
             score++;
@@ -106,7 +103,6 @@ function breakout() {
             if (x > paddlex && x < paddlex + paddlew) {
                 dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
-                paddleTrack.play();
             } else if (y + dy + ballr > HEIGHT) {
                 window.clearInterval(intervalId);
             }
@@ -125,9 +121,7 @@ function breakout() {
         HEIGHT = canvas.height;
         paddlex = WIDTH / 2;
         canvasMinX = $("#playground").offset().left;
-        console.log(canvasMinX + "min");
         canvasMaxX = canvasMinX + WIDTH;
-        console.log(canvasMaxX + "max");
         intervalId = window.setInterval(draw, 10);
     }
     function onKeyDown(evt) {
@@ -154,10 +148,10 @@ function breakout() {
     }
     $(document).mousemove(onMouseMove);
     function initbricks() {
-        bricks = new Array(NROWS);
-        for (i = 0; i < NROWS; i++) {
-            bricks[i] = new Array(NCOLS);
-            for (j = 0; j < NCOLS; j++) {
+        bricks = new Array(canvas.nRows);
+        for (i = 0; i < canvas.nRows; i++) {
+            bricks[i] = new Array(canvas.nCols);
+            for (j = 0; j < canvas.nCols; j++) {
                 bricks[i][j] = 1;
             }
         }
