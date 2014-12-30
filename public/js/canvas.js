@@ -1,9 +1,7 @@
 function breakout() {
-
-    var canvas = new PlayingField(1400, 650, 10, 20);
-    console.log(canvas.getRows());
     "use strict";
-    var x = 350,
+    var canvas = new PlayingField(1400, 650, 10, 10);
+    var x = 1200,
         y = 500,
         dx = 1.5,
         dy = -4,
@@ -13,9 +11,6 @@ function breakout() {
         col,
         rowheight,
         colwidth,
-        ctx,
-        WIDTH,
-        HEIGHT,
         paddlex,
         paddleh = 20,
         paddlew = 100,
@@ -24,36 +19,37 @@ function breakout() {
         canvasMinX = 0,
         canvasMaxX = 0,
         intervalId = 0,
+        bricks,
         BRICKWIDTH = 60,
         BRICKHEIGHT = 20,
-        PADDING = 9.5,
+        PADDING = 20,
         score = 0,
         ballr = 10,
         rowcolors = ["#9CF", "#9CF", "#C9F", "#C9F", "#F9C", "#F9C", "#FC9", "#FC9", "#CF9", "#CF9"],
         paddlecolor = "#ddd",
-        ballcolor = "green",
+        ballcolor = "#ddd",
         backcolor = "#111";
     function circle(x, y, r) {
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.fill();
+        canvas.getContext().beginPath();
+        canvas.getContext().arc(x, y, r, 0, Math.PI * 2, true);
+        canvas.getContext().closePath();
+        canvas.getContext().fill();
     }
     function rect(x, y, w, h) {
-        ctx.beginPath();
-        ctx.rect(x, y, w, h);
-        ctx.closePath();
-        ctx.fill();
+        canvas.getContext().beginPath();
+        canvas.getContext().rect(x, y, w, h);
+        canvas.getContext().closePath();
+        canvas.getContext().fill();
     }
     function clear() {
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        rect(0, 0, WIDTH, HEIGHT);
+        canvas.getContext().clearRect(0, 0, canvas.FieldWidth, canvas.FieldHeight);
+        rect(0, 0, canvas.FieldWidth, canvas.FieldHeight);
     }
     function drawbricks() {
-        for (i = 0; i < canvas.nRows; i++) {
-            ctx.fillStyle = rowcolors[i];
-            ctx.lineWidth = 2;
-            for (j = 0; j < canvas.nCols; j++) {
+        for (i = 0; i < canvas.getRows(); i++) {
+            canvas.getContext().fillStyle = rowcolors[i];
+            canvas.getContext().lineWidth = 2;
+            for (j = 0; j < canvas.getCols(); j++) {
                 if (bricks[i][j] === 1) {
                     rect((j * (BRICKWIDTH + PADDING)) + PADDING,
                         (i * (BRICKHEIGHT + PADDING)) + PADDING,
@@ -63,66 +59,63 @@ function breakout() {
         }
     }
     function draw() {
-        ctx.font = "80pt Impact";
-        ctx.textAlign = "center";
-        ctx.fillStyle = backcolor;
-        ctx.strokeStyle = backcolor;
-        ctx.lineWidth = 1;
+        canvas.getContext().font = "80pt Impact";
+        canvas.getContext().textAlign = "center";
+        canvas.getContext().fillStyle = backcolor;
+        canvas.getContext().strokeStyle = backcolor;
+        canvas.getContext().lineWidth = 1;
         clear();
-        ctx.fillStyle = ballcolor;
+        canvas.getContext().fillStyle = ballcolor;
         circle(x, y, ballr);
         if (rightDown) {
             paddlex += 5;
         } else if (leftDown) {
             paddlex -= 5;
         }
-        ctx.fillStyle = paddlecolor;
-        rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
+        canvas.getContext().fillStyle = paddlecolor;
+        rect(paddlex, canvas.FieldHeight-paddleh, paddlew, paddleh);
         drawbricks();
         rowheight = BRICKHEIGHT + PADDING;
         colwidth = BRICKWIDTH + PADDING;
         row = Math.floor(y / rowheight);
         col = Math.floor(x / colwidth);
-        if (y < canvas.nRows * rowheight && row >= 0 && col >= 0 && bricks[row][col] === 1) {
+        if (y < canvas.getRows() * rowheight && row >= 0 && col >= 0 && bricks[row][col] === 1) {
             dy = -dy;
             bricks[row][col] = 0;
             score++;
             document.getElementById("score").innerHTML = score;
             if (score === 100) {
-                ctx.fillStyle = "#ddd";
-                ctx.fillText("WIN", WIDTH / 2, 505);
+                canvas.getContext().fillStyle = "#ddd";
+                canvas.getContext().fillText("WIN", canvas.FieldWidth / 2, 505);
                 window.clearInterval(intervalId);
             }
         }
-        if (x + dx + ballr > WIDTH || x + dx - ballr < 0) {
+        if (x + dx + ballr > canvas.FieldWidth || x + dx - ballr < 0) {
             dx = -dx;
         }
         if (y + dy - ballr < 0) {
             dy = -dy;
-        } else if (y + dy + ballr > HEIGHT - paddleh) {
+        } else if (y + dy + ballr > canvas.FieldHeight - paddleh) {
             if (x > paddlex && x < paddlex + paddlew) {
                 dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
-            } else if (y + dy + ballr > HEIGHT) {
+            } else if (y + dy + ballr > canvas.FieldHeight) {
                 window.clearInterval(intervalId);
             }
         }
-        if (y + dy + ballr > HEIGHT) {
-            ctx.fillStyle = "#ddd";
-            ctx.fillText("FAIL", WIDTH / 2, 505);
+        if (y + dy + ballr > canvas.FieldHeight) {
+            canvas.getContext().fillStyle = "#ddd";
+            canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
         }
         x += dx;
         y += dy;
     }
     function init() {
-        canvas = document.getElementById("playground");
-        ctx = canvas.getContext("2d");
-        WIDTH = canvas.width;
-        HEIGHT = canvas.height;
-        paddlex = WIDTH / 2;
+        paddlex = canvas.FieldWidth / 2;
         canvasMinX = $("#playground").offset().left;
-        canvasMaxX = canvasMinX + WIDTH;
+        canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(draw, 10);
+        return intervalId;
     }
     function onKeyDown(evt) {
         if (evt.keyCode === 39) {
@@ -143,15 +136,15 @@ function breakout() {
     function onMouseMove(evt) {
         if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
             paddlex = Math.max(evt.pageX - canvasMinX - (paddlew / 2), 0);
-            paddlex = Math.min(WIDTH - paddlew, paddlex);
+            paddlex = Math.min(canvas.FieldWidth - paddlew, paddlex);
         }
     }
     $(document).mousemove(onMouseMove);
     function initbricks() {
-        bricks = new Array(canvas.nRows);
-        for (i = 0; i < canvas.nRows; i++) {
-            bricks[i] = new Array(canvas.nCols);
-            for (j = 0; j < canvas.nCols; j++) {
+        bricks = new Array(canvas.getRows());
+        for (i = 0; i < canvas.getRows(); i++) {
+            bricks[i] = new Array(canvas.getCols());
+            for (j = 0; j < canvas.getCols(); j++) {
                 bricks[i][j] = 1;
             }
         }
