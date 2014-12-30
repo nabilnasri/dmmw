@@ -5,10 +5,15 @@ function PlayingField(width, height, rows, cols){
     this.nCols = cols;
     this.color = "#ABB7B7";
     this.ctx = this.Context();
-
     this.bricks = this.setBricks();
+    this.paddleDict = {};
+    this.ballDict = {};
     this.rowcolors = ["#9CF", "#9CF", "#C9F", "#C9F", "#F9C", "#F9C", "#FC9", "#FC9", "#CF9", "#CF9"]
 
+}
+
+PlayingField.prototype.initField = function(){
+    //ToDo: init the paddles, balls and so on...
 }
 
 PlayingField.prototype.getRows = function(){

@@ -1,5 +1,6 @@
 function breakout() {
     "use strict";
+    var nyan = document.getElementById("nyan");
     var canvas = new PlayingField(1400, 650, 10, 10);
     var x = 1200,
         y = 500,
@@ -106,6 +107,8 @@ function breakout() {
         if (y + dy + ballr > canvas.FieldHeight) {
             canvas.getContext().fillStyle = "#ddd";
             canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+            nyan.pause();
+            nyan.currentTime = 0;
         }
         x += dx;
         y += dy;
@@ -154,8 +157,11 @@ function breakout() {
 }
 window.onload = function () {
     "use strict";
+
+    nyan.play();
     breakout();
     document.getElementById("start").onclick = function () {
+        nyan.play();
         breakout();
     };
 };
