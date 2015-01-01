@@ -7,6 +7,9 @@ function Ball(color, xCoor, yCoor){
     this.dy = -4;
 }
 
+Ball.prototype.getYCoor = function () {
+    return this.yCoor - 150;
+};
 
 Ball.prototype.getRadius = function () {
   return this.radius
