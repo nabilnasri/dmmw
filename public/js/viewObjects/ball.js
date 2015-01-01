@@ -1,13 +1,17 @@
-function Ball(){
+function Ball(color, xCoor, yCoor){
     this.radius = 10;
-    this.color = null;
+    this.BallColor = color;
+    this.xCoor = xCoor;
+    this.yCoor = yCoor;
+    this.dx = 1.5;
+    this.dy = -4;
 }
 
-Ball.prototype.testFunc = function(){
-    console.log("Das ist eine Funktion, damit jede Instanz von Ball auf diesselbe Funktion zugreifen kann.");
+
+Ball.prototype.getRadius = function () {
+  return this.radius
 };
 
-
-Ball.prototype.setColor = function(color){
-    this.color = color;
+Ball.prototype.getColor = function () {
+    return this.BallColor
 };

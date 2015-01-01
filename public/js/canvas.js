@@ -1,88 +1,58 @@
 function breakout() {
     "use strict";
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(1400, 650, 10, 10);
-    var x = 1200,
-        y = 500,
-        dx = 1.5,
-        dy = -4,
-        i,
-        j,
-        row,
+    var canvas = new PlayingField(1400, 650, 6, 18);
+
+    var row,
         col,
-        rowheight,
-        colwidth,
-        paddlex,
-        paddleh = 20,
-        paddlew = 100,
+        intervalId = 0,
         rightDown = false,
         leftDown = false,
         canvasMinX = 0,
         canvasMaxX = 0,
-        intervalId = 0,
-        bricks,
-        BRICKWIDTH = 60,
-        BRICKHEIGHT = 20,
-        PADDING = 20,
-        score = 0,
-        ballr = 10,
-        rowcolors = ["#9CF", "#9CF", "#C9F", "#C9F", "#F9C", "#F9C", "#FC9", "#FC9", "#CF9", "#CF9"],
-        paddlecolor = "#ddd",
-        ballcolor = "#ddd",
-        backcolor = "#111";
-    function circle(x, y, r) {
-        canvas.getContext().beginPath();
-        canvas.getContext().arc(x, y, r, 0, Math.PI * 2, true);
-        canvas.getContext().closePath();
-        canvas.getContext().fill();
-    }
-    function rect(x, y, w, h) {
-        canvas.getContext().beginPath();
-        canvas.getContext().rect(x, y, w, h);
-        canvas.getContext().closePath();
-        canvas.getContext().fill();
-    }
+        score = 0;
+
     function clear() {
         canvas.getContext().clearRect(0, 0, canvas.FieldWidth, canvas.FieldHeight);
-        rect(0, 0, canvas.FieldWidth, canvas.FieldHeight);
+        rect(canvas.getContext(), 0, 0, canvas.FieldWidth, canvas.FieldHeight, canvas.color);
     }
-    function drawbricks() {
-        for (i = 0; i < canvas.getRows(); i++) {
-            canvas.getContext().fillStyle = rowcolors[i];
-            canvas.getContext().lineWidth = 2;
-            for (j = 0; j < canvas.getCols(); j++) {
-                if (bricks[i][j] === 1) {
-                    rect((j * (BRICKWIDTH + PADDING)) + PADDING,
-                        (i * (BRICKHEIGHT + PADDING)) + PADDING,
-                        BRICKWIDTH, BRICKHEIGHT);
-                }
-            }
-        }
-    }
+
     function draw() {
         canvas.getContext().font = "80pt Impact";
         canvas.getContext().textAlign = "center";
-        canvas.getContext().fillStyle = backcolor;
-        canvas.getContext().strokeStyle = backcolor;
+        canvas.getContext().fillStyle = canvas.color;
+        canvas.getContext().strokeStyle = canvas.color;
         canvas.getContext().lineWidth = 1;
         clear();
-        canvas.getContext().fillStyle = ballcolor;
-        circle(x, y, ballr);
+        canvas.getContext().fillStyle = canvas.getBall(0).getColor();
+        circle(canvas.getContext(), canvas.getBall(0).xCoor, canvas.getBall(0).yCoor, canvas.getBall(0).getRadius());
         if (rightDown) {
-            paddlex += 5;
+            canvas.getPaddle(0).xCoor += 10;
         } else if (leftDown) {
-            paddlex -= 5;
+            canvas.getPaddle(0).xCoor -= 10;
         }
-        canvas.getContext().fillStyle = paddlecolor;
-        rect(paddlex, canvas.FieldHeight-paddleh, paddlew, paddleh);
-        drawbricks();
-        rowheight = BRICKHEIGHT + PADDING;
-        colwidth = BRICKWIDTH + PADDING;
-        row = Math.floor(y / rowheight);
-        col = Math.floor(x / colwidth);
-        if (y < canvas.getRows() * rowheight && row >= 0 && col >= 0 && bricks[row][col] === 1) {
-            dy = -dy;
-            bricks[row][col] = 0;
+        rect(
+            canvas.getContext(),
+            canvas.getPaddle(0).xCoor,
+            canvas.FieldHeight-canvas.getPaddle(0).PaddleHeight,
+            canvas.getPaddle(0).PaddleWidth,
+            canvas.getPaddle(0).PaddleHeight,
+            canvas.getPaddle(0).PaddleColor
+        );
+        rect(
+            canvas.getContext(),
+            canvas.getPaddle(1).xCoor,
+            0,
+            canvas.getPaddle(1).PaddleWidth,
+            canvas.getPaddle(1).PaddleHeight,
+            canvas.getPaddle(1).PaddleColor
+        );
+        drawBricks(canvas);
+        row = Math.floor(canvas.getBall(0).yCoor / canvas.rowHeight);
+        col = Math.floor(canvas.getBall(0).xCoor / canvas.colWidth);
+        if (canvas.getBall(0).yCoor < canvas.getRows() * canvas.rowHeight && row >= 0 && col >= 0 && canvas.getBricks()[row][col] instanceof Brick) {
+            canvas.getBall(0).dy = -canvas.getBall(0).dy; //Ball dotzt zurueck
+            canvas.getBricks()[row][col] = 0; //Brick zerstört
             score++;
             document.getElementById("score").innerHTML = score;
             if (score === 100) {
@@ -91,30 +61,35 @@ function breakout() {
                 window.clearInterval(intervalId);
             }
         }
-        if (x + dx + ballr > canvas.FieldWidth || x + dx - ballr < 0) {
-            dx = -dx;
+        if (canvas.getBall(0).xCoor + canvas.getBall(0).dx + canvas.getBall(0).getRadius() > canvas.FieldWidth || canvas.getBall(0).xCoor + canvas.getBall(0).dx - canvas.getBall(0).getRadius() < 0) {
+            //RECHTER RAND
+            canvas.getBall(0).dx = -canvas.getBall(0).dx;
         }
-        if (y + dy - ballr < 0) {
-            dy = -dy;
-        } else if (y + dy + ballr > canvas.FieldHeight - paddleh) {
-            if (x > paddlex && x < paddlex + paddlew) {
-                dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
-                dy = -dy;
-            } else if (y + dy + ballr > canvas.FieldHeight) {
+        if (canvas.getBall(0).yCoor + canvas.getBall(0).dy - canvas.getBall(0).getRadius() < 0) {
+            //LINKER RAND
+            canvas.getBall(0).dy = -canvas.getBall(0).dy;
+        } else if (canvas.getBall(0).yCoor + canvas.getBall(0).dy + canvas.getBall(0).getRadius() > canvas.FieldHeight - canvas.getPaddle(0).PaddleHeight) {
+            if (canvas.getBall(0).xCoor > canvas.getPaddle(0).xCoor && canvas.getBall(0).xCoor < canvas.getPaddle(0).xCoor + canvas.getPaddle(0).PaddleWidth) {
+                //BALL trifft PADDLE
+                canvas.getBall(0).dx = 8 * ((canvas.getBall(0).xCoor - (canvas.getPaddle(0).xCoor + canvas.getPaddle(0).PaddleWidth / 2)) / canvas.getPaddle(0).PaddleWidth);
+                canvas.getBall(0).dy = -canvas.getBall(0).dy; //SOLL zurück dotzen
+            } else if (canvas.getBall(0).yCoor + canvas.getBall(0).dy + canvas.getBall(0).getRadius() > canvas.FieldHeight) {
                 window.clearInterval(intervalId);
             }
         }
-        if (y + dy + ballr > canvas.FieldHeight) {
+        if (canvas.getBall(0).yCoor + canvas.getBall(0).dy + canvas.getBall(0).getRadius() > canvas.FieldHeight) {
+            //BALL DRAUßen
             canvas.getContext().fillStyle = "#ddd";
             canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
-            nyan.pause();
-            nyan.currentTime = 0;
+            //nyan.pause();
+            //nyan.currentTime = 0;
         }
-        x += dx;
-        y += dy;
+        canvas.getBall(0).xCoor += canvas.getBall(0).dx;
+        canvas.getBall(0).yCoor += canvas.getBall(0).dy;
     }
     function init() {
-        paddlex = canvas.FieldWidth / 2;
+        canvas.getPaddle(0).xCoor = canvas.FieldWidth / 2;
+        canvas.getPaddle(1).xCoor = canvas.FieldWidth / 2;
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(draw, 10);
@@ -138,30 +113,20 @@ function breakout() {
     $(document).keyup(onKeyUp);
     function onMouseMove(evt) {
         if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
-            paddlex = Math.max(evt.pageX - canvasMinX - (paddlew / 2), 0);
-            paddlex = Math.min(canvas.FieldWidth - paddlew, paddlex);
+            canvas.getPaddle(0).xCoor = Math.max(evt.pageX - canvasMinX - (canvas.getPaddle(0).PaddleWidth / 2), 0);
+            canvas.getPaddle(0).xCoor = Math.min(canvas.FieldWidth - canvas.getPaddle(0).PaddleWidth, canvas.getPaddle(0).xCoor);
         }
     }
     $(document).mousemove(onMouseMove);
-    function initbricks() {
-        bricks = new Array(canvas.getRows());
-        for (i = 0; i < canvas.getRows(); i++) {
-            bricks[i] = new Array(canvas.getCols());
-            for (j = 0; j < canvas.getCols(); j++) {
-                bricks[i][j] = 1;
-            }
-        }
-    }
+
     init();
-    initbricks();
 }
 window.onload = function () {
     "use strict";
-
-    nyan.play();
+    //nyan.play();
     breakout();
     document.getElementById("start").onclick = function () {
-        nyan.play();
+        //nyan.play();
         breakout();
     };
 };

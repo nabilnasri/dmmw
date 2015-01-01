@@ -1,9 +1,8 @@
-function Paddle(x, y, color){
+function Paddle(x, color){
     this.PaddleWidth = 100;
     this.PaddleHeight = 20;
     this.xCoor = x;
-    this.yCoor = y;
-    this.color = color;
+    this.PaddleColor = color;
 }
 
 Paddle.prototype.testFunc = function(){

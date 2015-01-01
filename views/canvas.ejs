@@ -8,11 +8,10 @@
     <div class="container">
         <% include main/navbar.ejs %>
         <div class="row">
-            <div class="btn btn-default btn-group-lg" id="display"><span id="score">0</span></div>
+            <span id="score">0</span>
             <canvas id="playground" height="650" width="1400"></canvas>
-            <audio id="nyan">
+            <audio id="nyan" loop="loop">
                 <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
-                Your browser does not support the audio tag.
             </audio>
         </div>
 
@@ -26,6 +25,10 @@
 
     <% include main/global_js_scripts.ejs %>
     <script src="/js/canvas.js"></script>
+    <script src="/js/viewObjects/ball.js"></script>
+    <script src="/js/viewObjects/paddle.js"></script>
+    <script src="/js/viewObjects/brick.js"></script>
     <script src="/js/viewObjects/playing_field.js"></script>
+    <script src="/js/viewObjects/draw_functions.js"></script>
 </body>
 
