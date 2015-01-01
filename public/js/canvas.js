@@ -27,9 +27,9 @@ function breakout() {
         canvas.getContext().fillStyle = canvas.getBall(0).getColor();
         circle(canvas.getContext(), canvas.getBall(0).xCoor, canvas.getBall(0).yCoor, canvas.getBall(0).getRadius());
         if (rightDown) {
-            canvas.getPaddle(0).xCoor += 10;
+            canvas.getPaddle(0).xCoor += 5;
         } else if (leftDown) {
-            canvas.getPaddle(0).xCoor -= 10;
+            canvas.getPaddle(0).xCoor -= 5;
         }
         rect(
             canvas.getContext(),
@@ -48,7 +48,7 @@ function breakout() {
             canvas.getPaddle(1).PaddleColor
         );
         drawBricks(canvas);
-        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - 3);
+        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - canvas.getFieldHeight()/40/3);
         console.log(row + " ROOOOW");
         col = Math.floor(canvas.getBall(0).xCoor / canvas.colWidth);
 

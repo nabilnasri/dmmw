@@ -66,15 +66,11 @@ PlayingField.prototype.initPaddles = function(){
 
 PlayingField.prototype.initBalls = function(){
     var b = {};
-    b[0] = new Ball("#BE90D4", this.getPaddle(0).xCoor + 10, 500);
-    b[1] = new Ball("#4183D7", this.getPaddle(1).xCoor + 10, 500);
+    b[0] = new Ball(this.getFieldHeight(), "#BE90D4", this.getPaddle(0).xCoor + 10, 500);
+    b[1] = new Ball(this.getFieldHeight(), "#4183D7", this.getPaddle(1).xCoor + 10, 500);
 
     return b;
 };
-
-
-
-
 
 PlayingField.prototype.getElement = function(){
     return document.getElementById("playground");
@@ -84,3 +80,10 @@ PlayingField.prototype.Context = function(){
     return this.getElement().getContext("2d");
 };
 
+PlayingField.prototype.getFieldHeight = function(){
+    return this.FieldHeight;
+};
+
+PlayingField.prototype.getFieldWidth = function(){
+    return this.FieldWidth;
+};

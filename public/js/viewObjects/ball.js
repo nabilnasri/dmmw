@@ -1,4 +1,5 @@
-function Ball(color, xCoor, yCoor){
+function Ball(height, color, xCoor, yCoor){
+    this.canvasHeight = height;
     this.radius = 10;
     this.BallColor = color;
     this.xCoor = xCoor;
@@ -8,7 +9,7 @@ function Ball(color, xCoor, yCoor){
 }
 
 Ball.prototype.getYCoor = function () {
-    return this.yCoor - 150;
+    return this.yCoor - this.canvasHeight;
 };
 
 Ball.prototype.getRadius = function () {

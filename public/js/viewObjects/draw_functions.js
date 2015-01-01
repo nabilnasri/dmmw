@@ -39,7 +39,8 @@ function drawBricks(canvas) {
                 rect(
                     canvas.getContext(),
                     (j * (brick_width + brickPadding)) + brickPadding,
-                    150 + (i * (brick_height + brickPadding)) + brickPadding,
+                    //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
+                    (canvas.getFieldHeight()/3) + (i * (brick_height + brickPadding)) + brickPadding,
                     brick_width,
                     brick_height,
                     brick_color
