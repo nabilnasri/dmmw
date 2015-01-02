@@ -48,11 +48,11 @@ function breakout() {
             canvas.getPaddle(1).PaddleColor
         );
         drawBricks(canvas);
-        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - 17);
+        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight)) - 9;
         console.log(row + " ROOOOW");
         col = Math.floor(canvas.getBall(0).xCoor / canvas.colWidth);
 
-        if (row < canvas.getRows() && canvas.getBall(0).getYCoor() < canvas.getRows() * canvas.rowHeight && row >= 0 && col >= 0 && canvas.getBricks()[row][col] instanceof Brick) {
+        if (row < canvas.getRows() && canvas.getBall(0).getYCoor(canvas) < canvas.getRows() * canvas.rowHeight && row >= 0 && col >= 0 && canvas.getBricks()[row][col] instanceof Brick) {
             canvas.getBall(0).dy = -canvas.getBall(0).dy; //Ball dotzt zurueck
             console.log(row + " "+ col);
             canvas.getBricks()[row][col] = 0; //Brick zerstört

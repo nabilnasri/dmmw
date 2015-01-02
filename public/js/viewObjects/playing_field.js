@@ -71,8 +71,8 @@ PlayingField.prototype.initPaddles = function(){
 
 PlayingField.prototype.initBalls = function(){
     var b = {};
-    b[0] = new Ball(this.getFieldHeight(), "#00ffd4", this.getPaddle(0).xCoor + 10, 500);
-    b[1] = new Ball(this.getFieldHeight(), "#fe1313", this.getPaddle(1).xCoor + 10, 500);
+    b[0] = new Ball(this, "#00ffd4", this.getPaddle(0).xCoor + 10, 500);
+    b[1] = new Ball(this, "#fe1313", this.getPaddle(1).xCoor + 10, 500);
 
     return b;
 };
