@@ -9,13 +9,17 @@
         <% include main/navbar.ejs %>
 
         <!--HIER SEITENINHALT-->
-        <div class="row">
-            <a  class="col-md-4 option" id="searchGame" href="/game">
-                <h1><span class="glyphicon glyphicon-search"/></h1>
-            </a>
-            <a  class="col-md-4 option" id="createGame" href="/">
-                <h1><span class="glyphicon glyphicon-plus"/></h1>
-            </a>
+        <div class="row center-block">
+            <div class="col-md-4 option" id="searchGame">
+                <a href="/game">
+                    <h1><span class="glyphicon glyphicon-search"/></h1>
+                </a>
+            </div>
+            <div class="col-md-4 option pull-right" id="createGame">
+                <a href="/">
+                    <h1><span class="glyphicon glyphicon-plus"/></h1>
+                </a>
+            </div>
         </div>
 
         <% include main/footer.ejs %>
