@@ -28,23 +28,25 @@ Funktion zeichnet Bricks ins Feld.
  */
 function drawBricks(canvas) {
     var i, j;
-    var brickPadding = 20;
+    var brickPaddingWidth = canvas.getPadding();
+    var brickPaddingHeight = canvas.getPadding();
     for (i = 0; i < canvas.getRows(); i++) {
         canvas.getContext().lineWidth = 2;
         for (j = 0; j < canvas.getCols(); j++) {
             if (canvas.bricks[i][j] instanceof Brick) {
-                var brick_width = canvas.bricks[i][j].BrickWidth;
-                var brick_height = canvas.bricks[i][j].BrickHeight;
+                var brick_width = canvas.bricks[i][j].getWidth();
+                var brick_height = canvas.bricks[i][j].getHeight();
                 var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
                 rect(
                     canvas.getContext(),
-                    (j * (brick_width + brickPadding)) + brickPadding,
+                    (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
                     //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
-                    (canvas.getFieldHeight()/3) + (i * (brick_height + brickPadding)) + brickPadding,
+                    ((canvas.getFieldHeight()-(canvas.getPadding()*2*canvas.getRows()))/2) + (i * (brickPaddingHeight + brick_height)) + brickPaddingHeight,
                     brick_width,
                     brick_height,
                     brick_color
                 );
+                //console.log("xPOS ", (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth, " yPOS ", (canvas.getFieldHeight()/3) + (i * (brickPaddingHeight + brick_height)) + brickPaddingHeight);
             }
         }
     }

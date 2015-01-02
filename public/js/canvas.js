@@ -1,7 +1,7 @@
 function breakout() {
     "use strict";
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(1400, 650, 6, 18);
+    var canvas = new PlayingField(1400, 650, 6, 20);
 
     var row,
         col,
@@ -27,9 +27,9 @@ function breakout() {
         canvas.getContext().fillStyle = canvas.getBall(0).getColor();
         circle(canvas.getContext(), canvas.getBall(0).xCoor, canvas.getBall(0).yCoor, canvas.getBall(0).getRadius());
         if (rightDown) {
-            canvas.getPaddle(0).xCoor += 5;
+            canvas.getPaddle(0).xCoor += 10;
         } else if (leftDown) {
-            canvas.getPaddle(0).xCoor -= 5;
+            canvas.getPaddle(0).xCoor -= 10;
         }
         rect(
             canvas.getContext(),
@@ -48,7 +48,7 @@ function breakout() {
             canvas.getPaddle(1).PaddleColor
         );
         drawBricks(canvas);
-        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - canvas.getFieldHeight()/40/3);
+        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - 17);
         console.log(row + " ROOOOW");
         col = Math.floor(canvas.getBall(0).xCoor / canvas.colWidth);
 
@@ -82,7 +82,7 @@ function breakout() {
             }
         }
         if (canvas.getBall(0).yCoor + canvas.getBall(0).dy + canvas.getBall(0).getRadius() > canvas.FieldHeight) {
-            //BALL DRAUßen
+            //BALL DRAUßEN
             canvas.getContext().fillStyle = "#ddd";
             canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
             //nyan.pause();
@@ -96,7 +96,7 @@ function breakout() {
         canvas.getPaddle(1).xCoor = canvas.FieldWidth / 2;
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
-        intervalId = window.setInterval(draw, 10);
+        intervalId = window.setInterval(draw, 20);
         return intervalId;
     }
     function onKeyDown(evt) {
