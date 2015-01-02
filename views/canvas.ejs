@@ -8,17 +8,18 @@
     <div class="container">
         <% include main/navbar.ejs %>
         <div class="row">
-            <span id="score">0</span>
+        </div>
+        <div class="row">
+            <a class="btn btn-default" id="home" href="/">BACK</a>
+            <a class="btn btn-info" id="start">START</a>
+            <a class="btn btn-danger" id="fullscreen">FULLSCREEN</a>
             <canvas id="playground" height="650" width="1400"></canvas>
             <audio id="nyan" loop="loop">
                 <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
             </audio>
+            <span id="score">0</span>
         </div>
 
-        <div class="row">
-            <div class="btn btn-info" id="button"><span id="start">START</span></div>
-            <div class="btn btn-danger" id="fullscreen">FULLSCREEN</div>
-        </div>
 
         <% include main/footer.ejs %>
     </div>

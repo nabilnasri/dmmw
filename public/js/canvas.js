@@ -1,7 +1,7 @@
 function breakout() {
     "use strict";
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(1400, 650, 4, 9);
+    var canvas = new PlayingField(1400, 650, 5, 23);
 
     var row,
         col,

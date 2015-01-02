@@ -1,6 +1,7 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Helvetica;
+  background-color: #c9d3df;
 }
 
 #push{
@@ -19,7 +20,8 @@ body {
   min-height: 600px;*/
   width: 100%;
   height: 100%;
-  background-color: #949494;
+  background-color: #bfbfbf;
+  border-radius: 5px;
 }
 
 :-moz-full-screen canvas{
@@ -32,3 +34,34 @@ body {
   height: 100%;
 }
 
+.option{
+  border: solid;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5%;
+  margin: 5%;
+}
+
+#searchGame{
+  background-color: #e9573f;
+  color:#ffffff;
+}
+
+#createGame{
+  background-color: #00d6b2;
+  color:#ffffff;
+}
+
+#score{
+  color:#ffffff;
+  font-size: 50px;
+  font-style: inherit;
+  text-align: center;
+}
+
+#dmmw-headline{
+  text-align: center;
+  background-color: #222222;
+  color: orange;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif ;
+}
