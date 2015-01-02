@@ -1,7 +1,7 @@
 function breakout() {
     "use strict";
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(1400, 650, 6, 20);
+    var canvas = new PlayingField(1400, 650, 4, 9);
 
     var row,
         col,
@@ -48,13 +48,13 @@ function breakout() {
             canvas.getPaddle(1).PaddleColor
         );
         drawBricks(canvas);
-        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight)) - 9;
-        console.log(row + " ROOOOW");
+        //console.log((((canvas.getCols() - canvas.getRows())*-1)+1)+ "FOORMEL");
+        var real_row =  Math.floor(((canvas.getFieldHeight() - (((canvas.getPadding()*2)*canvas.getRows())))/2) / (canvas.getPadding()*2));
+        row = Math.floor((canvas.getBall(0).yCoor / canvas.rowHeight) - real_row);
         col = Math.floor(canvas.getBall(0).xCoor / canvas.colWidth);
 
-        if (row < canvas.getRows() && canvas.getBall(0).getYCoor(canvas) < canvas.getRows() * canvas.rowHeight && row >= 0 && col >= 0 && canvas.getBricks()[row][col] instanceof Brick) {
+        if (row < canvas.getRows() && canvas.getBall(0).getYCoor() < canvas.getRows() * canvas.rowHeight && row >= 0 && col >= 0 && canvas.getBricks()[row][col] instanceof Brick) {
             canvas.getBall(0).dy = -canvas.getBall(0).dy; //Ball dotzt zurueck
-            console.log(row + " "+ col);
             canvas.getBricks()[row][col] = 0; //Brick zerstört
             score++;
             document.getElementById("score").innerHTML = score;

@@ -37,11 +37,12 @@ function drawBricks(canvas) {
                 var brick_width = canvas.bricks[i][j].getWidth();
                 var brick_height = canvas.bricks[i][j].getHeight();
                 var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
+                console.log(((canvas.getFieldHeight()-(canvas.getPadding()*2*canvas.getRows()))/2));
                 rect(
                     canvas.getContext(),
                     (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
                     //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
-                    ((canvas.getFieldHeight()-(canvas.getPadding()*2*canvas.getRows()))/2) + (i * (brickPaddingHeight + brick_height)) + brickPaddingHeight,
+                    ((canvas.getFieldHeight()-(canvas.getPadding()*2*canvas.getRows()))/2) + (i * (brickPaddingHeight + brick_height)),
                     brick_width,
                     brick_height,
                     brick_color
