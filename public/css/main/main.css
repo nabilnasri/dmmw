@@ -9,9 +9,7 @@ body {
 }
 
 #footer{
-  color: #22b1e3;
   height: 60px;
-  background-color: #333;
   text-align: center;
 }
 
@@ -59,9 +57,9 @@ body {
   text-align: center;
 }
 
-#dmmw-headline{
-  text-align: center;
-  background-color: #222222;
+#dmmw-headline, #dmmw-footer{
   color: orange;
+  background-color: #222222;
+  text-align: center;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif ;
 }

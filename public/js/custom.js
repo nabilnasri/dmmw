@@ -3,14 +3,11 @@ function fullscreen(){
 
     if(canvas.webkitRequestFullScreen) {
         canvas.webkitRequestFullScreen();
-        console.log("moin");
 
     } else {
         canvas.mozRequestFullScreen();
-        console.log("moin moin");
     }
         canvas.height = window.screen.availHeight;
-        //ibos intelligenter input (i^)
         canvas.width = window.screen.availWidth * (2/3);
 }
 
