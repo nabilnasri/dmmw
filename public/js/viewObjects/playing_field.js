@@ -4,7 +4,7 @@ function PlayingField(width, height, rows, cols){
     this.FieldHeight = height;
     this.nRows = rows;
     this.nCols = cols;
-    this.color = "#232c31";
+    this.color = "#2f241e";
     this.padding = Math.floor(this.getFieldWidth()/this.getCols()/5);//erklaerung siehe getPadding()
     this.rowHeight = this.getPadding()*2;
     this.colWidth = this.getPadding()*5;
@@ -63,16 +63,16 @@ PlayingField.prototype.setBricks = function(){
 
 PlayingField.prototype.initPaddles = function(){
     var p = {};
-    p[0] = new Paddle(this.FieldWidth / 2, "#00ffd4");
-    p[1] = new Paddle(this.FieldWidth / 2, "#fe1313");
+    p[0] = new Paddle(this.FieldWidth / 2, "#009a80");
+    p[1] = new Paddle(this.FieldWidth / 2, "#fe5332");
 
     return p;
 };
 
 PlayingField.prototype.initBalls = function(){
     var b = {};
-    b[0] = new Ball(this, "#00ffd4", this.getPaddle(0).xCoor + 10, 500);
-    b[1] = new Ball(this, "#fe1313", this.getPaddle(1).xCoor + 10, 500);
+    b[0] = new Ball(this, "#009a80", this.getPaddle(0).xCoor + 10, 500);
+    b[1] = new Ball(this, "#fe5332", this.getPaddle(1).xCoor + 10, 500);
 
     return b;
 };

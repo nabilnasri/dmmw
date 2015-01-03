@@ -1,7 +1,11 @@
+@font-face {
+  font-family: Silkscreen; src: url('../../fonts/Silkscreen/slkscr.ttf');
+}
+
 body {
   padding: 50px;
-  font: 14px Helvetica;
-  background-color: #c9d3df;
+  font-family: 'Silkscreen', 'Helvetica Neue', Helvetica, Arial, sans-serif ;
+  background-color: #64696f;
 }
 
 #push{
@@ -19,7 +23,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: #bfbfbf;
-  border-radius: 5px;
+  border: solid 10px;
+  border-color: #ffd32d;
 }
 
 :-moz-full-screen canvas{
@@ -33,33 +38,60 @@ body {
 }
 
 .option{
-  border: solid;
-  border-radius: 5px;
   text-align: center;
   padding: 5%;
   margin: 5%;
+  background-color: #ffffff;
+  border: solid 10px;
 }
 
 #searchGame{
-  background-color: #e9573f;
-  color:#ffffff;
+  border-color: #102cd6;
 }
 
 #createGame{
-  background-color: #00d6b2;
-  color:#ffffff;
+  border-color: #e90100;
 }
 
-#score{
+.player{
   color:#ffffff;
-  font-size: 50px;
-  font-style: inherit;
-  text-align: center;
+  font-size: 2.5em;
+}
+
+#player-one{
+  background-color: #009a80;
 }
 
 #dmmw-headline, #dmmw-footer{
-  color: orange;
-  background-color: #222222;
+  color: #ffd32d;
+  background-color: #2f241e;
   text-align: center;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif ;
+}
+
+.glyphicon{
+  font-size: 1.5em;
+}
+
+.glyphicon-search{
+  color: #102cd6;
+}
+
+.glyphicon-plus{
+  color: #e90100;
+}
+
+.btn{
+  border-radius: 0px;
+  border-color: transparent;
+  margin: 0 1% 1% 0;
+  color: #ffffff;
+  font-size: 1.5em;
+}
+
+.btn-info{
+  background-color: #102cd6;
+}
+
+.btn-danger {
+  background-color: #e90100;
 }
