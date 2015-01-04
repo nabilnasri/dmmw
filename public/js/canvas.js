@@ -1,6 +1,6 @@
 function breakout() {
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(1400, 650, 5, 23);
+    var canvas = new PlayingField(555, 600, 5, 23);
 
 
     var intervalId = 0,
