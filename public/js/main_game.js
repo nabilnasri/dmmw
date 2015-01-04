@@ -1,24 +1,20 @@
-function breakout() {
+function startGame() {
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(555, 600, 5, 23);
+    var canvas = new PlayingField(555, 600, 8, 10);
 
-
-    var intervalId = 0,
-        canvasMinX = 0,
-        canvasMaxX = 0;
-
+    var intervalId = 0;
+    var canvasMinX = 0;
+    var canvasMaxX = 0;
 
     function init() {
-        canvas.getPaddle(0).xCoor = canvas.FieldWidth / 2;
-        canvas.getPaddle(1).xCoor = canvas.FieldWidth / 2;
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(function() { draw(canvas,intervalId); }, 15 );
         return intervalId;
     }
 
-    $(document).keydown(Paddle.onKeyDown);
-    $(document).keyup(Paddle.onKeyUp);
+    //$(document).keydown(Paddle.onKeyDown);
+    //$(document).keyup(Paddle.onKeyUp);
 
     function onMouseMove(evt) {
         if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
@@ -34,19 +30,6 @@ function breakout() {
 }
 
 
-
-
-window.onload = function () {
-    //nyan.play();
-    //breakout();
-    drawIntroImage();
-    document.getElementById("start").onclick = function () {
-        //nyan.play();
-        breakout();
-    };
-};
-$(document).keyup(onKeyUp);
-
 function drawIntroImage(){
     var img = document.getElementById("nyanImg");
     var pg = document.getElementById("playground");
@@ -54,8 +37,3 @@ function drawIntroImage(){
     ctx.drawImage(img, 0, 0, 555, 600);
 }
 
-function onKeyUp(evt) {
-    if (evt.keyCode === 32) {
-        breakout();
-    }
-}

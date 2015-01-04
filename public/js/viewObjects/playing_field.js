@@ -5,7 +5,7 @@ function PlayingField(width, height, rows, cols){
     this.nRows = rows;
     this.nCols = cols;
     this.color = "#2f241e";
-    this.padding = Math.floor(this.getFieldWidth()/this.getCols()/5);//erklaerung siehe getPadding()
+    this.padding = Math.round(this.getFieldWidth()/this.getCols()/5);//erklaerung siehe getPadding()
     this.rowHeight = this.getPadding()*2;
     this.colWidth = this.getPadding()*5;
     this.bricks = this.setBricks();

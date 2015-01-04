@@ -41,3 +41,4 @@ Paddle.onKeyDown = function(evt){
         this.leftDown = true;
     }
 };
+

@@ -36,7 +36,7 @@ Ball.prototype.checkHitBrick = function (canvas) {
 
     if(
         row < canvas.getRows()
-        && this.getYCoor(canvas) < canvas.getRows() * canvas.rowHeight
+        && this.getYCoor(canvas) < canvas.getRows() * canvas.getRowHeight()
         && row >= 0
         && col >= 0
         && canvas.getBricks()[row][col] instanceof Brick
