@@ -21,7 +21,7 @@ body {
   /*min-width: 400px;
   min-height: 600px;*/
   width: 100%;
-  height: 100%;
+  height: 600px;
   background-color: #bfbfbf;
   border: solid 10px;
   border-color: #ffd32d;
@@ -41,8 +41,9 @@ body {
   text-align: center;
   padding: 5%;
   margin: 5%;
-  background-color: #ffffff;
+  background-color: rgba(255,255,255,0.2);
   border: solid 10px;
+  position: relative;
 }
 
 #searchGame{
@@ -53,16 +54,47 @@ body {
   border-color: #e90100;
 }
 
+#createGame:hover #privateText{
+  display: block;
+}
+
+#searchGame:hover #randomText{
+  display: block;
+}
+
+#randomText{
+  color: #102cd6;
+  font-size: 1.5em;
+  display: none;
+  margin-bottom: -100%;
+}
+
+#privateText{
+  color: #e90100;
+  font-size: 1.5em;
+  display: none;
+  margin-bottom: -100%;
+}
+
+#nyanImg{
+  width: 100%;
+  height: 100%;
+}
+
 .player{
   color:#ffffff;
-  font-size: 2.5em;
+  font-size: 2.0em;
 }
 
 #player-one{
   background-color: #009a80;
 }
 
-#dmmw-headline, #dmmw-footer{
+#player-two{
+  background-color: #fe5332;
+}
+
+#dmmw-headline, #dmmw-footer {
   color: #ffd32d;
   background-color: #2f241e;
   text-align: center;
@@ -72,11 +104,11 @@ body {
   font-size: 1.5em;
 }
 
-.glyphicon-search{
+.glyphicon-random{
   color: #102cd6;
 }
 
-.glyphicon-plus{
+.glyphicon-lock{
   color: #e90100;
 }
 

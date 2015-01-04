@@ -8,21 +8,26 @@
     <div class="container">
         <% include main/navbar.ejs %>
         <div class="row">
+                <button class="btn btn-info" id="start">PLAY</button>
+                <button class="btn btn-danger" id="fullscreen">FULLSCREEN</button>
         </div>
         <div class="row">
-            <button class="btn btn-info" id="start">PLAY</button>
-            <button class="btn btn-danger" id="fullscreen">FULLSCREEN</button>
-            <canvas id="playground" height="650" width="1400"></canvas>
-            <audio id="nyan" loop="loop">
-                <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
-            </audio>
-            <div class="col-lg-4 player" id="player-one">
-                <span id="name">JOENHARD</span>
-                <span id="score">0</span>
+            <div class="col-md-3 player text-center" id="player-one">
+                <span id="name">JOENDHARD</span>
+                <span id="score-one">0</span>
+            </div>
+            <div class="col-md-6">
+                <canvas id="playground" height="650" width="1400"></canvas>
+            </div>
+            <div class="col-md-3 player text-center" id="player-two">
+                <span id="name">Glogomir</span>
+                <span id="score-two">0</span>
             </div>
         </div>
-
-
+        <audio id="nyan" loop="loop">
+            <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
+        </audio>
+        <img id="nyanImg" src="/img/nyancat.jpg" alt="nyan" style="display: none">
         <% include main/footer.ejs %>
     </div>
 

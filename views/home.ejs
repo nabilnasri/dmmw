@@ -8,18 +8,29 @@
     <div class="container">
         <% include main/navbar.ejs %>
 
-        <!--HIER SEITENINHALT-->
         <div class="row center-block">
-            <div class="col-md-4 option" id="searchGame">
-                <a href="/game">
-                    <h1><span class="glyphicon glyphicon-search"/></h1>
-                </a>
-            </div>
-            <div class="col-md-4 option pull-right" id="createGame">
-                <a href="/">
-                    <h1><span class="glyphicon glyphicon-plus"/></h1>
-                </a>
-            </div>
+            <a href="/game">
+                <div class="col-md-4 option" id="searchGame">
+                    <div class="row">
+                        <h1><span class="glyphicon glyphicon-random"/></h1>
+                    </div>
+                    <div class="row">
+                        <span id="randomText">RANDOM GAME</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/">
+                <div class="col-md-4 option pull-right" id="createGame">
+                    <div class="row">
+                        <h1><span class="glyphicon glyphicon-lock"/></h1>
+                    </div>
+                    <div class="row">
+                        <span id="privateText">PRIVATE GAME</span>
+                    </div>
+                </div>
+            </a>
+
         </div>
 
         <% include main/footer.ejs %>

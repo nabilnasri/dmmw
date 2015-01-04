@@ -12,3 +12,5 @@ function fullscreen(){
 }
 
 document.getElementById('fullscreen').addEventListener("click",fullscreen);
+
+$("#player-one").css("margin-top", ($("#playground").height()-$("#player-one").height()/2));
