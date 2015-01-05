@@ -17,10 +17,8 @@ body {
 }
 
 #playground{
-  /*min-width: 400px;
-  min-height: 600px;*/
   width: 100%;
-  height: 600px;
+  height: 100%;
   background-color: #bfbfbf;
   border: solid 10px;
   border-color: #ffd32d;

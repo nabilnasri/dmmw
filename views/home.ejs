@@ -7,35 +7,35 @@
 <body>
 <div class="container">
     <% include main/navbar.ejs %>
+    <div id="content">
+        <div class="row center-block">
+            <a class="random-game">
+                <div class="col-md-4 option" id="searchGame">
+                    <div class="row">
+                        <h1><span class="glyphicon glyphicon-random"/></h1>
+                    </div>
+                    <div class="row">
+                        <span id="randomText">RANDOM GAME</span>
+                    </div>
+                </div>
+            </a>
 
-    <div class="row center-block">
-        <a href="/game" class="random-game">
-            <div class="col-md-4 option" id="searchGame">
-                <div class="row">
-                    <h1><span class="glyphicon glyphicon-random"/></h1>
+            <a href="/">
+                <div class="col-md-4 option pull-right" id="createGame">
+                    <div class="row">
+                        <h1><span class="glyphicon glyphicon-lock"/></h1>
+                    </div>
+                    <div class="row">
+                        <span id="privateText">PRIVATE GAME</span>
+                    </div>
                 </div>
-                <div class="row">
-                    <span id="randomText">RANDOM GAME</span>
-                </div>
-            </div>
-        </a>
-
-        <a href="/">
-            <div class="col-md-4 option pull-right" id="createGame">
-                <div class="row">
-                    <h1><span class="glyphicon glyphicon-lock"/></h1>
-                </div>
-                <div class="row">
-                    <span id="privateText">PRIVATE GAME</span>
-                </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
-
     <% include main/footer.ejs %>
+    <% include main/global_js_scripts.ejs %>
+    <div id="content-scripts">
+        <script src="/js/home_functions.js"></script>
+    </div>
 </div>
-
-<% include main/global_js_scripts.ejs %>
-<script src="/js/home_functions.js"></script>
-
 </body>

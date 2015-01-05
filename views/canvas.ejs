@@ -1,45 +1,47 @@
-<!DOCTYPE html>
-<head>
-    <% include main/global_css_sheets.ejs %>
-</head>
-
-<body>
-<div class="container">
-    <% include main/navbar.ejs %>
-    <div class="row">
-        <button class="btn btn-info" id="start">PLAY</button>
-        <button class="btn btn-danger" id="fullscreen">FULLSCREEN</button>
-        <button class="btn btn-danger" id="ioTest">ioTest</button>
-        <div type="search" id="eingabe">hallo</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 player text-center" id="player-one">
-            <span id="name">JOENDHARD</span>
-            <span id="score-one">0</span>
+<html>
+    <head>
+        <% include main/global_css_sheets.ejs %>
+    </head>
+    <body>
+        <div class="container">
+            <% include main/navbar.ejs %>
+            <div id="content">
+                <div class="row">
+                    <button class="btn btn-info" id="start">PLAY</button>
+                    <button class="btn btn-danger" id="fullscreen">FULLSCREEN</button>
+                    <button class="btn btn-danger" id="ioTest">ioTest</button>
+                    <div type="search" id="eingabe">hallo</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 player text-center" id="player-one">
+                        <span id="name">JOENDHARD</span>
+                        <span id="score-one">0</span>
+                    </div>
+                    <div class="col-md-6" id="playground-container">
+                        <canvas id="playground"></canvas>
+                    </div>
+                    <div class="col-md-3 player text-center" id="player-two">
+                        <span id="name">Glogomir</span>
+                        <span id="score-two">0</span>
+                    </div>
+                </div>
+                <audio id="nyan" loop="loop">
+                    <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
+                </audio>
+                <img id="nyanImg" class="img-cat" src="/img/dmmwplay.jpg" alt="nyan" style="display: none">
+            </div>
+            <% include main/footer.ejs %>
+            <% include main/global_js_scripts.ejs %>
+            <div id="content-scripts">
+                <script src="/js/canvas_functions.js"></script>
+                <script src="/js/main_game.js"></script>
+                <script src="/js/viewObjects/ball.js"></script>
+                <script src="/js/viewObjects/paddle.js"></script>
+                <script src="/js/viewObjects/brick.js"></script>
+                <script src="/js/viewObjects/playing_field.js"></script>
+                <script src="/js/viewObjects/draw_functions.js"></script>
+                <script src="/js/client_communication.js"></script>
+            </div>
         </div>
-        <div class="col-md-6">
-            <canvas id="playground" height="600" width="555"></canvas>
-        </div>
-        <div class="col-md-3 player text-center" id="player-two">
-            <span id="name">Glogomir</span>
-            <span id="score-two">0</span>
-        </div>
-    </div>
-    <audio id="nyan" loop="loop">
-        <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
-    </audio>
-    <img id="nyanImg" src="/img/dmmwplay.jpg" alt="nyan" style="display: none">
-    <% include main/footer.ejs %>
-</div>
-
-<% include main/global_js_scripts.ejs %>
-<script src="/js/canvas_functions.js"></script>
-<script src="/js/main_game.js"></script>
-<script src="/js/viewObjects/ball.js"></script>
-<script src="/js/viewObjects/paddle.js"></script>
-<script src="/js/viewObjects/brick.js"></script>
-<script src="/js/viewObjects/playing_field.js"></script>
-<script src="/js/viewObjects/draw_functions.js"></script>
-<script src="/js/client_communication.js"></script>
-</body>
-
+    </body>
+</html>

@@ -11,14 +11,14 @@ $(document).ready(function() {
             $("#content").html(content);
             var scripts = $(data).find('#content-scripts').html();
             $('#content-scripts').html(scripts);
-
+            jQuery(window).trigger('load');
             history.pushState(null, null, "/game");
             NProgress.done()
         });
     }
 
     $(document).on("click", '.random-game', function () {
-        //refresh_site();
+        refresh_site();
     });
 
 });

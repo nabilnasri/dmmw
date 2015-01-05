@@ -13,10 +13,11 @@ function fullscreen() {
 
 document.getElementById('fullscreen').addEventListener("click", fullscreen);
 
-$("#player-one").css("margin-top", ($("#playground").height() - $("#player-one").height() / 2));
-
+$("#playground-container").height(600);
+$("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
 
 window.onload = function () {
+    setCanvasProperties();
     drawIntroImage();
     document.getElementById("start").onclick = function () {
         startGame();

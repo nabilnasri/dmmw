@@ -6,6 +6,7 @@ function handleOrientation(event) {
     console.log(x, "BETA");
 }
 
+alert("HU");
 
 
 window.addEventListener('deviceorientation', handleOrientation, true);

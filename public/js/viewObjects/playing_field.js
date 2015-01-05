@@ -1,7 +1,7 @@
-function PlayingField(width, height, rows, cols) {
+function PlayingField(rows, cols) {
     this.ctx = this.Context();
-    this.FieldWidth = width;
-    this.FieldHeight = height;
+    this.FieldWidth = document.getElementsByTagName('canvas')[0].width;
+    this.FieldHeight = document.getElementsByTagName('canvas')[0].height;
     this.nRows = rows;
     this.nCols = cols;
     this.color = "#2f241e";
