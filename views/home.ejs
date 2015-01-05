@@ -5,37 +5,36 @@
 </head>
 
 <body>
-    <div class="container">
-        <% include main/navbar.ejs %>
+<div class="container">
+    <% include main/navbar.ejs %>
 
-        <div class="row center-block">
-            <a href="/game">
-                <div class="col-md-4 option" id="searchGame">
-                    <div class="row">
-                        <h1><span class="glyphicon glyphicon-random"/></h1>
-                    </div>
-                    <div class="row">
-                        <span id="randomText">RANDOM GAME</span>
-                    </div>
+    <div class="row center-block">
+        <a href="/game">
+            <div class="col-md-4 option" id="searchGame">
+                <div class="row">
+                    <h1><span class="glyphicon glyphicon-random"/></h1>
                 </div>
-            </a>
-
-            <a href="/">
-                <div class="col-md-4 option pull-right" id="createGame">
-                    <div class="row">
-                        <h1><span class="glyphicon glyphicon-lock"/></h1>
-                    </div>
-                    <div class="row">
-                        <span id="privateText">PRIVATE GAME</span>
-                    </div>
+                <div class="row">
+                    <span id="randomText">RANDOM GAME</span>
                 </div>
-            </a>
+            </div>
+        </a>
 
-        </div>
-
-        <% include main/footer.ejs %>
+        <a href="/">
+            <div class="col-md-4 option pull-right" id="createGame">
+                <div class="row">
+                    <h1><span class="glyphicon glyphicon-lock"/></h1>
+                </div>
+                <div class="row">
+                    <span id="privateText">PRIVATE GAME</span>
+                </div>
+            </div>
+        </a>
     </div>
 
-    <!--HIER EIGENE(auf diese spezielle Seite bezogen) JS-Scripts-->
-    <% include main/global_js_scripts.ejs %>
+    <% include main/footer.ejs %>
+</div>
+
+<!--HIER EIGENE(auf diese spezielle Seite bezogen) JS-Scripts-->
+<% include main/global_js_scripts.ejs %>
 </body>

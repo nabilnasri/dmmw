@@ -1,7 +1,7 @@
 /*
-Funktion zeichnet einen Kreis.
-Benötigt als erstes Attribut einen Context, um
-darin zeichnen zu können.
+ Funktion zeichnet einen Kreis.
+ Benötigt als erstes Attribut einen Context, um
+ darin zeichnen zu können.
  */
 function circle(ctx, x, y, r, color) {
     ctx.beginPath();
@@ -12,9 +12,9 @@ function circle(ctx, x, y, r, color) {
 }
 
 /*
-Funktion zeichnet ein Rechteck.
-Wird verwendet für Bricks, Paddle.
-Benötigt einen Context, um da rein zeichnen zu können.
+ Funktion zeichnet ein Rechteck.
+ Wird verwendet für Bricks, Paddle.
+ Benötigt einen Context, um da rein zeichnen zu können.
  */
 function rect(ctx, x, y, w, h, color) {
     ctx.beginPath();
@@ -25,7 +25,7 @@ function rect(ctx, x, y, w, h, color) {
 }
 
 /*
-Funktion zeichnet Bricks ins Feld.
+ Funktion zeichnet Bricks ins Feld.
  */
 function drawBricks(canvas) {
     var i, j;
@@ -42,7 +42,7 @@ function drawBricks(canvas) {
                     canvas.getContext(),
                     (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
                     //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
-                    ((canvas.getFieldHeight()-(canvas.getPadding()*2*canvas.getRows()))/2) + (i * (brickPaddingHeight + brick_height)),
+                    ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2) + (i * (brickPaddingHeight + brick_height)),
                     brick_width,
                     brick_height,
                     brick_color
@@ -53,7 +53,7 @@ function drawBricks(canvas) {
     }
 }
 
-function drawPaddle(ctx, yCoor, player_paddle){
+function drawPaddle(ctx, yCoor, player_paddle) {
     rect(
         ctx,
         player_paddle.xCoor,
@@ -64,7 +64,7 @@ function drawPaddle(ctx, yCoor, player_paddle){
     );
 }
 
-function drawBall(ctx, player_ball){
+function drawBall(ctx, player_ball) {
     circle(
         ctx,
         player_ball.xCoor,
@@ -100,7 +100,7 @@ function draw(canvas, intervalId) {
 
 
     //Zeichne alle "statischen" Sachen
-    drawPaddle(ctx, canvas.FieldHeight-player_one_paddle.PaddleHeight, player_one_paddle);
+    drawPaddle(ctx, canvas.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
     drawPaddle(ctx, 0, player_two_paddle);
     drawBall(ctx, player_one_ball);
     drawBall(ctx, player_two_ball);
@@ -108,7 +108,6 @@ function draw(canvas, intervalId) {
 
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();
-
 
 
     //if (player_one_ball.checkHitBrick(canvas)) {

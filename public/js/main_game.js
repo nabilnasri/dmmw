@@ -1,6 +1,6 @@
 function startGame() {
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(555, 600, 8, 10);
+    var canvas = new PlayingField(555, 600, 8, 22);
 
     var intervalId = 0;
     var canvasMinX = 0;
@@ -9,7 +9,9 @@ function startGame() {
     function init() {
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
-        intervalId = window.setInterval(function() { draw(canvas,intervalId); }, 15 );
+        intervalId = window.setInterval(function () {
+            draw(canvas, intervalId);
+        }, 15);
         return intervalId;
     }
 
@@ -24,16 +26,15 @@ function startGame() {
             canvas.getPaddle(1).xCoor = Math.min(canvas.FieldWidth - canvas.getPaddle(1).PaddleWidth, canvas.getPaddle(0).xCoor);
         }
     }
+
     $(document).mousemove(onMouseMove);
 
     init();
 }
 
-
-function drawIntroImage(){
+function drawIntroImage() {
     var img = document.getElementById("nyanImg");
     var pg = document.getElementById("playground");
     var ctx = pg.getContext("2d");
     ctx.drawImage(img, 0, 0, 555, 600);
 }
-

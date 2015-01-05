@@ -1,13 +1,13 @@
-function PlayingField(width, height, rows, cols){
+function PlayingField(width, height, rows, cols) {
     this.ctx = this.Context();
     this.FieldWidth = width;
     this.FieldHeight = height;
     this.nRows = rows;
     this.nCols = cols;
     this.color = "#2f241e";
-    this.padding = Math.round(this.getFieldWidth()/this.getCols()/5);//erklaerung siehe getPadding()
-    this.rowHeight = this.getPadding()*2;
-    this.colWidth = this.getPadding()*5;
+    this.padding = Math.round(this.getFieldWidth() / this.getCols() / 5);//erklaerung siehe getPadding()
+    this.rowHeight = this.getPadding() * 2;
+    this.colWidth = this.getPadding() * 5;
     this.bricks = this.setBricks();
     this.paddles = this.initPaddles();
     this.balls = this.initBalls();
@@ -15,39 +15,39 @@ function PlayingField(width, height, rows, cols){
     this.rowcolors = ["#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33", "#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33"]
 }
 
-PlayingField.prototype.initField = function(){
+PlayingField.prototype.initField = function () {
     //ToDo: init the bricks, paddles, balls and so on...
 };
 
-PlayingField.prototype.getRows = function(){
+PlayingField.prototype.getRows = function () {
     return this.nRows;
 };
 
-PlayingField.prototype.getCols = function(){
+PlayingField.prototype.getCols = function () {
     return this.nCols;
 };
 
-PlayingField.prototype.getContext = function(){
+PlayingField.prototype.getContext = function () {
     return this.ctx;
 };
 
-PlayingField.prototype.getBricks = function(){
+PlayingField.prototype.getBricks = function () {
     return this.bricks;
 };
 
-PlayingField.prototype.getPaddle = function(paddle_id){
+PlayingField.prototype.getPaddle = function (paddle_id) {
     return this.paddles[paddle_id];
 };
 
-PlayingField.prototype.getBall = function(ball_id){
+PlayingField.prototype.getBall = function (ball_id) {
     return this.balls[ball_id];
 };
 
 
-PlayingField.prototype.setBricks = function(){
+PlayingField.prototype.setBricks = function () {
     var i, j;
     var b;
-    var brickWidth = this.getPadding()*4;
+    var brickWidth = this.getPadding() * 4;
     var brickHeight = this.getPadding();
     console.log("height ", brickHeight, " width ", brickWidth);
     b = new Array(this.getRows());
@@ -61,7 +61,7 @@ PlayingField.prototype.setBricks = function(){
 };
 
 
-PlayingField.prototype.initPaddles = function(){
+PlayingField.prototype.initPaddles = function () {
     var p = {};
     p[0] = new Paddle(this.FieldWidth / 2, "#009a80");
     p[1] = new Paddle(this.FieldWidth / 2, "#fe5332");
@@ -69,7 +69,7 @@ PlayingField.prototype.initPaddles = function(){
     return p;
 };
 
-PlayingField.prototype.initBalls = function(){
+PlayingField.prototype.initBalls = function () {
     var b = {};
     b[0] = new Ball("#009a80", this.getPaddle(0).xCoor + 10, 500, "one");
     b[1] = new Ball("#fe5332", this.getPaddle(1).xCoor + 10, 200, "two");
@@ -77,27 +77,27 @@ PlayingField.prototype.initBalls = function(){
     return b;
 };
 
-PlayingField.prototype.getElement = function(){
+PlayingField.prototype.getElement = function () {
     return document.getElementById("playground");
 };
 
-PlayingField.prototype.Context = function(){
+PlayingField.prototype.Context = function () {
     return this.getElement().getContext("2d");
 };
 
-PlayingField.prototype.getFieldHeight = function(){
+PlayingField.prototype.getFieldHeight = function () {
     return this.FieldHeight;
 };
 
-PlayingField.prototype.getFieldWidth = function(){
+PlayingField.prototype.getFieldWidth = function () {
     return this.FieldWidth;
 };
 
-PlayingField.prototype.getRowHeight = function(){
+PlayingField.prototype.getRowHeight = function () {
     return this.rowHeight;
 };
 
-PlayingField.prototype.getColWidth = function(){
+PlayingField.prototype.getColWidth = function () {
     return this.colWidth;
 };
 
@@ -106,7 +106,7 @@ PlayingField.prototype.getColWidth = function(){
  * deswegen nehmen wir die gesamte breite des feldes und teilen es durch die anzahl der spalten.
  * danach teilen wir es durch 5.
  * 1 teil fürs linke padding + 3 teile für den brick + 1 teil fürs rechte Padding.
-* */
-PlayingField.prototype.getPadding = function(){
+ * */
+PlayingField.prototype.getPadding = function () {
     return this.padding;
 };
