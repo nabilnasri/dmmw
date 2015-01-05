@@ -13,8 +13,7 @@ function fullscreen() {
 
 document.getElementById('fullscreen').addEventListener("click", fullscreen);
 
-$("#playground-container").height(600);
-$("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
+initCanvasProperties();
 
 window.onload = function () {
     setCanvasProperties();
@@ -25,6 +24,11 @@ window.onload = function () {
 };
 $(document).keyup(onKeyUp);
 
+
+function initCanvasProperties(){
+    $("#playground-container").height(600);
+    $("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
+}
 
 function onKeyUp(evt) {
     if (evt.keyCode === 32) {
