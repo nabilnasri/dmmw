@@ -9,7 +9,7 @@
     <% include main/navbar.ejs %>
 
     <div class="row center-block">
-        <a href="/game">
+        <a href="/game" class="random-game">
             <div class="col-md-4 option" id="searchGame">
                 <div class="row">
                     <h1><span class="glyphicon glyphicon-random"/></h1>
@@ -35,6 +35,7 @@
     <% include main/footer.ejs %>
 </div>
 
-<!--HIER EIGENE(auf diese spezielle Seite bezogen) JS-Scripts-->
 <% include main/global_js_scripts.ejs %>
+<script src="/js/home_functions.js"></script>
+
 </body>
