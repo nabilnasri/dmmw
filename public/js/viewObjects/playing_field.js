@@ -49,7 +49,6 @@ PlayingField.prototype.setBricks = function () {
     var b;
     var brickWidth = this.getPadding() * 4;
     var brickHeight = this.getPadding();
-    console.log("height ", brickHeight, " width ", brickWidth);
     b = new Array(this.getRows());
     for (i = 0; i < this.getRows(); i++) {
         b[i] = new Array(this.getCols());

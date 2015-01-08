@@ -11,9 +11,9 @@ $(document).ready(function() {
             $("#content").html(content);
             var scripts = $(data).find('#content-scripts').html();
             $('#content-scripts').html(scripts);
-            jQuery(window).trigger('load');
             history.pushState(null, null, "/game");
-            NProgress.done()
+            NProgress.done();
+            jQuery(window).trigger('load');
         });
     }
 

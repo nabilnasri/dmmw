@@ -42,10 +42,10 @@ function drawBricks(canvas) {
                     canvas.getContext(),
                     (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
                     //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
-                    ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2) + (i * (brickPaddingHeight + brick_height)),
+                    ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2) + (i * (brickPaddingHeight + brick_height)) - canvas.getPadding(),
                     brick_width,
                     brick_height,
-                    brick_color
+                    "#ff664a"
                 );
                 //console.log("xPOS ", (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth, " yPOS ", (canvas.getFieldHeight()/3) + (i * (brickPaddingHeight + brick_height)) + brickPaddingHeight);
             }

@@ -1,5 +1,5 @@
 function Ball(color, xCoor, yCoor, player) {
-    this.radius = 7;
+    this.radius = 3;
     this.ballColor = color;
     this.xCoor = xCoor;
     this.yCoor = yCoor;
@@ -12,7 +12,7 @@ function Ball(color, xCoor, yCoor, player) {
 }
 
 Ball.prototype.getYCoor = function (canvas) {
-    return this.yCoor - ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2);
+    return this.yCoor - (canvas.getFieldHeight() - ((canvas.getPadding() * 2 * canvas.getRows()) / 2));
 };
 
 Ball.prototype.getRadius = function () {
@@ -35,14 +35,13 @@ Ball.prototype.checkHitBrick = function (canvas) {
 
     if (
         row < canvas.getRows()
-        && this.getYCoor(canvas) < canvas.getRows() * canvas.getRowHeight()
+        && this.getYCoor(canvas) <= canvas.getRows() * canvas.getRowHeight()
         && row >= 0
         && col >= 0
         && canvas.getBricks()[row][col] instanceof Brick
-    ) {
+    ){
         this.dy = -this.dy; //Ball dotzt zurueck
         canvas.getBricks()[row][col] = 0; //Brick zerstört
-
         //Ab hier muss anders gelöst werden
         this.score++;
         if (this.player === "one") {

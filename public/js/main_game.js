@@ -1,6 +1,6 @@
 function startGame() {
     var nyan = document.getElementById("nyan");
-    var canvas = new PlayingField(8, 22);
+    var canvas = new PlayingField(8, 30);
 
     var intervalId = 0;
     var canvasMinX = 0;
