@@ -12,7 +12,7 @@ function Ball(color, xCoor, yCoor, player) {
 }
 
 Ball.prototype.getYCoor = function (canvas) {
-    return this.yCoor - (canvas.getFieldHeight() - ((canvas.getPadding() * 2 * canvas.getRows()) / 2));
+    return Math.floor(this.yCoor - (canvas.getFieldHeight() - ((canvas.getPadding() * 2 * canvas.getRows()) / 2)));
 };
 
 Ball.prototype.getRadius = function () {
