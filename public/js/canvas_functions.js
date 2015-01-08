@@ -27,6 +27,10 @@ $(document).keyup(onKeyUp);
 
 function initCanvasProperties(){
     $("#playground-container").height(600);
+    setPlayerOneHeight();
+}
+
+function setPlayerOneHeight(){
     $("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
 }
 

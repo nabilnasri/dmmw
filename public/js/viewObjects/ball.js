@@ -43,11 +43,24 @@ Ball.prototype.checkHitBrick = function (canvas) {
         this.dy = -this.dy; //Ball dotzt zurueck
         canvas.getBricks()[row][col] = 0; //Brick zerstört
         //Ab hier muss anders gelöst werden
-        this.score++;
+        var points = COLOR_POINTS_MAPPER[canvas.currentColor];
+        this.score+=points;
         if (this.player === "one") {
             document.getElementById("score-one").innerHTML = String(this.score);
+            $("#score-add-one").text("+"+points);
+            $('#score-add-one').show();
+            setPlayerOneHeight();
+            setTimeout(function() {
+                $('#score-add-one').hide();
+                setPlayerOneHeight();
+            }, 1000);
         } else if (this.player === "two") {
             document.getElementById("score-two").innerHTML = String(this.score);
+            $("#score-add-two").text("+"+points);
+            $('#score-add-two').show();
+            setTimeout(function() {
+                $('#score-add-two').hide();
+            }, 1000);
         }
     }
 };
