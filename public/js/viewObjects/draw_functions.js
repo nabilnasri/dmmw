@@ -37,7 +37,13 @@ function drawBricks(canvas) {
             if (canvas.bricks[i][j] instanceof Brick) {
                 var brick_width = canvas.bricks[i][j].getWidth();
                 var brick_height = canvas.bricks[i][j].getHeight();
-                var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
+                if(canvas.globalCounter % 5000 == 0){
+                    var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
+                    while(brick_color == canvas.currentColor){
+                        brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
+                    }
+                    canvas.currentColor = brick_color;
+                }
                 rect(
                     canvas.getContext(),
                     (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
@@ -45,9 +51,8 @@ function drawBricks(canvas) {
                     ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2) + (i * (brickPaddingHeight + brick_height)) - canvas.getPadding(),
                     brick_width,
                     brick_height,
-                    "#ff664a"
+                    canvas.currentColor
                 );
-                //console.log("xPOS ", (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth, " yPOS ", (canvas.getFieldHeight()/3) + (i * (brickPaddingHeight + brick_height)) + brickPaddingHeight);
             }
         }
     }

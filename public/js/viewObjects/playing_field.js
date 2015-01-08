@@ -13,6 +13,8 @@ function PlayingField(rows, cols) {
     this.balls = this.initBalls();
     //orange/blue/pink/green/yellow/orange/blue/pink/green/yellow
     this.rowcolors = ["#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33", "#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33"]
+    this.currentColor = "#ff664a";
+    this.globalCounter = 0;
 }
 
 PlayingField.prototype.initField = function () {

@@ -10,6 +10,7 @@ function startGame() {
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(function () {
+            canvas.globalCounter += 20;
             draw(canvas, intervalId);
         }, 15);
         return intervalId;
