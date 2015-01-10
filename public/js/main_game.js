@@ -34,7 +34,6 @@ function startGame() {
 
 
 function drawIntroImage(){
-    console.log("INTROIMAGE");
     var img = document.getElementById("nyanImg");
     var pg = document.getElementById("playground");
 

@@ -1,23 +1,19 @@
-function Brick(width, height) {
-    this.BrickWidth = width;
-    this.BrickHeight = height;
+function Brick(width, height, padding) {
+    this.brickWidth = width;
+    this.brickHeight = height;
+    this.brickPadding = padding;
 }
 
-Brick.prototype.testFunc = function () {
-    console.log("Das ist eine Funktion, damit jede Instanz von Brick auf diesselbe Funktion zugreifen kann.");
-};
-
 Brick.prototype.getWidth = function () {
-    return this.BrickWidth;
+    return this.brickWidth;
 };
 
 Brick.prototype.getHeight = function () {
-    return this.BrickHeight;
+    return this.brickHeight;
 };
 
-Brick.prototype.getHeight = function () {
-    return this.BrickHeight;
+Brick.prototype.getPadding= function () {
+    return this.brickPadding;
 };
-
 
 

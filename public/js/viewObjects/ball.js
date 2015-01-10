@@ -12,7 +12,7 @@ function Ball(color, xCoor, yCoor, player) {
 }
 
 Ball.prototype.getYCoor = function (canvas) {
-    return Math.floor(this.yCoor - (canvas.getFieldHeight() - ((canvas.getPadding() * 2 * canvas.getRows()) / 2)));
+    return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight()*canvas.getRows()) / 2));
 };
 
 Ball.prototype.getRadius = function () {
@@ -29,9 +29,9 @@ Ball.prototype.getColor = function () {
  */
 
 Ball.prototype.checkHitBrick = function (canvas) {
-    var real_row = Math.floor(((canvas.getFieldHeight() - (((canvas.getPadding() * 2) * canvas.getRows()))) / 2) / (canvas.getPadding() * 2));
-    var row = Math.floor((this.yCoor / canvas.rowHeight) - real_row);
-    var col = Math.floor(this.xCoor / canvas.colWidth);
+    var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
+    var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
+    var col = Math.floor(this.xCoor / canvas.getColWidth());
 
     if (
         row < canvas.getRows()

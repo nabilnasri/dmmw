@@ -29,14 +29,11 @@ function rect(ctx, x, y, w, h, color) {
  */
 function drawBricks(canvas) {
     var i, j;
-    var brickPaddingWidth = canvas.getPadding();
-    var brickPaddingHeight = canvas.getPadding();
     for (i = 0; i < canvas.getRows(); i++) {
         canvas.getContext().lineWidth = 2;
         for (j = 0; j < canvas.getCols(); j++) {
             if (canvas.bricks[i][j] instanceof Brick) {
-                var brick_width = canvas.bricks[i][j].getWidth();
-                var brick_height = canvas.bricks[i][j].getHeight();
+                var current_brick = canvas.bricks[i][j];
                 if(canvas.globalCounter % 5000 == 0){
                     var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
                     while(brick_color == canvas.currentColor){
@@ -44,13 +41,21 @@ function drawBricks(canvas) {
                     }
                     canvas.currentColor = brick_color;
                 }
+                var xCoor = j * (current_brick.getWidth() + current_brick.getPadding());
+                var offset = (canvas.getFieldHeight() - (canvas.getRows() * (current_brick.getHeight() + current_brick.getPadding()))) / 2;
+                var yCoor = offset + i * (current_brick.getHeight() + current_brick.getPadding());
+                if(i===0){
+                    yCoor = offset;
+                }
+                if(j===0){
+                    xCoor = j * current_brick.getWidth();
+                }
                 rect(
                     canvas.getContext(),
-                    (j * (brickPaddingWidth + brick_width)) + brickPaddingWidth,
-                    //devided by 3, because the brick-array takes a third of the playingfield and should start at the first third of it
-                    ((canvas.getFieldHeight() - (canvas.getPadding() * 2 * canvas.getRows())) / 2) + (i * (brickPaddingHeight + brick_height)) - canvas.getPadding(),
-                    brick_width,
-                    brick_height,
+                    xCoor,
+                    yCoor,
+                    current_brick.getWidth(),
+                    current_brick.getHeight(),
                     canvas.currentColor
                 );
             }
@@ -78,6 +83,7 @@ function drawBall(ctx, player_ball) {
         player_ball.getColor()
     );
 }
+
 
 /*
  Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.

@@ -5,13 +5,13 @@ function PlayingField(rows, cols) {
     this.nRows = rows;
     this.nCols = cols;
     this.color = "#2f241e";
-    this.padding = Math.round(this.getFieldWidth() / this.getCols() / 5);//erklaerung siehe getPadding()
-    this.rowHeight = this.getPadding() * 2;
-    this.colWidth = this.getPadding() * 5;
+    this.rowHeight = 0; //Wird in setBricks überschrieben
+    this.colWidth = 0; //Wird in setBricks überschrieben
     this.bricks = this.setBricks();
     this.paddles = this.initPaddles();
     this.balls = this.initBalls();
     //orange/blue/pink/green/yellow/orange/blue/pink/green/yellow
+    //TODO: Colors müssen im Brick gehandlet werden.
     this.rowcolors = ["#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33"];
     this.currentColor = "#ff664a";
     this.globalCounter = 0;
@@ -49,15 +49,25 @@ PlayingField.prototype.getBall = function (ball_id) {
 PlayingField.prototype.setBricks = function () {
     var i, j;
     var b;
-    var brickWidth = this.getPadding() * 4;
-    var brickHeight = this.getPadding();
+    var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
+    var brickPadding = brickWidthNoPadding/6;
+    var brickWidth = brickWidthNoPadding - brickPadding;
+    //NACHTRÄGLICH: Um den rechten Abstand beim letzten Brick entgegen zu kommen
+    brickPadding = brickPadding + (brickPadding/this.getCols());
+    var brickHeight = brickWidth / 3;
+    console.log(brickPadding, " padding");
+    console.log(brickHeight, " height");
     b = new Array(this.getRows());
     for (i = 0; i < this.getRows(); i++) {
         b[i] = new Array(this.getCols());
         for (j = 0; j < this.getCols(); j++) {
-            b[i][j] = new Brick(brickWidth, brickHeight);
+            b[i][j] = new Brick(brickWidth, brickHeight, brickPadding);
         }
     }
+
+    this.rowHeight = brickHeight + brickPadding;
+    this.colWidth = brickWidth + brickPadding;
+
     return b;
 };
 
@@ -100,14 +110,4 @@ PlayingField.prototype.getRowHeight = function () {
 
 PlayingField.prototype.getColWidth = function () {
     return this.colWidth;
-};
-
-/**
- * das padding ist links, recht und unter dem brick.
- * deswegen nehmen wir die gesamte breite des feldes und teilen es durch die anzahl der spalten.
- * danach teilen wir es durch 5.
- * 1 teil fürs linke padding + 3 teile für den brick + 1 teil fürs rechte Padding.
- * */
-PlayingField.prototype.getPadding = function () {
-    return this.padding;
 };

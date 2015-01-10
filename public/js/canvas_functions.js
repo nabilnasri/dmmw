@@ -1,6 +1,5 @@
 function fullscreen() {
     var canvas = document.getElementById('playground');
-
     if (canvas.webkitRequestFullScreen) {
         canvas.webkitRequestFullScreen();
 
