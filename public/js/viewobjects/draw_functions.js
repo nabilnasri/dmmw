@@ -34,13 +34,15 @@ function drawBricks(canvas) {
         for (j = 0; j < canvas.getCols(); j++) {
             if (canvas.bricks[i][j] instanceof Brick) {
                 var current_brick = canvas.bricks[i][j];
-                if(canvas.globalCounter % 5000 == 0){
-                    var brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
-                    while(brick_color == canvas.currentColor){
-                        brick_color = canvas.rowcolors[Math.floor(Math.random() * canvas.rowcolors.length)];
-                    }
-                    canvas.currentColor = brick_color;
+
+                if(canvas.globalCounter % 2000 == 0){
+                    //Rechtsshift
+                    var colors = canvas.rowcolors;
+                    canvas.rowcolors = colors.concat(colors.splice(0,colors.length - 1));
                 }
+
+                canvas.currentColor = calculateColColors(canvas, j);
+
                 var xCoor = j * (current_brick.getWidth() + current_brick.getPadding());
                 var offset = (canvas.getFieldHeight() - (canvas.getRows() * (current_brick.getHeight() + current_brick.getPadding()))) / 2;
                 var yCoor = offset + i * (current_brick.getHeight() + current_brick.getPadding());
@@ -61,6 +63,44 @@ function drawBricks(canvas) {
             }
         }
     }
+}
+
+function calculateColColors(canvas, col){
+    var colors = canvas.rowcolors;
+    var areas = Math.floor(canvas.getCols()/4);
+    var rest = canvas.getCols() % 4;
+    var d = {};
+
+    var sum = 0;
+    var c = 0;
+    while(sum<=canvas.getCols()){
+        sum += areas;
+        if(sum > canvas.getCols()){
+            sum -= areas;
+            sum += rest;
+            if(rest>0){
+                d[sum] = colors[c];
+            }
+        }else{
+            d[sum] = colors[c];
+        }
+        c+=1;
+    }
+
+
+    var keys = Object.keys(d);
+    var found_key = 0;
+    for (var i = 0; i <= keys.length; i++) {
+        if(col <= keys[i]){
+            found_key = keys[i];
+            break;
+        }
+    }
+
+    return d[found_key];
+
+
+
 }
 
 function drawPaddle(ctx, yCoor, player_paddle) {

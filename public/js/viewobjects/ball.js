@@ -1,5 +1,5 @@
 function Ball(color, xCoor, yCoor, player) {
-    this.radius = 3;
+    this.radius = 7;
     this.ballColor = color;
     this.xCoor = xCoor;
     this.yCoor = yCoor;
