@@ -55,8 +55,6 @@ PlayingField.prototype.setBricks = function () {
     //NACHTRÄGLICH: Um den rechten Abstand beim letzten Brick entgegen zu kommen
     brickPadding = brickPadding + (brickPadding/this.getCols());
     var brickHeight = brickWidth / 3;
-    console.log(brickPadding, " padding");
-    console.log(brickHeight, " height");
     b = new Array(this.getRows());
     for (i = 0; i < this.getRows(); i++) {
         b[i] = new Array(this.getCols());
