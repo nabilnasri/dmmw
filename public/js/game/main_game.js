@@ -54,13 +54,3 @@ function setCanvasProperties(){
     canvas.width  = pg_parent.width();
     canvas.height = pg_parent.height();
 }
-
-
-function handleOrientation(event) {
-    var x = event.beta;  // In degree in the range [-180,180]
-    var y = event.gamma; // In degree in the range [-90,90]
-}
-
-
-
-window.addEventListener('deviceorientation', handleOrientation, true);
