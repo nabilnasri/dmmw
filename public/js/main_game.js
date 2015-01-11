@@ -14,7 +14,7 @@ function startGame() {
         canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(function () {
             colorcounter += 20;
-            if(colorcounter % 600 == 0){
+            if(colorcounter % 60 == 0){
                 colorpicker = shiftRight(colorpicker);
             }
             draw(canvas, intervalId, colorpicker);
