@@ -41,9 +41,9 @@ Ball.prototype.checkHitBrick = function (canvas) {
         && canvas.getBricks()[row][col] instanceof Brick
     ){
         this.dy = -this.dy; //Ball dotzt zurueck
+        var points = COLOR_POINTS_MAPPER[canvas.getBricks()[row][col].getCurrentColor()];
         canvas.getBricks()[row][col] = 0; //Brick zerstört
         //Ab hier muss anders gelöst werden
-        var points = COLOR_POINTS_MAPPER[canvas.currentColor];
         this.score+=points;
         if (this.player === "one") {
             document.getElementById("score-one").innerHTML = String(this.score);

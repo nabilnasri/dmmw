@@ -27,7 +27,7 @@ function rect(ctx, x, y, w, h, color) {
 /*
  Funktion zeichnet Bricks ins Feld.
  */
-function drawBricks(canvas) {
+function drawBricks(canvas, colorpicker) {
     var i, j;
     for (i = 0; i < canvas.getRows(); i++) {
         canvas.getContext().lineWidth = 2;
@@ -35,13 +35,7 @@ function drawBricks(canvas) {
             if (canvas.bricks[i][j] instanceof Brick) {
                 var current_brick = canvas.bricks[i][j];
 
-                if(canvas.globalCounter % 2000 == 0){
-                    //Rechtsshift
-                    var colors = canvas.rowcolors;
-                    canvas.rowcolors = colors.concat(colors.splice(0,colors.length - 1));
-                }
-
-                canvas.currentColor = calculateColColors(canvas, j);
+                current_brick.currentColor = colorpicker[j];
 
                 var xCoor = j * (current_brick.getWidth() + current_brick.getPadding());
                 var offset = (canvas.getFieldHeight() - (canvas.getRows() * (current_brick.getHeight() + current_brick.getPadding()))) / 2;
@@ -58,49 +52,11 @@ function drawBricks(canvas) {
                     yCoor,
                     current_brick.getWidth(),
                     current_brick.getHeight(),
-                    canvas.currentColor
+                    current_brick.getCurrentColor()
                 );
             }
         }
     }
-}
-
-function calculateColColors(canvas, col){
-    var colors = canvas.rowcolors;
-    var areas = Math.floor(canvas.getCols()/4);
-    var rest = canvas.getCols() % 4;
-    var d = {};
-
-    var sum = 0;
-    var c = 0;
-    while(sum<=canvas.getCols()){
-        sum += areas;
-        if(sum > canvas.getCols()){
-            sum -= areas;
-            sum += rest;
-            if(rest>0){
-                d[sum] = colors[c];
-            }
-        }else{
-            d[sum] = colors[c];
-        }
-        c+=1;
-    }
-
-
-    var keys = Object.keys(d);
-    var found_key = 0;
-    for (var i = 0; i <= keys.length; i++) {
-        if(col <= keys[i]){
-            found_key = keys[i];
-            break;
-        }
-    }
-
-    return d[found_key];
-
-
-
 }
 
 function drawPaddle(ctx, yCoor, player_paddle) {
@@ -133,7 +89,7 @@ function clear(canvas) {
     rect(canvas.getContext(), 0, 0, canvas.FieldWidth, canvas.FieldHeight, canvas.color);
 }
 
-function draw(canvas, intervalId) {
+function draw(canvas, intervalId, colorpicker) {
     var ctx = canvas.getContext();
 
     var player_one_ball = canvas.getBall(0);
@@ -155,7 +111,7 @@ function draw(canvas, intervalId) {
     drawPaddle(ctx, 0, player_two_paddle);
     drawBall(ctx, player_one_ball);
     drawBall(ctx, player_two_ball);
-    drawBricks(canvas);
+    drawBricks(canvas, colorpicker);
 
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();

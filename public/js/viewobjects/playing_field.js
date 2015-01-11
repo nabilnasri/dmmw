@@ -10,11 +10,6 @@ function PlayingField(rows, cols) {
     this.bricks = this.setBricks();
     this.paddles = this.initPaddles();
     this.balls = this.initBalls();
-    //orange/blue/pink/green/yellow/orange/blue/pink/green/yellow
-    //TODO: Colors müssen im Brick gehandlet werden.
-    this.rowcolors = ["#ff664a", "#3399ff", "#ff0074", "#00ff66", "#ffff33"];
-    this.currentColor = "#ff664a";
-    this.globalCounter = 0;
 }
 
 PlayingField.prototype.initField = function () {

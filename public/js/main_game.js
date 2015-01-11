@@ -2,6 +2,9 @@ function startGame() {
     var nyan = document.getElementById("nyan");
     var canvas = new PlayingField(8, 15);
 
+    var colorpicker = calculateColColors(canvas);
+    var colorcounter = 0;
+
     var intervalId = 0;
     var canvasMinX = 0;
     var canvasMaxX = 0;
@@ -10,9 +13,12 @@ function startGame() {
         canvasMinX = $("#playground").offset().left;
         canvasMaxX = canvasMinX + canvas.FieldWidth;
         intervalId = window.setInterval(function () {
-            canvas.globalCounter += 20;
-            draw(canvas, intervalId);
-        }, 15);
+            colorcounter += 20;
+            if(colorcounter % 600 == 0){
+                colorpicker = shiftRight(colorpicker);
+            }
+            draw(canvas, intervalId, colorpicker);
+        }, 20);
         return intervalId;
     }
 
