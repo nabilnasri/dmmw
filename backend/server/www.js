@@ -10,13 +10,13 @@ var server = app.listen(app.get('port'), function () {
 
 var io = require('socket.io').listen(server);
 
-// Websocket
+// jemand connectet zu unsere tollen Seite
 io.sockets.on('connection', function (socket) {
-    // der Client ist verbunden
-    socket.emit('chat', {text: 'Du bist nun mit dem Server verbunden!'});
-    // wenn ein Benutzer einen Text sendet
-    socket.on('chat', function (data) {
-        // so wird dieser Text an alle anderen Benutzer gesendet
-        io.sockets.emit('chat', {text: data.text});
+    // das an den client senden
+    //socket.emit('chat', {text: 'Du bist nun mit dem Server verbunden!'});
+    // eingehende nachricht eines nutzers
+    socket.on('motion', function (data) {
+        // schickt an alle angemeldeten diese nachricht
+        io.sockets.emit('motion', {text: data.text});
     });
 });

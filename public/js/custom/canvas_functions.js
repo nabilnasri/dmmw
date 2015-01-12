@@ -11,7 +11,7 @@ function fullscreen() {
 }
 
 document.getElementById('fullscreen').addEventListener("click", fullscreen);
-
+window.addEventListener('devicemotion', moveIt, false);
 initCanvasProperties();
 
 window.onload = function () {

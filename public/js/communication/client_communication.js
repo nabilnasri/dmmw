@@ -1,6 +1,7 @@
-var socket = io.connect();
 //ausgehende Antwort die vom Server an alle gesendet wird
-socket.on('chat', function (data) {
+var socket = io.connect();
+socket.on('motion', function (data) {
+    //setze den text
     $('#eingabe').text(data.text);
 });
 
@@ -9,7 +10,7 @@ function senden() {
     // Eingabefelder auslesen
     //var name = $('#eingabe').val();
     // Socket senden
-    socket.emit('chat', {text: "eicarmaba"});
+    socket.emit('chat', {text: "eicaramba"});
 }
 
 // bei einem Klick
