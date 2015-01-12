@@ -18,8 +18,7 @@ function landscape_primary(ev) {
     if (acc.y < -1) {
         return "left";
     }
-    else if
-    (acc.y > 1) {
+    else if (acc.y > 1) {
         return "right";
     } else {
         return "stop";
@@ -59,4 +58,4 @@ function portrait_primary(ev) {
 
 }
 
-window.addEventListener('devicemotion', moveIt, false);
+window.addEventListener('devicemotion', sendMotion, false);

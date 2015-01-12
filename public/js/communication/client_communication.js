@@ -6,12 +6,12 @@ socket.on('motion', function (data) {
 });
 
 //Anfrage die vom Client zum Server geschickt wird
-function senden() {
+function sendMotion(ev) {
     // Eingabefelder auslesen
     //var name = $('#eingabe').val();
     // Socket senden
-    socket.emit('chat', {text: "eicaramba"});
+    socket.emit('motion', {text: moveIt(ev)});
 }
 
 // bei einem Klick
-$('#ioTest').click(senden);
+//$('#ioTest').click(sendMotion);
