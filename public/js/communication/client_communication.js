@@ -2,6 +2,7 @@
 var socket = io.connect();
 socket.on('motion', function (data) {
     //setze den text
+    game.motionMove(data.text);
     $('#eingabe').text(data.text);
 });
 
@@ -10,6 +11,3 @@ function sendMotion(ev) {
     // Socket senden
     socket.emit('motion', {text: moveIt(ev)});
 }
-
-// bei einem Klick
-//$('#ioTest').click(sendMotion);

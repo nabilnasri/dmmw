@@ -1,3 +1,5 @@
+var game;
+
 function fullscreen() {
     var canvas = document.getElementById('playground');
     if (canvas.webkitRequestFullScreen) {
@@ -16,9 +18,7 @@ initCanvasProperties();
 window.onload = function () {
     setCanvasProperties();
     drawIntroImage();
-    document.getElementById("start").onclick = function () {
-        startGame();
-    };
+    game = new startGame();
 };
 $(document).keyup(onKeyUp);
 
@@ -34,6 +34,6 @@ function setPlayerOneHeight(){
 
 function onKeyUp(evt) {
     if (evt.keyCode === 32) {
-        startGame();
+        game = new startGame();
     }
 }
