@@ -2,13 +2,13 @@ function moveIt(ev) {
     var orion = window.screen.orientation.type;
 
     if (orion === "landscape-primary") {
-        landscape_primary(ev);
+        return landscape_primary(ev);
 
     } else if (orion === "landscape-secondary") {
-        landscape_secondary(ev);
+        return landscape_secondary(ev);
 
     } else if (orion === "portrait-primary") {
-        portrait_primary(ev);
+        return portrait_primary(ev);
     }
 }
 
