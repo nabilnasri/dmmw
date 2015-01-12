@@ -7,8 +7,6 @@ socket.on('motion', function (data) {
 
 //Anfrage die vom Client zum Server geschickt wird
 function sendMotion(ev) {
-    // Eingabefelder auslesen
-    //var name = $('#eingabe').val();
     // Socket senden
     socket.emit('motion', {text: moveIt(ev)});
 }
