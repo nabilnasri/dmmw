@@ -1,13 +1,14 @@
 function moveIt(ev) {
-    var orion = window.screen.orientation.type;
+    var orion = window.orientation;
+    console.log(orion, " asdas");
 
-    if (orion === "landscape-primary") {
+    if (orion === 90) {
         return landscape_primary(ev);
 
-    } else if (orion === "landscape-secondary") {
+    } else if (orion === -90) {
         return landscape_secondary(ev);
 
-    } else if (orion === "portrait-primary") {
+    } else if (orion === 0) {
         return portrait_primary(ev);
     }
 }
