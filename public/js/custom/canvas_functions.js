@@ -1,5 +1,3 @@
-var game;
-
 function fullscreen() {
     var canvas = document.getElementById('playground');
     if (canvas.webkitRequestFullScreen) {
@@ -18,7 +16,7 @@ initCanvasProperties();
 window.onload = function () {
     setCanvasProperties();
     drawIntroImage();
-    game = new startGame();
+    Dmmw.getInstance().init();
 };
 $(document).keyup(onKeyUp);
 
@@ -34,6 +32,23 @@ function setPlayerOneHeight(){
 
 function onKeyUp(evt) {
     if (evt.keyCode === 32) {
-        game = new startGame();
+        Dmmw.getInstance().init();
     }
+}
+
+
+function drawIntroImage(){
+    var img = document.getElementById("nyanImg");
+    var pg = document.getElementById("playground");
+
+    var ctx = pg.getContext("2d");
+    ctx.drawImage(img, 0, 0, 555, 600);
+}
+
+function setCanvasProperties(){
+    var pg = $("#playground");
+    var pg_parent = pg.parent();
+    var canvas = document.getElementsByTagName('canvas')[0];
+    canvas.width  = pg_parent.width();
+    canvas.height = pg_parent.height();
 }

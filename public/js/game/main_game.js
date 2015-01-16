@@ -35,9 +35,9 @@ function startGame() {
     }
 
     this.motionMove = function(direction) {
-        if (direction == "right" && canvas.getPaddle(0).xCoor +10 <= canvas.getWidth()-10) {
+        if (direction == "right") {
             canvas.getPaddle(0).xCoor += 10;
-        } else if (direction == "left" && canvas.getPaddle(0).xCoor -10 >= 10 ) {
+        } else if (direction == "left") {
             canvas.getPaddle(0).xCoor -= 10;
         }
     };
