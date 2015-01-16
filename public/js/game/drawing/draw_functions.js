@@ -46,6 +46,8 @@ function drawBricks(canvas, colorpicker) {
                 if(j===0){
                     xCoor = j * current_brick.getWidth();
                 }
+                current_brick.xCoor = xCoor;
+                current_brick.yCoor = yCoor;
                 rect(
                     canvas.getContext(),
                     xCoor,
@@ -126,7 +128,10 @@ function draw(canvas, intervalId, colorpicker) {
     //    }
     //}
     //ToDo: Ermitteln für welchen Spieler wo der "Todesrand" ist.
-
+    var bricks_available = canvas.bricksAvailable();
+    if(!bricks_available){
+        animate(canvas.masterBrick,canvas);
+    }
     player_one_ball.checkHitBrick(canvas);
     player_one_ball.checkHitRightBorder(canvas);
     player_one_ball.checkHitLeftBorder(canvas);
@@ -181,6 +186,25 @@ function draw(canvas, intervalId, colorpicker) {
     player_one_ball.xCoor += player_one_ball.dx;
     player_one_ball.yCoor += player_one_ball.dy;
 
-    player_two_ball.xCoor += player_two_ball.dx;
-    player_two_ball.yCoor += player_two_ball.dy;
+    //player_two_ball.xCoor += player_two_ball.dx;
+    //player_two_ball.yCoor += player_two_ball.dy;
+}
+
+
+
+
+function animate(masterBrick, canvas) {
+    // update
+    var time = (new Date()).getTime();
+    var amplitude = 150;
+
+    // in ms
+    var period = 2000;
+    var centerX = canvas.getFieldWidth() / 2 - masterBrick.getWidth() / 2;
+    var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
+    masterBrick.xCoor = nextX;
+    // draw
+    rect(canvas.getContext(), masterBrick.getXCoor(), canvas.getFieldHeight()/2, masterBrick.getWidth(), masterBrick.getHeight(), "#4183D7");
+
+
 }

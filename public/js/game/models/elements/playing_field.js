@@ -8,8 +8,10 @@ function PlayingField(rows, cols) {
     this.rowHeight = 0; //Wird in setBricks überschrieben
     this.colWidth = 0; //Wird in setBricks überschrieben
     this.bricks = this.setBricks();
+    this.masterBrick = null;
     this.paddles = this.initPaddles();
     this.balls = this.initBalls();
+    this.countDestroyedBricks = 0;
 }
 
 PlayingField.prototype.initField = function () {
@@ -57,13 +59,29 @@ PlayingField.prototype.setBricks = function () {
             b[i][j] = new Brick(brickWidth, brickHeight, brickPadding);
         }
     }
-
     this.rowHeight = brickHeight + brickPadding;
     this.colWidth = brickWidth + brickPadding;
 
     return b;
 };
 
+PlayingField.prototype.bricksAvailable = function(){
+    var totalBricks = this.getRows()*this.getCols();
+
+    var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
+    var brickPadding = brickWidthNoPadding/6;
+    var brickWidth = brickWidthNoPadding - brickPadding;
+    var brickHeight = brickWidth / 3;
+
+    if(this.countDestroyedBricks==totalBricks){
+        if(this.masterBrick == null){
+            this.masterBrick = new Brick(brickWidth,brickHeight,brickPadding);
+        }
+        return false;
+    }
+    return true;
+
+};
 
 PlayingField.prototype.initPaddles = function () {
     var p = {};
@@ -80,6 +98,7 @@ PlayingField.prototype.initBalls = function () {
 
     return b;
 };
+
 
 PlayingField.prototype.getElement = function () {
     return document.getElementById("playground");

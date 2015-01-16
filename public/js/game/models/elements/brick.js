@@ -3,6 +3,8 @@ function Brick(width, height, padding) {
     this.brickHeight = height;
     this.brickPadding = padding;
     this.currentColor = null;
+    this.xCoor = 0;
+    this.yCoor = 0;
     this.points = 0;
 }
 
@@ -26,6 +28,15 @@ Brick.prototype.getHeight = function () {
 Brick.prototype.getPadding= function () {
     return this.brickPadding;
 };
+
+Brick.prototype.getXCoor = function () {
+    return this.xCoor;
+};
+
+Brick.prototype.getYCoor= function () {
+    return this.yCoor;
+};
+
 
 Brick.prototype.getCurrentColor= function () {
     return this.currentColor;

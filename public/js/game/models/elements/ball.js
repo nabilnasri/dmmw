@@ -32,17 +32,30 @@ Ball.prototype.checkHitBrick = function (canvas) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
+    var wallHeight = canvas.getRows() * canvas.getRowHeight();
+
 
     if (
+        (
         row < canvas.getRows()
-        && this.getYCoor(canvas) <= canvas.getRows() * canvas.getRowHeight()
+        && this.getYCoor(canvas) <= wallHeight
         && row >= 0
         && col >= 0
         && canvas.getBricks()[row][col] instanceof Brick
+        )
+        ||
+        (!canvas.bricksAvailable() && this.getYCoor(canvas) == canvas.masterBrick.getYCoor() && this.getXCoor() == canvas.masterBrick.getXCoor())
     ){
+        if(!canvas.bricksAvailable()){
+            console.log("GETROFFFEEEN");
+        }
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
-        canvas.getBricks()[row][col] = 0; //Brick zerstört
+        var brickHitted = canvas.getBricks()[row][col];
+        canvas.countDestroyedBricks+=1;
+        fadingOut(canvas.getContext(), brickHitted); //fade out Brick
+        canvas.getBricks()[row][col] = 0; //destroy Brick
+
         //Ab hier muss anders gelöst werden
         this.score+=points;
         if (this.player === "one") {
@@ -63,6 +76,7 @@ Ball.prototype.checkHitBrick = function (canvas) {
             }, 1000);
         }
     }
+
 };
 
 Ball.prototype.checkHitRightBorder = function (canvas) {
@@ -82,6 +96,34 @@ Ball.prototype.hitPaddle = function (canvas, p1p) {
 };
 
 
+function fadingOut(ctx,brick){
+
+    var xCorr = brick.getXCoor();
+    var yCorr = brick.getYCoor();
+    var width = brick.getWidth();
+    var height = brick.getHeight();
+    var rgb= hexToRgb(brick.getCurrentColor());
+
+    var r = rgb["r"];
+    var g = rgb["g"];
+    var b = rgb["b"];
+    var steps = 10;
+    var dr = (255 - r); // steps
+    var dg = (255 - g);
+    var db = (255 - b);
+
+    var i = 0;
+    var interval = setInterval(function() {
+        ctx.fillStyle = 'rgb(' + Math.round(r + dr * i) + ','
+        + Math.round(g + dg * i) + ','
+        + Math.round(b + db * i) + ')';
+        ctx.fillRect(xCorr,yCorr,width,height);
+        i++;
+        if(i === steps) {
+            clearInterval(interval);
+        }
+    }, 20);
+}
 /*
  BALL LOGIC --END--
  */
