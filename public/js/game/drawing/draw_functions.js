@@ -82,6 +82,16 @@ function drawBall(ctx, player_ball) {
     );
 }
 
+/*
+Wie soll das Spielfeld aussehen?
+ */
+function setCanvasStyle(canvas){
+    canvas.getContext().font = "80pt Impact";
+    canvas.getContext().textAlign = "center";
+    canvas.getContext().fillStyle = canvas.color;
+    canvas.getContext().strokeStyle = canvas.color;
+    canvas.getContext().lineWidth = 1;
+}
 
 /*
  Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
@@ -92,6 +102,9 @@ function clear(canvas) {
 }
 
 function draw(canvas, intervalId, colorpicker) {
+    /*
+    Um nicht immer die Variablen "auszuschreiben".
+     */
     var ctx = canvas.getContext();
 
     var player_one_ball = canvas.getBall(0);
@@ -100,13 +113,11 @@ function draw(canvas, intervalId, colorpicker) {
     var player_two_ball = canvas.getBall(1);
     var player_two_paddle = canvas.getPaddle(1);
 
-    ctx.font = "80pt Impact";
-    ctx.textAlign = "center";
-    ctx.fillStyle = canvas.color;
-    ctx.strokeStyle = canvas.color;
-    ctx.lineWidth = 1;
+    /*
+    Canvas stylen.
+     */
+    setCanvasStyle(canvas);
     clear(canvas);
-
 
     //Zeichne alle "statischen" Sachen
     drawPaddle(ctx, canvas.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
@@ -115,30 +126,46 @@ function draw(canvas, intervalId, colorpicker) {
     drawBall(ctx, player_two_ball);
     drawBricks(canvas, colorpicker);
 
+    /*
+    Geht nicht.
+     */
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();
 
+
+    /*
+    Hier wird überprüft, ob noch Bricks vorhanden sind.
+    Falls nicht, wird der MasterBrick gezeichnet.
+     */
     var bricks_available = canvas.bricksAvailable();
     if(!bricks_available){
-        animate(canvas.masterBrick,canvas);
+        animate(canvas);
     }
+
+    /*
+    Alle möglichen Fälle, wohin der Ball dotzt werden hier überprüft.
+    Die Logik dafür befindet sich in der Ball-Klasse
+     */
     player_one_ball.checkHitBrick(canvas);
     player_one_ball.checkHitRightBorder(canvas);
     player_one_ball.checkHitLeftBorder(canvas);
-    //-- Reihenfolge WICHTIG!--
+    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
     player_one_ball.checkHitTopBorder();
     player_one_ball.checkOutside(canvas, intervalId, 1);
     player_one_ball.checkHitPaddle(canvas, player_one_paddle, 1);
-
+    ////////////////////////////////////////////////////////////////////////
     player_two_ball.checkHitBrick(canvas);
     player_two_ball.checkHitRightBorder(canvas);
     player_two_ball.checkHitLeftBorder(canvas);
-    //-- Reihenfolge WICHTIG!--
+    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
     player_two_ball.checkHitBottomBorder(canvas);
     player_two_ball.checkOutside(canvas, intervalId, 2);
     player_two_ball.checkHitPaddle(canvas, player_two_paddle, 2);
 
 
+    /*
+    Bewegung der Bälle
+     */
     player_one_ball.xCoor += player_one_ball.dx;
     player_one_ball.yCoor += player_one_ball.dy;
 
@@ -148,19 +175,58 @@ function draw(canvas, intervalId, colorpicker) {
 
 
 
-
-function animate(masterBrick, canvas) {
-    // update
+/*
+Animation des MasterBricks
+ */
+function animate(canvas) {
     var time = (new Date()).getTime();
     var amplitude = 150;
+    var masterBrick = canvas.masterBrick;
 
-    // in ms
-    var period = 2000;
+    var period = 2000;  //Millisekunden
     var centerX = canvas.getFieldWidth() / 2 - masterBrick.getWidth() / 2;
+    //Einfache Sinus-Funktion
     var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
     masterBrick.xCoor = nextX;
-    // draw
-    rect(canvas.getContext(), masterBrick.getXCoor(), canvas.getFieldHeight()/2, masterBrick.getWidth(), masterBrick.getHeight(), "#4183D7");
 
+    //Hier wird der Brick gezeichnet.
+    rect(
+        canvas.getContext(),
+        masterBrick.getXCoor(),
+        canvas.getFieldHeight()/2,
+        masterBrick.getWidth(),
+        masterBrick.getHeight(),
+        "#4183D7"
+    );
+}
 
+/*
+Wenn Bricks getroffen werden, werden die "ausgefadet"
+ */
+function fadingOut(ctx,brick){
+    var xCorr = brick.getXCoor();
+    var yCorr = brick.getYCoor();
+    var width = brick.getWidth();
+    var height = brick.getHeight();
+    var rgb= hexToRgb(brick.getCurrentColor());
+
+    var r = rgb["r"];
+    var g = rgb["g"];
+    var b = rgb["b"];
+    var steps = 10;
+    var dr = (255 - r); // steps
+    var dg = (255 - g);
+    var db = (255 - b);
+
+    var i = 0;
+    var interval = setInterval(function() {
+        ctx.fillStyle = 'rgb(' + Math.round(r + dr * i) + ','
+        + Math.round(g + dg * i) + ','
+        + Math.round(b + db * i) + ')';
+        ctx.fillRect(xCorr,yCorr,width,height);
+        i++;
+        if(i === steps) {
+            clearInterval(interval);
+        }
+    }, 20);
 }

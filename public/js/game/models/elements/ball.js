@@ -1,3 +1,6 @@
+/*
+"Ball-Klasse" - Hier wird die Bewegung festgelegt. Und die Logik, wo auch immer der Ball hin dotzt.
+ */
 function Ball(color, xCoor, yCoor, player) {
     this.radius = 7;
     this.ballColor = color;
@@ -11,22 +14,10 @@ function Ball(color, xCoor, yCoor, player) {
     this.score = 0;
 }
 
-Ball.prototype.getYCoor = function (canvas) {
-    return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight()*canvas.getRows()) / 2));
-};
-
-Ball.prototype.getRadius = function () {
-    return this.radius;
-};
-
-Ball.prototype.getColor = function () {
-    return this.ballColor;
-};
-
-
 /*
  BALL LOGIC --START--
  */
+
 
 Ball.prototype.checkHitBrick = function (canvas) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
@@ -46,9 +37,6 @@ Ball.prototype.checkHitBrick = function (canvas) {
         ||
         (!canvas.bricksAvailable() && this.getYCoor(canvas) == canvas.masterBrick.getYCoor() && this.getXCoor() == canvas.masterBrick.getXCoor())
     ){
-        if(!canvas.bricksAvailable()){
-            console.log("GETROFFFEEEN");
-        }
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
         var brickHitted = canvas.getBricks()[row][col];
@@ -56,7 +44,7 @@ Ball.prototype.checkHitBrick = function (canvas) {
         fadingOut(canvas.getContext(), brickHitted); //fade out Brick
         canvas.getBricks()[row][col] = 0; //destroy Brick
 
-        //Ab hier muss anders gelöst werden
+        //Ab hier muss anders gelöst werden!!
         this.score+=points;
         if (this.player === "one") {
             document.getElementById("score-one").innerHTML = String(this.score);
@@ -140,36 +128,19 @@ Ball.prototype.checkOutside = function (canvas, intervalId, player) {
         }
     }
 };
-
-
-function fadingOut(ctx,brick){
-
-    var xCorr = brick.getXCoor();
-    var yCorr = brick.getYCoor();
-    var width = brick.getWidth();
-    var height = brick.getHeight();
-    var rgb= hexToRgb(brick.getCurrentColor());
-
-    var r = rgb["r"];
-    var g = rgb["g"];
-    var b = rgb["b"];
-    var steps = 10;
-    var dr = (255 - r); // steps
-    var dg = (255 - g);
-    var db = (255 - b);
-
-    var i = 0;
-    var interval = setInterval(function() {
-        ctx.fillStyle = 'rgb(' + Math.round(r + dr * i) + ','
-        + Math.round(g + dg * i) + ','
-        + Math.round(b + db * i) + ')';
-        ctx.fillRect(xCorr,yCorr,width,height);
-        i++;
-        if(i === steps) {
-            clearInterval(interval);
-        }
-    }, 20);
-}
 /*
  BALL LOGIC --END--
  */
+
+
+Ball.prototype.getYCoor = function (canvas) {
+    return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight()*canvas.getRows()) / 2));
+};
+
+Ball.prototype.getRadius = function () {
+    return this.radius;
+};
+
+Ball.prototype.getColor = function () {
+    return this.ballColor;
+};

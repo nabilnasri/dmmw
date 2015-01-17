@@ -1,3 +1,6 @@
+/*
+Hilfsfunktion um ein Array nach rechts zu shiften
+ */
 function shiftRight(arr)
 {
     var temp = [];
@@ -8,6 +11,11 @@ function shiftRight(arr)
     return temp;
 }
 
+/*
+Array, das soviele Farben hat wie das Spiel Spalten.
+Das zurückgegebene Array wird später geshiftet um den
+Schweif zu "animieren"
+ */
 function calculateColColors(canvas){
     var colors = possibleColors();
     var areas = Math.floor(canvas.getCols()/4);
@@ -29,6 +37,9 @@ function calculateColColors(canvas){
     return d;
 }
 
+/*
+Konvertiert HexFarbe zu RGB
+ */
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {

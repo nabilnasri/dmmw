@@ -1,24 +1,27 @@
+/*
+"Paddle-Klasse" - Logik für die Bewegung der Paddles
+ */
 function Paddle(x, color) {
     this.PaddleWidth = 100;
     this.PaddleHeight = 10;
     this.xCoor = x;
     this.PaddleColor = color;
 
-    this.currentMotion = "stop";
-
     this.rightDown = false;
     this.leftDown = false;
 }
 
-Paddle.prototype.getCurrentMotion = function () {
-    return this.currentMotion;
-};
-
+/*
+Tastatur Pfeil Rechts
+ */
 Paddle.prototype.checkRightDown = function () {
     if (this.rightDown) {
         this.xCoor += 10;
     }
 };
+/*
+ Tastatur Pfeil Links
+ */
 Paddle.prototype.checkLeftDown = function () {
     if (this.leftDown) {
         this.xCoor -= 10;

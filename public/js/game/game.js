@@ -1,3 +1,7 @@
+/*
+"Spielklasse" - Beinhaltet ein Singleton eines Spiels, um sie an
+mehreren Stellen des Programms zu nutzten.
+ */
 var Dmmw = (function(){
     var game;
 
@@ -6,6 +10,7 @@ var Dmmw = (function(){
         return game;
     }
 
+    //Gibt die Instanz vom Spiel zurück
     return {
         getInstance: function () {
             if (!game) {
@@ -17,6 +22,9 @@ var Dmmw = (function(){
 
 })();
 
+/*
+Spielinitialisierung. Initialisiert Spielfeld und beinhalten die einzelen Events(motionMove, mouseMove, ..)
+ */
 function Game(){
     var playingField = null;
     var intervalId = 0;

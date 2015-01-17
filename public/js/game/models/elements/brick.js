@@ -1,3 +1,6 @@
+/*
+ "Brick-Klasse" - "Model" für die einzelnen Rects.
+ */
 function Brick(width, height, padding) {
     this.brickWidth = width;
     this.brickHeight = height;
@@ -5,7 +8,6 @@ function Brick(width, height, padding) {
     this.currentColor = null;
     this.xCoor = 0;
     this.yCoor = 0;
-    this.points = 0;
 }
 
 function possibleColors(){
@@ -36,7 +38,6 @@ Brick.prototype.getXCoor = function () {
 Brick.prototype.getYCoor= function () {
     return this.yCoor;
 };
-
 
 Brick.prototype.getCurrentColor= function () {
     return this.currentColor;

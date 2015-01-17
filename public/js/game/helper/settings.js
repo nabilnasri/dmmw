@@ -1,3 +1,8 @@
+/*
+Settings für das Spiel - nur an einem Ort ändern.
+ */
+
+//Welche Farben geben welche Punkte
 var COLOR_POINTS_MAPPER = {
     "#F22613":1,
     "#D35400":5,

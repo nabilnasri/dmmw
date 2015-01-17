@@ -1,17 +1,28 @@
-function moveIt(ev) {
-    var orion = window.orientation;
+/*
+Controller Klasse.
+ */
 
-    if (orion === 90) {
+/*
+Orientation des Devices
+ */
+function moveIt(ev) {
+    //Aktuelle Orientation
+    var orientation = window.orientation;
+
+    if (orientation === 90) {
         return landscape_primary(ev);
 
-    } else if (orion === -90) {
+    } else if (orientation === -90) {
         return landscape_secondary(ev);
 
-    } else if (orion === 0) {
+    } else if (orientation === 0) {
         return portrait_primary(ev);
     }
 }
 
+/*
+Wenn sich das Handy im Landscape(Primary)[Seitlich 90grad nach Links] befindet
+ */
 function landscape_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
 
@@ -25,7 +36,9 @@ function landscape_primary(ev) {
 
 }
 
-
+/*
+ Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
+ */
 function landscape_secondary(ev) {
     var acc = ev.accelerationIncludingGravity;
 
@@ -39,6 +52,9 @@ function landscape_secondary(ev) {
 
 }
 
+/*
+ Wenn sich das Handy im Potrait(normal)[0grad] befindet
+ */
 function portrait_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
 
@@ -52,4 +68,5 @@ function portrait_primary(ev) {
 
 }
 
+//Eventlistner wenn man das Gerät bewegt.
 window.addEventListener('devicemotion', sendMotion, false);
