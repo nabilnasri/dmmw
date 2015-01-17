@@ -61,9 +61,9 @@ function Game(){
 
     this.motionMove = function(direction) {
         if (direction == "right") {
-            playingField.getPaddle(0).xCoor += 10;
+            playingField.getPaddle(0).xCoor += 20;
         } else if (direction == "left") {
-            playingField.getPaddle(0).xCoor -= 10;
+            playingField.getPaddle(0).xCoor -= 20;
         }
     };
 

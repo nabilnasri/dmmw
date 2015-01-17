@@ -4,9 +4,15 @@ function Paddle(x, color) {
     this.xCoor = x;
     this.PaddleColor = color;
 
+    this.currentMotion = "stop";
+
     this.rightDown = false;
     this.leftDown = false;
 }
+
+Paddle.prototype.getCurrentMotion = function () {
+    return this.currentMotion;
+};
 
 Paddle.prototype.checkRightDown = function () {
     if (this.rightDown) {

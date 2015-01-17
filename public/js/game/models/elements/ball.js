@@ -85,14 +85,60 @@ Ball.prototype.checkHitRightBorder = function (canvas) {
     }
 };
 
-Ball.prototype.checkHitLeftBorder = function (canvas) {
+Ball.prototype.checkHitLeftBorder = function () {
     if (this.xCoor + this.dx - this.getRadius() < 0) {
         this.dx = -this.dx;
     }
 };
 
-Ball.prototype.hitPaddle = function (canvas, p1p) {
-    return this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight - p1p.PaddleHeight
+Ball.prototype.checkHitTopBorder = function () {
+    if (this.yCoor + this.dy - this.getRadius() < 0) {
+        this.dy = -this.dy;
+    }
+};
+
+Ball.prototype.checkHitBottomBorder = function (canvas) {
+    if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
+        this.dy = -this.dy;
+    }
+};
+
+Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
+    if(player===1){
+        if(this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight - player_paddle.PaddleHeight){
+            this.afterHittingPaddle(player_paddle);
+        }
+    }else{
+        if(this.yCoor + this.dy + this.getRadius() < player_paddle.PaddleHeight + this.getRadius() - this.dy){
+            this.afterHittingPaddle(player_paddle);
+        }
+    }
+};
+
+Ball.prototype.afterHittingPaddle = function(player_paddle){
+    if (this.xCoor > player_paddle.xCoor && this.xCoor < player_paddle.xCoor + player_paddle.PaddleWidth) {
+        //BALL trifft PADDLE
+        this.dx = 8 * ((this.xCoor - (player_paddle.xCoor + player_paddle.PaddleWidth / 2)) / player_paddle.PaddleWidth);
+        this.dy = -this.dy; //SOLL zurück dotzen
+    }
+};
+
+Ball.prototype.checkOutside = function (canvas, intervalId, player) {
+    if(player===1){
+        if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
+            //BALL IST DRAUßEn / UNTERER RAND
+            window.clearInterval(intervalId);
+            canvas.getContext().fillStyle = "#ddd";
+            canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+        }
+    }else{
+        if (this.yCoor + this.dy - this.getRadius() < 0) {
+            //BALL IST DRAUßEn / OBERER RAND
+            window.clearInterval(intervalId);
+            canvas.getContext().fillStyle = "#ddd";
+            canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+        }
+    }
 };
 
 
