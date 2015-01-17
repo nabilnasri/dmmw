@@ -15,7 +15,6 @@ initCanvasProperties();
 
 window.onload = function () {
     setCanvasProperties();
-    drawIntroImage();
 };
 $(document).keyup(onKeyUp);
 
@@ -36,13 +35,6 @@ function onKeyUp(evt) {
 }
 
 
-function drawIntroImage(){
-    var img = document.getElementById("nyanImg");
-    var pg = document.getElementById("playground");
-
-    var ctx = pg.getContext("2d");
-    ctx.drawImage(img, 0, 0, 555, 600);
-}
 
 function setCanvasProperties(){
     var pg = $("#playground");

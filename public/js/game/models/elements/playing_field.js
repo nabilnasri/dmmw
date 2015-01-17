@@ -7,6 +7,8 @@ function PlayingField(rows, cols) {
     this.FieldHeight = document.getElementsByTagName('canvas')[0].height;
     this.nRows = rows;
     this.nCols = cols;
+    //this.image = new Image();
+    //this.image.src = "http://i.imgur.com/yf6d9SX.jpg";
     this.color = "#2f241e";
     this.rowHeight = 0; //Wird in setBricks überschrieben
     this.colWidth = 0; //Wird in setBricks überschrieben
