@@ -16,7 +16,6 @@ initCanvasProperties();
 window.onload = function () {
     setCanvasProperties();
     drawIntroImage();
-    Dmmw.getInstance().init();
 };
 $(document).keyup(onKeyUp);
 
@@ -52,3 +51,29 @@ function setCanvasProperties(){
     canvas.width  = pg_parent.width();
     canvas.height = pg_parent.height();
 }
+
+
+/*
+Ajax Request (zurück zu Home)
+ */
+function refresh_site() {
+    NProgress.start();
+    $.ajax({
+        url: "/",
+        type: 'GET',
+        dataType: "html",
+        data: {}
+    }).done(function (data) {
+        var content =  $(data).find('#content').html();
+        $("#content").html(content);
+        var scripts = $(data).find('#content-scripts').html();
+        $('#content-scripts').html(scripts);
+        history.pushState(null, null, "/");
+        NProgress.done();
+    });
+}
+
+$("#backtohome").click(function(){
+    refresh_site();
+});
+
