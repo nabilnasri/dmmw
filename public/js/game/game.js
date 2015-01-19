@@ -34,7 +34,7 @@ function Game(){
     var colorcounter = 0;
 
     this.setProperties = function(){
-        playingField = new PlayingField(1, 5);
+        playingField = new PlayingField(8, 15);
         intervalId = 0;
         canvasMinX = 0;
         canvasMaxX = 0;
