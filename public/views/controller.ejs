@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <head>
+    alert("halloha");
     <% include main/global_css_sheets.ejs %>
+    <script>
+        function initialise(){
+            var canvas = document.getElementById("con_canvas")
+            canvas.addEventListener("touchstart",doTouchStart,false);
+        }
+
+        function doTouchStart(eve){
+
+            eve.preventDefault();
+            var concan_x = event.targetTouches[0].pageX;
+            var concan_y = event.targetTouches[0].pageY;
+            alert(concan_x + "x" + concan_y+ "y");
+        }
+
+    </script>
+
+
 </head>
 
-<body>
+<body onload="initialise()">
+
     <div class="container">
         <% include main/navbar.ejs %>
 
         <div style="background-color: #204d74; width:100%;height: 100%;">
             DAS IST DER CONTROLLER
         </div>
+        <canvas height="100%" width="100%" id="con_canvas" />
+
+
     </div>
 
     <% include main/footer.ejs %>
