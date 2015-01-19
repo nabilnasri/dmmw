@@ -5,6 +5,10 @@ Controller Klasse.
 /*
 Orientation des Devices
  */
+
+
+
+
 function moveIt(ev) {
     //Aktuelle Orientation
     var orientation = window.orientation;
@@ -74,7 +78,8 @@ window.onload = function(){
 };
 
 
-
+var px;
+var py;
 function initialise(){
     var canvas = document.getElementById("con_canvas");
     canvas.width  = window.innerWidth;
@@ -87,9 +92,18 @@ function doTouchStart(eve) {
     eve.preventDefault();
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
+    hitPowerUp(px, py,concan_x,concan_y);
 }
 
+function hitPowerUp(px,py,concan_x,concan_y) {
+    alert(px + "x" + " " + py + "y");
+    alert(concan_x + "coooncanx" + " " + concan_y + "cooooncany");
 
+    if (con_canvas.x === p.x && con_canvas.y === p.y) {
+        alert("getroffen");
+
+    }
+}
 
 function canvasApp() {
 
@@ -104,7 +118,7 @@ function canvasApp() {
     var initVelMax;
     var maxVelComp;
     var randAccel;
-    var  particleRad;
+    var particleRad;
     var maxParticleRad;
     var minParticleRad;
 
@@ -128,34 +142,36 @@ function canvasApp() {
         createParticles();
 
         context.fillStyle = "#000000";  // muss unser window sein
-        context.fillRect(0,0,displayWidth,displayHeight); // unsere window daten
+        context.fillRect(0, 0, displayWidth, displayHeight); // unsere window daten
 
-        timer = setInterval(onTimer, 1000/40); // wann tauchen die PowerUps auf?
+        timer = setInterval(onTimer, 1000 / 40); // wann tauchen die PowerUps auf?
     }
 
     function createParticles() { // create PowerUps
         var angle;
         var vAngle;
         var vMag;
-        var r,g,b;
+        var r, g, b;
         var minRGB = 16;
         var maxRGB = 255;
         var alpha = 1;
         var color;
         for (var i = 0; i < numParticles; i++) {
-            angle = Math.random()*2*Math.PI;
-            vAngle = Math.random()*2*Math.PI;
-            vMag = initVelMax*(0.6 + 0.4*Math.random());
-            r = Math.floor(minRGB + Math.random()*(maxRGB-minRGB)); //aussehen
-            g = Math.floor(minRGB + Math.random()*(maxRGB-minRGB)); //"
-            b = Math.floor(minRGB + Math.random()*(maxRGB-minRGB));	// "
-            color = "rgba(" + r + "," + g + "," + b + ","+ alpha + ")"; //"
-            var newParticle = {	x: Math.random()*displayWidth,
-                y: Math.random()*displayHeight,
-                velX: vMag*Math.cos(vAngle),
-                velY: vMag*Math.sin(vAngle),
-                rad: minParticleRad+Math.random()*(maxParticleRad-minParticleRad),
-                color:color}
+            angle = Math.random() * 2 * Math.PI;
+            vAngle = Math.random() * 2 * Math.PI;
+            vMag = initVelMax * (0.6 + 0.4 * Math.random());
+            r = Math.floor(minRGB + Math.random() * (maxRGB - minRGB)); //aussehen
+            g = Math.floor(minRGB + Math.random() * (maxRGB - minRGB)); //"
+            b = Math.floor(minRGB + Math.random() * (maxRGB - minRGB));	// "
+            color = "rgba(" + r + "," + g + "," + b + "," + alpha + ")"; //"
+            var newParticle = {
+                x: Math.random() * displayWidth,
+                y: Math.random() * displayHeight,
+                velX: vMag * Math.cos(vAngle),
+                velY: vMag * Math.sin(vAngle),
+                rad: minParticleRad + Math.random() * (maxParticleRad - minParticleRad),
+                color: color
+            }
             if (i > 0) {
                 newParticle.next = particleList.first;
             }
@@ -167,7 +183,7 @@ function canvasApp() {
 
         //fading. This won't work very well in Chrome, IE, and Firefox - gray trails will be left behind.
         context.fillStyle = "rgba(0,0,0,0.04)";
-        context.fillRect(0,0,displayWidth,displayHeight);
+        context.fillRect(0, 0, displayWidth, displayHeight);
 
         //update and draw particles
         p = particleList.first;
@@ -177,8 +193,8 @@ function canvasApp() {
             var lastY = p.y;
 
             //random accleration
-            p.velX += (1-2*Math.random())*randAccel;
-            p.velY += (1-2*Math.random())*randAccel;
+            p.velX += (1 - 2 * Math.random()) * randAccel;
+            p.velY += (1 - 2 * Math.random()) * randAccel;
 
             //don't let velocity get too large
             if (p.velX > maxVelComp) {
@@ -198,16 +214,16 @@ function canvasApp() {
             p.y += p.velY;
 
             //boundary
-            if (p.x > displayWidth-p.rad) {
-                p.x = displayWidth-p.rad;
+            if (p.x > displayWidth - p.rad) {
+                p.x = displayWidth - p.rad;
                 p.velX *= -1;
             }
             if (p.x < p.rad) {
                 p.x = p.rad;
                 p.velX *= -1;
             }
-            if (p.y > displayHeight-p.rad) {
-                p.y = displayHeight-p.rad;
+            if (p.y > displayHeight - p.rad) {
+                p.y = displayHeight - p.rad;
                 p.velY *= -1;
             }
             if (p.y < p.rad) {
@@ -217,15 +233,20 @@ function canvasApp() {
 
             context.fillStyle = p.color;
             context.beginPath();
-            context.arc(p.x, p.y, p.rad, 0, 2*Math.PI, false);
-            console.log(p.x + "x" + " " + p.y + "y");
+            context.arc(p.x, p.y, p.rad, 0, 2 * Math.PI, false);
             context.closePath();
             context.fill();
+            px = p.x;
+            py = p.y;
+
+
+
 
             //advance
             p = p.next;
         }
     }
+
+
+
 }
-
-
