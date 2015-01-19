@@ -92,17 +92,26 @@ function doTouchStart(eve) {
     eve.preventDefault();
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
+    alert("bin drin");
+
     hitPowerUp(px, py,concan_x,concan_y);
 }
 
 function hitPowerUp(px,py,concan_x,concan_y) {
+    px = Math.ceil(px);
+    py = Math.ceil(py);
+    concan_x = Math.ceil(concan_x);
+    concan_y = Math.ceil(concan_y);
+
     alert(px + "x" + " " + py + "y");
     alert(concan_x + "coooncanx" + " " + concan_y + "cooooncany");
 
-    if (con_canvas.x === p.x && con_canvas.y === p.y) {
-        alert("getroffen");
+    if(px>=concan_x <=px+2 && py>=concan_y <=py+2  ){
 
+        alert("getroffen");
     }
+    //if (con_canvas.x === px && con_canvas.y === py) {
+    //}
 }
 
 function canvasApp() {
