@@ -68,5 +68,25 @@ function portrait_primary(ev) {
 
 }
 
+window.onload = function(){
+    initialise()
+};
+
+function initialise(){
+    var canvas = document.getElementById("con_canvas");
+    canvas.width = window.screen.availWidth;
+    canvas.height = window.screen.availHeight;
+    canvas.addEventListener("touchstart",doTouchStart,false);
+}
+
+function doTouchStart(eve){
+
+    eve.preventDefault();
+    var concan_x = event.targetTouches[0].pageX;
+    var concan_y = event.targetTouches[0].pageY;
+    alert(concan_x + "x" + concan_y+ "y");
+}
+
+
 //Eventlistner wenn man das Gerät bewegt.
 window.addEventListener('devicemotion', sendMotion, false);
