@@ -76,8 +76,9 @@ window.onload = function(){
 
 function initialise(){
     var canvas = document.getElementById("con_canvas");
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
     canvas.addEventListener("touchstart",doTouchStart,false);
-    bla(canvas);
 }
 
 function doTouchStart(eve){
@@ -85,17 +86,6 @@ function doTouchStart(eve){
     eve.preventDefault();
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
-   // alert(concan_x + "x" + concan_y+ "y");
-}
-
-function bla(con_canvas){
-    if(con_canvas.webkitRequestFullScreen){
-        con_canvas.webkitRequestFullScreen();
-    }else {
-        con_canvas.mozRequestFullScreen();
-    }
-
-    con_canvas.height = window.screen.availHeight;
-    con_canvas.width = window.screen.availWidth;
+   alert(concan_x + "x" + concan_y+ "y");
 }
 
