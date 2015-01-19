@@ -27,14 +27,16 @@ app.use('/users', users);
 app.use('/game', routes);
 app.use('/controller', routes);
 
+/* ******************************
+ *       ERROR FUNCTIONS        *
+ ****************************** */
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Nothing Found');
     err.status = 404;
     next(err);
 });
-
-// error handlers
 
 // development error handler
 // will print stacktrace
@@ -49,7 +51,7 @@ if (app.get('env') === 'development') {
 }
 
 // production error h´andler
-// no stacktraces leaked to user
+// no stacktraces leaked to User
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

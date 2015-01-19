@@ -1,6 +1,5 @@
 function moveIt(ev) {
     var orion = window.orientation;
-    console.log(orion, " asdas");
 
     if (orion === 90) {
         return landscape_primary(ev);
@@ -10,6 +9,8 @@ function moveIt(ev) {
 
     } else if (orion === 0) {
         return portrait_primary(ev);
+    } else  {
+        alert(orion);
     }
 }
 
