@@ -51,7 +51,7 @@ if (app.get('env') === 'development') {
 }
 
 // production error h´andler
-// no stacktraces leaked to User
+// no stacktraces leaked to UserClient
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

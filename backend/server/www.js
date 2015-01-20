@@ -2,7 +2,7 @@
 var debug = require('debug')('dmmw');
 var app = require('../app');
 // Unser Spieleaufbau
-var dmmwAction = require('./socketActionsServer');
+var socketServerAction = require('./socketActionsServer');
 
 app.set('port', process.env.PORT || 8082);
 
@@ -12,8 +12,8 @@ var server = app.listen(app.get('port'), function () {
 
 var io = require('socket.io').listen(server);
 
-// jemand connectet zu unsere tollen Seite
+// jemand connectet zu unserer tollen Seite
 io.sockets.on('connection', function (socket) {
     //console.log('client connected');
-    dmmwAction.initGame(io, socket);
+    socketServerAction.initGame(io, socket);
 });

@@ -36,12 +36,12 @@ var GameSetups = {
      */
     bindEvents: function () {
         // Host
-        GameSetups.$doc.on('click', '#btnCreateGame', User.Host.onCreateClick);
+        GameSetups.$doc.on('click', '#btnCreateGame', UserClient.Host.onCreateClick);
 
         // Player
-        GameSetups.$doc.on('click', '#btnJoinGame', User.Player.onJoinClick);
-        GameSetups.$doc.on('click', '#btnStart', User.Player.onPlayerStartClick);
-        GameSetups.$doc.on('click', '#btnPlayerRestart', User.Player.onPlayerRestart);
+        GameSetups.$doc.on('click', '#btnJoinGame', UserClient.Player.onJoinClick);
+        GameSetups.$doc.on('click', '#btnStart', UserClient.Player.onPlayerStartClick);
+        GameSetups.$doc.on('click', '#btnPlayerRestart', UserClient.Player.onPlayerRestart);
     },
 
     /* *********************************** *
@@ -53,7 +53,7 @@ var GameSetups = {
      * (with Start and Join buttons)
      */
     showInitScreen: function () {
-        GameSetups.$gameArea.html(User.$templateIntroScreen);
+        GameSetups.$gameArea.html(UserClient.$templateIntroScreen);
         GameSetups.doTextFit('.title');
     },
 
