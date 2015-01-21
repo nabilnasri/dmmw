@@ -1,7 +1,8 @@
 var Brick = require("./brick");
 var Ball = require("./ball");
 var Paddle = require("./paddle");
-var winston = require('winston');
+var custom = require("../../helper/custom_functions");
+
 
 /*
 "Spielfeld-Klasse" - Hier werden die einzelnen Elemente(Ball, Paddle, Bricks) initialisiert.
@@ -99,7 +100,7 @@ exports.PlayingField.prototype.initPaddles = function () {
  */
 exports.PlayingField.prototype.initBalls = function () {
     var b = {};
-    b[0] = new Ball.Ball("#009a80", this.getPaddle(0).xCoor + 10, 500, "one");
+    b[0] = new Ball.Ball("#009a80", this.getPaddle(0).xCoor + 10, 300, "one");
     b[1] = new Ball.Ball("#fe5332", this.getPaddle(1).xCoor + 10, 200, "two");
 
     return b;
@@ -170,7 +171,6 @@ exports.PlayingField.prototype.simulateGame = function () {
 
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
-
 
 };
 

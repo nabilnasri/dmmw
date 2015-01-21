@@ -36,7 +36,6 @@ exports.Ball.prototype.checkHitBrick = function (canvas) {
         ||
         (!canvas.bricksAvailable() && this.getYCoor(canvas) == canvas.masterBrick.getYCoor() && this.getXCoor() == canvas.masterBrick.getXCoor())
     ){
-        winston.log("info", "GETROFFEN");
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
         var brickHitted = canvas.getBricks()[row][col];

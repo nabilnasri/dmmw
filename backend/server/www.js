@@ -18,6 +18,7 @@ var sio = io.listen(server);
 function playGame(){
     var gameInfo = {};
     game.Dmmw.getInstance().playingField.simulateGame();
+    game.Dmmw.getInstance().redraw(); //SHIFT ARRAY
     gameInfo["game"] = game.Dmmw.getInstance(); //Spiel ins dictionary packen
     sio.sockets.emit('gameInfo', {game: gameInfo["game"]}); //Spiel absenden
 }
@@ -30,7 +31,14 @@ sio.sockets.on('connection', function (socket) {
     // eingehende nachricht eines nutzers
     socket.on('motion', function (data) {
         // schickt an alle angemeldeten diese nachricht
-        sio.sockets.emit('motion', {text: data.text});
+        //VON WELCHEM USER KAM DIE NACHRICHT?
+        if(game.Dmmw.getInstance().playingField != null){
+            if(data.text == "right"){
+                game.Dmmw.getInstance().playingField.getPaddle(0).xCoor += 20;
+            }else if(data.text == "left"){
+                game.Dmmw.getInstance().playingField.getPaddle(0).xCoor -= 20;
+            }
+        }
     });
 
     //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
@@ -39,7 +47,7 @@ sio.sockets.on('connection', function (socket) {
         game.Dmmw.getInstance().init(); //Spiel initialisieren
         gameInfo["game"] = game.Dmmw.getInstance(); //Spiel ins dictionary packen
         sio.sockets.emit('gameInfo', {game: gameInfo["game"]}); //Spiel absenden
-        setInterval(playGame, 10*20);
+        setInterval(playGame, 25);
     });
 
 });

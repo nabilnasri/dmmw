@@ -59,6 +59,5 @@ function Game(){
         if(this.colorcounter % 60 == 0){
             this.colorpicker = customFunctions.shiftRight(this.colorpicker);
         }
-        draw(this.playingField, this.intervalId, this.colorpicker);
     };
 }

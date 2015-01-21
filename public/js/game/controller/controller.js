@@ -70,3 +70,25 @@ function portrait_primary(ev) {
 
 //Eventlistner wenn man das Gerät bewegt.
 window.addEventListener('devicemotion', sendMotion, false);
+
+
+function mouseMove(evt) {
+    /*
+    if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
+        playingField.getPaddle(0).xCoor = Math.max(evt.pageX - canvasMinX - (playingField.getPaddle(0).PaddleWidth / 2), 0);
+        playingField.getPaddle(1).xCoor = Math.max(evt.pageX - canvasMinX - (playingField.getPaddle(1).PaddleWidth / 2), 0);
+        playingField.getPaddle(0).xCoor = Math.min(playingField.FieldWidth - playingField.getPaddle(0).PaddleWidth, playingField.getPaddle(0).xCoor);
+        playingField.getPaddle(1).xCoor = Math.min(playingField.FieldWidth - playingField.getPaddle(1).PaddleWidth, playingField.getPaddle(0).xCoor);
+    }
+     */
+}
+
+function motionMove(direction) {
+    if (direction == "right") {
+        playingField.getPaddle(0).xCoor += 20;
+    } else if (direction == "left") {
+        playingField.getPaddle(0).xCoor -= 20;
+    }
+};
+
+$(document).mousemove(mouseMove);
