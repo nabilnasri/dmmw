@@ -27,34 +27,23 @@ function rect(ctx, x, y, w, h, color) {
 /*
  Funktion zeichnet Bricks ins Feld.
  */
-function drawBricks(canvas, colorpicker) {
+function drawBricks() {
+    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
+    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
     var i, j;
-    for (i = 0; i < canvas.getRows(); i++) {
-        canvas.getContext().lineWidth = 2;
-        for (j = 0; j < canvas.getCols(); j++) {
-            if (canvas.bricks[i][j] instanceof Brick) {
-                var current_brick = canvas.bricks[i][j];
-
+    for (i = 0; i < playingField.nRows; i++) {
+        canvas.Context().lineWidth = 2;
+        for (j = 0; j < playingField.nCols; j++) {
+            if (playingField.bricks[i][j] != 0) {
+                var current_brick = playingField.bricks[i][j];
                 current_brick.currentColor = colorpicker[j];
-
-                var xCoor = j * (current_brick.getWidth() + current_brick.getPadding());
-                var offset = (canvas.getFieldHeight() - (canvas.getRows() * (current_brick.getHeight() + current_brick.getPadding()))) / 2;
-                var yCoor = offset + i * (current_brick.getHeight() + current_brick.getPadding());
-                if(i===0){
-                    yCoor = offset;
-                }
-                if(j===0){
-                    xCoor = j * current_brick.getWidth();
-                }
-                current_brick.xCoor = xCoor;
-                current_brick.yCoor = yCoor;
                 rect(
-                    canvas.getContext(),
-                    xCoor,
-                    yCoor,
-                    current_brick.getWidth(),
-                    current_brick.getHeight(),
-                    current_brick.getCurrentColor()
+                    canvas.Context(),
+                    current_brick.xCoor * scaleX,
+                    current_brick.yCoor * scaleY,
+                    current_brick.brickWidth,
+                    current_brick.brickHeight,
+                    current_brick.currentColor
                 );
             }
         }
@@ -62,10 +51,12 @@ function drawBricks(canvas, colorpicker) {
 }
 
 function drawPaddle(ctx, yCoor, player_paddle) {
+    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
+    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
     rect(
         ctx,
-        player_paddle.xCoor,
-        yCoor,
+        player_paddle.xCoor * scaleX,
+        yCoor * scaleY,
         player_paddle.PaddleWidth,
         player_paddle.PaddleHeight,
         player_paddle.PaddleColor
@@ -73,79 +64,113 @@ function drawPaddle(ctx, yCoor, player_paddle) {
 }
 
 function drawBall(ctx, player_ball) {
+
+    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
+    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
     circle(
         ctx,
-        player_ball.xCoor,
-        player_ball.yCoor,
-        player_ball.getRadius(),
-        player_ball.getColor()
+        player_ball.xCoor * scaleX,
+        player_ball.yCoor * scaleY,
+        player_ball.radius,
+        player_ball.color
     );
 }
 
 /*
 Wie soll das Spielfeld aussehen?
  */
-function setCanvasStyle(canvas){
-    canvas.getContext().font = "80pt Impact";
-    canvas.getContext().textAlign = "center";
-    canvas.getContext().fillStyle = canvas.color;
-    canvas.getContext().strokeStyle = canvas.color;
-    canvas.getContext().lineWidth = 1;
+function setCanvasStyle(){
+    canvas.Context().font = "80pt Impact";
+    canvas.Context().textAlign = "center";
+    canvas.Context().fillStyle = playingField.color;
+    canvas.Context().lineWidth = 1;
 }
 
 /*
  Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
  */
-function clear(canvas) {
-    canvas.getContext().clearRect(0, 0, canvas.FieldWidth, canvas.FieldHeight);
-    rect(canvas.getContext(), 0, 0, canvas.FieldWidth, canvas.FieldHeight, canvas.color);
+function clear() {
+    canvas.Context().clearRect(0, 0, canvas.FieldWidth(), canvas.FieldHeight());
+    rect(canvas.Context(), 0, 0, canvas.FieldWidth(), canvas.FieldHeight(), canvas.color);
 }
 
-function draw(canvas, intervalId, colorpicker) {
+
+var canvasInit = function(){
+    this.ele = document.getElementById("playground");
+
+    this.Context = function(){
+        return this.ele.getContext("2d");
+    };
+
+    this.FieldWidth = function(){
+        return document.getElementsByTagName('canvas')[0].width;
+    };
+
+    this.FieldHeight = function(){
+        return document.getElementsByTagName('canvas')[0].height;
+    }
+};
+
+/*
+Nötige Variablen, die vom Server kommen
+ */
+///START
+
+var balls;
+var paddles;
+var bricks;
+var colorpicker;
+var playingField;
+var canvas = new canvasInit();
+
+////ENDE
+
+function draw() {
     /*
     Um nicht immer die Variablen "auszuschreiben".
      */
-    var ctx = canvas.getContext();
+    var ctx = canvas.Context();
 
-    var player_one_ball = canvas.getBall(0);
-    var player_one_paddle = canvas.getPaddle(0);
+    var player_one_ball = balls[0];
+    var player_one_paddle = paddles[0];
 
-    var player_two_ball = canvas.getBall(1);
-    var player_two_paddle = canvas.getPaddle(1);
+    var player_two_ball = balls[1];
+    var player_two_paddle = paddles[1];
 
     /*
     Canvas stylen.
      */
-    setCanvasStyle(canvas);
-    clear(canvas);
-
+    setCanvasStyle();
+    clear();
     //Zeichne alle "statischen" Sachen
-    drawPaddle(ctx, canvas.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
+    drawPaddle(ctx, playingField.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
     drawPaddle(ctx, 0, player_two_paddle);
     drawBall(ctx, player_one_ball);
     drawBall(ctx, player_two_ball);
-    drawBricks(canvas, colorpicker);
+    drawBricks();
 
     /*
     Geht nicht.
      */
-    player_two_paddle.checkRightDown();
-    player_two_paddle.checkLeftDown();
+    //player_two_paddle.checkRightDown();
+    //player_two_paddle.checkLeftDown();
 
 
     /*
     Hier wird überprüft, ob noch Bricks vorhanden sind.
     Falls nicht, wird der MasterBrick gezeichnet.
      */
-    var bricks_available = canvas.bricksAvailable();
-    if(!bricks_available){
-        animate(canvas);
-    }
+    //var bricks_available = canvas.bricksAvailable();
+    //if(!bricks_available){
+    //    animate(canvas);
+    //}
 
     /*
     Alle möglichen Fälle, wohin der Ball dotzt werden hier überprüft.
     Die Logik dafür befindet sich in der Ball-Klasse
      */
+
+    /*
     player_one_ball.checkHitBrick(canvas);
     player_one_ball.checkHitRightBorder(canvas);
     player_one_ball.checkHitLeftBorder(canvas);
@@ -161,16 +186,16 @@ function draw(canvas, intervalId, colorpicker) {
     player_two_ball.checkHitBottomBorder(canvas);
     player_two_ball.checkOutside(canvas, intervalId, 2);
     player_two_ball.checkHitPaddle(canvas, player_two_paddle, 2);
-
+    */
 
     /*
     Bewegung der Bälle
      */
-    player_one_ball.xCoor += player_one_ball.dx;
-    player_one_ball.yCoor += player_one_ball.dy;
+    //player_one_ball.xCoor += player_one_ball.dx;
+    //player_one_ball.yCoor += player_one_ball.dy;
 
-    player_two_ball.xCoor += player_two_ball.dx;
-    player_two_ball.yCoor += player_two_ball.dy;
+    //player_two_ball.xCoor += player_two_ball.dx;
+    //player_two_ball.yCoor += player_two_ball.dy;
 }
 
 
@@ -178,7 +203,7 @@ function draw(canvas, intervalId, colorpicker) {
 /*
 Animation des MasterBricks
  */
-function animate(canvas) {
+function animate() {
     var time = (new Date()).getTime();
     var amplitude = 150;
     var masterBrick = canvas.masterBrick;
@@ -191,7 +216,7 @@ function animate(canvas) {
 
     //Hier wird der Brick gezeichnet.
     rect(
-        canvas.getContext(),
+        canvas.Context(),
         masterBrick.getXCoor(),
         canvas.getFieldHeight()/2,
         masterBrick.getWidth(),

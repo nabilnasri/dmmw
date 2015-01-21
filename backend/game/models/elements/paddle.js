@@ -1,7 +1,7 @@
 /*
 "Paddle-Klasse" - Logik für die Bewegung der Paddles
  */
-function Paddle(x, color) {
+exports.Paddle = function Paddle(x, color) {
     this.PaddleWidth = 100;
     this.PaddleHeight = 10;
     this.xCoor = x;
@@ -9,12 +9,12 @@ function Paddle(x, color) {
 
     this.rightDown = false;
     this.leftDown = false;
-}
+};
 
 /*
 Tastatur Pfeil Rechts
  */
-Paddle.prototype.checkRightDown = function () {
+exports.Paddle.prototype.checkRightDown = function () {
     if (this.rightDown) {
         this.xCoor += 10;
     }
@@ -22,7 +22,7 @@ Paddle.prototype.checkRightDown = function () {
 /*
  Tastatur Pfeil Links
  */
-Paddle.prototype.checkLeftDown = function () {
+exports.Paddle.prototype.checkLeftDown = function () {
     if (this.leftDown) {
         this.xCoor -= 10;
     }
@@ -32,7 +32,7 @@ Paddle.prototype.checkLeftDown = function () {
 /*
  Static Funktion (ohne prototype)
  */
-Paddle.onKeyUp = function (evt) {
+exports.Paddle.onKeyUp = function (evt) {
     if (evt.keyCode === 39) {
         this.rightDown = false;
     } else if (evt.keyCode === 37) {
@@ -43,7 +43,7 @@ Paddle.onKeyUp = function (evt) {
 /*
  Static Funktion (ohne prototype)
  */
-Paddle.onKeyDown = function (evt) {
+exports.Paddle.onKeyDown = function (evt) {
     if (evt.keyCode === 39) {
         this.rightDown = true;
     } else if (evt.keyCode === 37) {

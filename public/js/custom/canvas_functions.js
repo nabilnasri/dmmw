@@ -30,7 +30,8 @@ function setPlayerOneHeight(){
 
 function onKeyUp(evt) {
     if (evt.keyCode === 32) {
-        Dmmw.getInstance().init();
+        sendReady();
+        draw();
     }
 }
 

@@ -1,7 +1,7 @@
 /*
 "Ball-Klasse" - Hier wird die Bewegung festgelegt. Und die Logik, wo auch immer der Ball hin dotzt.
  */
-function Ball(color, xCoor, yCoor, player) {
+exports.Ball = function Ball(color, xCoor, yCoor, player) {
     this.radius = 7;
     this.ballColor = color;
     this.xCoor = xCoor;
@@ -12,14 +12,13 @@ function Ball(color, xCoor, yCoor, player) {
     //MUSS WEG
     this.player = player;
     this.score = 0;
-}
+};
+var winston = require('winston');
 
 /*
  BALL LOGIC --START--
  */
-
-
-Ball.prototype.checkHitBrick = function (canvas) {
+exports.Ball.prototype.checkHitBrick = function (canvas) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
@@ -32,20 +31,24 @@ Ball.prototype.checkHitBrick = function (canvas) {
         && this.getYCoor(canvas) <= wallHeight
         && row >= 0
         && col >= 0
-        && canvas.getBricks()[row][col] instanceof Brick
+        && canvas.getBricks()[row][col] != 0
         )
         ||
         (!canvas.bricksAvailable() && this.getYCoor(canvas) == canvas.masterBrick.getYCoor() && this.getXCoor() == canvas.masterBrick.getXCoor())
     ){
+        winston.log("info", "GETROFFEN");
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
         var brickHitted = canvas.getBricks()[row][col];
         canvas.countDestroyedBricks+=1;
-        fadingOut(canvas.getContext(), brickHitted); //fade out Brick
+        //fadingOut(canvas.getContext(), brickHitted); //fade out Brick
         canvas.getBricks()[row][col] = 0; //destroy Brick
 
         //Ab hier muss anders gelöst werden!!
         this.score+=points;
+        /*
+
+
         if (this.player === "one") {
             document.getElementById("score-one").innerHTML = String(this.score);
             $("#score-add-one").text("+"+points);
@@ -63,35 +66,36 @@ Ball.prototype.checkHitBrick = function (canvas) {
                 $('#score-add-two').hide();
             }, 1000);
         }
+         */
     }
 
 };
 
-Ball.prototype.checkHitRightBorder = function (canvas) {
+exports.Ball.prototype.checkHitRightBorder = function (canvas) {
     if (this.xCoor + this.dx + this.getRadius() > canvas.FieldWidth) {
         this.dx = -this.dx;
     }
 };
 
-Ball.prototype.checkHitLeftBorder = function () {
+exports.Ball.prototype.checkHitLeftBorder = function () {
     if (this.xCoor + this.dx - this.getRadius() < 0) {
         this.dx = -this.dx;
     }
 };
 
-Ball.prototype.checkHitTopBorder = function () {
+exports.Ball.prototype.checkHitTopBorder = function () {
     if (this.yCoor + this.dy - this.getRadius() < 0) {
         this.dy = -this.dy;
     }
 };
 
-Ball.prototype.checkHitBottomBorder = function (canvas) {
+exports.Ball.prototype.checkHitBottomBorder = function (canvas) {
     if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
         this.dy = -this.dy;
     }
 };
 
-Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
+exports.Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
     if(player===1){
         if(this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight - player_paddle.PaddleHeight){
             this.afterHittingPaddle(player_paddle);
@@ -103,7 +107,7 @@ Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
     }
 };
 
-Ball.prototype.afterHittingPaddle = function(player_paddle){
+exports.Ball.prototype.afterHittingPaddle = function(player_paddle){
     if (this.xCoor > player_paddle.xCoor && this.xCoor < player_paddle.xCoor + player_paddle.PaddleWidth) {
         //BALL trifft PADDLE
         this.dx = 8 * ((this.xCoor - (player_paddle.xCoor + player_paddle.PaddleWidth / 2)) / player_paddle.PaddleWidth);
@@ -111,20 +115,20 @@ Ball.prototype.afterHittingPaddle = function(player_paddle){
     }
 };
 
-Ball.prototype.checkOutside = function (canvas, intervalId, player) {
+exports.Ball.prototype.checkOutside = function (canvas, player) {
     if(player===1){
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
             //BALL IST DRAUßEn / UNTERER RAND
-            window.clearInterval(intervalId);
-            canvas.getContext().fillStyle = "#ddd";
-            canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+            //window.clearInterval(intervalId);
+           // canvas.getContext().fillStyle = "#ddd";
+           // canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
         }
     }else{
         if (this.yCoor + this.dy - this.getRadius() < 0) {
             //BALL IST DRAUßEn / OBERER RAND
-            window.clearInterval(intervalId);
-            canvas.getContext().fillStyle = "#ddd";
-            canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+            //window.clearInterval(intervalId);
+            //canvas.getContext().fillStyle = "#ddd";
+            //canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
         }
     }
 };
@@ -133,14 +137,14 @@ Ball.prototype.checkOutside = function (canvas, intervalId, player) {
  */
 
 
-Ball.prototype.getYCoor = function (canvas) {
+exports.Ball.prototype.getYCoor = function (canvas) {
     return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight()*canvas.getRows()) / 2));
 };
 
-Ball.prototype.getRadius = function () {
+exports.Ball.prototype.getRadius = function () {
     return this.radius;
 };
 
-Ball.prototype.getColor = function () {
+exports.Ball.prototype.getColor = function () {
     return this.ballColor;
 };
