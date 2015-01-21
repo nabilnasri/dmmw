@@ -144,13 +144,21 @@ exports.PlayingField.prototype.getColWidth = function () {
 };
 
 
-exports.PlayingField.prototype.simulateGame = function () {
+var game = require('../../game');
+exports.PlayingField.prototype.simulateGame = function (sio) {
     var player_one_ball = this.getBall(0);
     var player_one_paddle = this.getPaddle(0);
 
     var player_two_ball = this.getBall(1);
     var player_two_paddle = this.getPaddle(1);
-    player_one_ball.checkHitBrick(this);
+
+    player_one_paddle.checkRightDown();
+    player_one_paddle.checkLeftDown();
+
+    player_two_paddle.checkRightDown();
+    player_two_paddle.checkLeftDown();
+
+    player_one_ball.checkHitBrick(this, sio);
     player_one_ball.checkHitRightBorder(this);
     player_one_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
@@ -158,7 +166,7 @@ exports.PlayingField.prototype.simulateGame = function () {
     player_one_ball.checkOutside(this, 1);
     player_one_ball.checkHitPaddle(this, player_one_paddle, 1);
     ////////////////////////////////////////////////////////////////////////
-    player_two_ball.checkHitBrick(this);
+    player_two_ball.checkHitBrick(this, sio);
     player_two_ball.checkHitRightBorder(this);
     player_two_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
@@ -171,6 +179,12 @@ exports.PlayingField.prototype.simulateGame = function () {
 
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
+    var gameInfo = {};
+    gameInfo["balls"] = game.Dmmw.getInstance().playingField.balls;
+    sio.sockets.emit('gameBalls', {balls: gameInfo["balls"]}); //Spiel absenden
+    gameInfo["colorpicker"] = game.Dmmw.getInstance().colorpicker;
+    sio.sockets.emit('gameColorPicker', {colorpicker: gameInfo["colorpicker"]}); //Spiel absenden
+
 
 };
 

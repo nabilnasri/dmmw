@@ -18,7 +18,7 @@
                         <span id="name">JOENDHARD</span>
                         <span id="score-one">0</span>
                     </div>
-                    <div class="col-md-6" id="playground-container">
+                    <div class="col-md-6 playground-container" id="playground-container">
                         <canvas id="playground"></canvas>
                     </div>
                     <div class="col-md-3 player text-center" id="player-two">
@@ -35,6 +35,7 @@
             <% include main/footer.ejs %>
             <% include main/global_js_scripts.ejs %>
             <div id="content-scripts">
+                <script src="../js/game/game_info.js"></script>
                 <script src="../js/game/drawing/draw_functions.js"></script>
                 <script src="../js/custom/canvas_functions.js"></script>
                 <script src="../js/communication/client_communication.js"></script>

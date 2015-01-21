@@ -11,43 +11,30 @@ exports.Paddle = function Paddle(x, color) {
     this.leftDown = false;
 };
 
+var winston = require("winston");
+
 /*
 Tastatur Pfeil Rechts
  */
 exports.Paddle.prototype.checkRightDown = function () {
     if (this.rightDown) {
-        this.xCoor += 10;
+        var move = 10;
+        if(this.xCoor + 10 > 500 - this.PaddleWidth + 10){
+            move = 500 - this.PaddleWidth + 10 - this.xCoor;
+        }
+        this.xCoor += move;
     }
 };
 /*
  Tastatur Pfeil Links
  */
 exports.Paddle.prototype.checkLeftDown = function () {
+    var move = 10;
     if (this.leftDown) {
-        this.xCoor -= 10;
-    }
-};
-
-
-/*
- Static Funktion (ohne prototype)
- */
-exports.Paddle.onKeyUp = function (evt) {
-    if (evt.keyCode === 39) {
-        this.rightDown = false;
-    } else if (evt.keyCode === 37) {
-        this.leftDown = false;
-    }
-};
-
-/*
- Static Funktion (ohne prototype)
- */
-exports.Paddle.onKeyDown = function (evt) {
-    if (evt.keyCode === 39) {
-        this.rightDown = true;
-    } else if (evt.keyCode === 37) {
-        this.leftDown = true;
+        if(this.xCoor - 10 < 0){
+            move = this.xCoor;
+        }
+        this.xCoor -= move;
     }
 };
 

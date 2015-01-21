@@ -31,7 +31,6 @@ function setPlayerOneHeight(){
 function onKeyUp(evt) {
     if (evt.keyCode === 32) {
         sendReady();
-        draw();
     }
 }
 

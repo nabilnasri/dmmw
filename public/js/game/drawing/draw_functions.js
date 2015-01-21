@@ -1,46 +1,52 @@
+function Drawing(gameInfo){
+    this.canvas = new CanvasInit();
+    this.gameInfo = gameInfo; //WIRD gesettet bei client Comm
+    this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
+    this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+}
+
+
 /*
  Funktion zeichnet einen Kreis.
  Benötigt als erstes Attribut einen Context, um
  darin zeichnen zu können.
  */
-function circle(ctx, x, y, r, color) {
+Drawing.prototype.circle = function(ctx, x, y, r, color) {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.arc(x, y, r, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
-}
+};
 
 /*
  Funktion zeichnet ein Rechteck.
  Wird verwendet für Bricks, Paddle.
  Benötigt einen Context, um da rein zeichnen zu können.
  */
-function rect(ctx, x, y, w, h, color) {
+Drawing.prototype.rect = function(ctx, x, y, w, h, color) {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.rect(x, y, w, h);
     ctx.closePath();
     ctx.fill();
-}
+};
 
 /*
  Funktion zeichnet Bricks ins Feld.
  */
-function drawBricks() {
-    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
-    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
+Drawing.prototype.drawBricks = function() {
     var i, j;
-    for (i = 0; i < playingField.nRows; i++) {
-        canvas.Context().lineWidth = 2;
-        for (j = 0; j < playingField.nCols; j++) {
-            if (playingField.bricks[i][j] != 0) {
-                var current_brick = playingField.bricks[i][j];
-                current_brick.currentColor = colorpicker[j];
-                rect(
-                    canvas.Context(),
-                    current_brick.xCoor * scaleX,
-                    current_brick.yCoor * scaleY,
+    for (i = 0; i < this.gameInfo.playingField.nRows; i++) {
+        this.canvas.Context().lineWidth = 2;
+        for (j = 0; j < this.gameInfo.playingField.nCols; j++) {
+            if (this.gameInfo.playingField.bricks[i][j] != 0) {
+                var current_brick = this.gameInfo.playingField.bricks[i][j];
+                current_brick.currentColor = this.gameInfo.colorpicker[j];
+                this.rect(
+                    this.canvas.Context(),
+                    current_brick.xCoor * this.scaleX,
+                    current_brick.yCoor * this.scaleY,
                     current_brick.brickWidth,
                     current_brick.brickHeight,
                     current_brick.currentColor
@@ -48,106 +54,70 @@ function drawBricks() {
             }
         }
     }
-}
+};
 
-function drawPaddle(ctx, yCoor, player_paddle) {
-    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
-    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
-    rect(
+Drawing.prototype.drawPaddle = function(ctx, yCoor, player_paddle) {
+    this.rect(
         ctx,
-        player_paddle.xCoor * scaleX,
-        yCoor * scaleY,
+        player_paddle.xCoor * this.scaleX,
+        yCoor * this.scaleY,
         player_paddle.PaddleWidth,
         player_paddle.PaddleHeight,
         player_paddle.PaddleColor
     );
-}
+};
 
-function drawBall(ctx, player_ball) {
-
-    var scaleX = canvas.FieldWidth() / playingField.FieldWidth;
-    var scaleY = canvas.FieldHeight() / playingField.FieldHeight;
-    circle(
+Drawing.prototype.drawBall = function(ctx, player_ball) {
+    this.circle(
         ctx,
-        player_ball.xCoor * scaleX,
-        player_ball.yCoor * scaleY,
+        player_ball.xCoor * this.scaleX,
+        player_ball.yCoor * this.scaleY,
         player_ball.radius,
-        player_ball.color
+        player_ball.ballColor
     );
-}
+};
 
 /*
 Wie soll das Spielfeld aussehen?
  */
-function setCanvasStyle(){
-    canvas.Context().font = "80pt Impact";
-    canvas.Context().textAlign = "center";
-    canvas.Context().fillStyle = playingField.color;
-    canvas.Context().lineWidth = 1;
-}
+Drawing.prototype.setCanvasStyle = function(){
+    this.canvas.Context().font = "80pt Impact";
+    this.canvas.Context().textAlign = "center";
+    this.canvas.Context().lineWidth = 1;
+};
 
 /*
  Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
  */
-function clear() {
-    canvas.Context().clearRect(0, 0, canvas.FieldWidth(), canvas.FieldHeight());
-    rect(canvas.Context(), 0, 0, canvas.FieldWidth(), canvas.FieldHeight(), canvas.color);
-}
-
-
-var canvasInit = function(){
-    this.ele = document.getElementById("playground");
-
-    this.Context = function(){
-        return this.ele.getContext("2d");
-    };
-
-    this.FieldWidth = function(){
-        return document.getElementsByTagName('canvas')[0].width;
-    };
-
-    this.FieldHeight = function(){
-        return document.getElementsByTagName('canvas')[0].height;
-    }
+Drawing.prototype.clear = function() {
+    this.canvas.Context().clearRect(0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight());
+    this.rect(this.canvas.Context(), 0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight(), "rgba(0,0,0,0.7");
 };
 
-/*
-Nötige Variablen, die vom Server kommen
- */
-///START
-
-var balls;
-var paddles;
-var bricks;
-var colorpicker;
-var playingField;
-var canvas = new canvasInit();
-
-////ENDE
-
-function draw() {
+Drawing.prototype.draw = function() {
     /*
     Um nicht immer die Variablen "auszuschreiben".
      */
-    var ctx = canvas.Context();
+    var ctx = this.canvas.Context();
 
-    var player_one_ball = balls[0];
-    var player_one_paddle = paddles[0];
+    var player_one_ball = this.gameInfo.balls[0];
+    var player_one_paddle = this.gameInfo.paddles[0];
 
-    var player_two_ball = balls[1];
-    var player_two_paddle = paddles[1];
+    var player_two_ball = this.gameInfo.balls[1];
+    var player_two_paddle = this.gameInfo.paddles[1];
+
 
     /*
     Canvas stylen.
      */
-    setCanvasStyle();
-    clear();
+    this.setCanvasStyle();
+    this.clear();
     //Zeichne alle "statischen" Sachen
-    drawPaddle(ctx, playingField.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
-    drawPaddle(ctx, 0, player_two_paddle);
-    drawBall(ctx, player_one_ball);
-    drawBall(ctx, player_two_ball);
-    drawBricks();
+    this.drawPaddle(ctx, this.gameInfo.playingField.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
+    this.drawPaddle(ctx, 0, player_two_paddle);
+    this.drawBall(ctx, player_one_ball);
+    this.drawBall(ctx, player_two_ball);
+    this.drawBricks();
 
     /*
     Geht nicht.
@@ -165,70 +135,39 @@ function draw() {
     //    animate(canvas);
     //}
 
-    /*
-    Alle möglichen Fälle, wohin der Ball dotzt werden hier überprüft.
-    Die Logik dafür befindet sich in der Ball-Klasse
-     */
-
-    /*
-    player_one_ball.checkHitBrick(canvas);
-    player_one_ball.checkHitRightBorder(canvas);
-    player_one_ball.checkHitLeftBorder(canvas);
-    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
-    player_one_ball.checkHitTopBorder();
-    player_one_ball.checkOutside(canvas, intervalId, 1);
-    player_one_ball.checkHitPaddle(canvas, player_one_paddle, 1);
-    ////////////////////////////////////////////////////////////////////////
-    player_two_ball.checkHitBrick(canvas);
-    player_two_ball.checkHitRightBorder(canvas);
-    player_two_ball.checkHitLeftBorder(canvas);
-    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
-    player_two_ball.checkHitBottomBorder(canvas);
-    player_two_ball.checkOutside(canvas, intervalId, 2);
-    player_two_ball.checkHitPaddle(canvas, player_two_paddle, 2);
-    */
-
-    /*
-    Bewegung der Bälle
-     */
-    //player_one_ball.xCoor += player_one_ball.dx;
-    //player_one_ball.yCoor += player_one_ball.dy;
-
-    //player_two_ball.xCoor += player_two_ball.dx;
-    //player_two_ball.yCoor += player_two_ball.dy;
-}
+};
 
 
 
 /*
 Animation des MasterBricks
  */
-function animate() {
+Drawing.prototype.animate = function() {
     var time = (new Date()).getTime();
     var amplitude = 150;
-    var masterBrick = canvas.masterBrick;
+    var masterBrick = this.canvas.masterBrick;
 
     var period = 2000;  //Millisekunden
-    var centerX = canvas.getFieldWidth() / 2 - masterBrick.getWidth() / 2;
+    var centerX = this.canvas.getFieldWidth() / 2 - masterBrick.getWidth() / 2;
     //Einfache Sinus-Funktion
     var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
     masterBrick.xCoor = nextX;
 
     //Hier wird der Brick gezeichnet.
-    rect(
-        canvas.Context(),
+    this.rect(
+        this.canvas.Context(),
         masterBrick.getXCoor(),
-        canvas.getFieldHeight()/2,
+        this.canvas.getFieldHeight()/2,
         masterBrick.getWidth(),
         masterBrick.getHeight(),
         "#4183D7"
     );
-}
+};
 
 /*
 Wenn Bricks getroffen werden, werden die "ausgefadet"
  */
-function fadingOut(ctx,brick){
+Drawing.prototype.fadingOut = function(ctx,brick){
     var xCorr = brick.getXCoor();
     var yCorr = brick.getYCoor();
     var width = brick.getWidth();
@@ -254,4 +193,23 @@ function fadingOut(ctx,brick){
             clearInterval(interval);
         }
     }, 20);
+};
+
+
+
+
+function CanvasInit(){
+    this.ele = document.getElementById("playground");
+
+    this.Context = function(){
+        return this.ele.getContext("2d");
+    };
+
+    this.FieldWidth = function(){
+        return document.getElementsByTagName('canvas')[0].width;
+    };
+
+    this.FieldHeight = function(){
+        return document.getElementsByTagName('canvas')[0].height;
+    }
 }

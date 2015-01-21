@@ -11,15 +11,23 @@ socket.on('motion', function (data) {
 
 
 
+function sendReady(){
+    socket.emit("gameData");
+}
+
+function sendKeyMove(direction){
+    socket.emit("keyMove", {direction: direction});
+}
+function sendKeyRelease(direction){
+    socket.emit("keyRelease", {direction: direction});
+}
+
 //Anfrage die vom Client zum Server geschickt wird
 function sendMotion(ev) {
     // Socket senden
     socket.emit('motion', {text: moveIt(ev)});
 }
 
-function sendReady(){
-    socket.emit("gameData");
-}
 
 /*
 GAME REQUESTS
@@ -28,15 +36,43 @@ socket.on('connect', function() {
     //socket.emit("gameData");
 });
 
+var drawing = null;
 socket.on('gameInfo', function (data) {
-    //console.log(data["game"]["playingField"]["balls"]);
-    playingField = data["game"]["playingField"];
-    balls = data["game"]["playingField"]["balls"];
-    paddles = data["game"]["playingField"]["paddles"];
-    bricks = data["game"]["playingField"]["bricks"];
-    colorpicker = data["game"]["colorpicker"];
-    draw();
+    var gameInfo = GameInfo.getInstance();
+    gameInfo.playingField = data["game"]["playingField"];
+    gameInfo.balls = data["game"]["playingField"]["balls"];
+    gameInfo.paddles = data["game"]["playingField"]["paddles"];
+    gameInfo.bricks = data["game"]["playingField"]["bricks"];
+    gameInfo.colorpicker = data["game"]["colorpicker"];
+    if(drawing == null){
+        drawing = new Drawing(gameInfo);
+    }
+    drawing.draw();
 });
+
+socket.on('gameBalls', function(data){
+    var gameInfo = GameInfo.getInstance();
+    gameInfo.balls = data["balls"];
+    drawing.draw();
+});
+
+socket.on('gameBricks', function(data){
+    var gameInfo = GameInfo.getInstance();
+    gameInfo.bricks[data["row"]][data["col"]] = 0;
+});
+
+socket.on('gameColorPicker', function(data){
+    var gameInfo = GameInfo.getInstance();
+    gameInfo.colorpicker = data["colorpicker"];
+});
+
+socket.on('gamePaddles', function(data){
+    var gameInfo = GameInfo.getInstance();
+    gameInfo.paddles = data["paddles"];
+    drawing.draw();
+});
+
+
 /*
 END GAME REQUESTS
  */

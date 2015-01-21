@@ -1,17 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
+var deviceDetector = require('device-detective');
+
+var winston = require('winston');
+
+
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('home', {title:"DMMW"});
+    res.render('home', {title:"DMMW"});
 });
 
 router.get('/game', function(req, res) {
-  res.render('canvas', {title:"DMMW"});
+    var device = deviceDetector.detect( req );
+    res.render('canvas', {title:"DMMW"});
 });
 
 router.get('/controller', function(req, res) {
-  res.render('controller', {title:"DMMW"});
+    res.render('controller', {title:"DMMW"});
 });
 
 

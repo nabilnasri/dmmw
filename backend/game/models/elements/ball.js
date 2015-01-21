@@ -18,7 +18,7 @@ var winston = require('winston');
 /*
  BALL LOGIC --START--
  */
-exports.Ball.prototype.checkHitBrick = function (canvas) {
+exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
@@ -42,7 +42,7 @@ exports.Ball.prototype.checkHitBrick = function (canvas) {
         canvas.countDestroyedBricks+=1;
         //fadingOut(canvas.getContext(), brickHitted); //fade out Brick
         canvas.getBricks()[row][col] = 0; //destroy Brick
-
+        sio.sockets.emit('gameBricks', {row: row, col:col}); //Spiel absenden
         //Ab hier muss anders gelöst werden!!
         this.score+=points;
         /*
@@ -118,7 +118,9 @@ exports.Ball.prototype.checkOutside = function (canvas, player) {
     if(player===1){
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
             //BALL IST DRAUßEn / UNTERER RAND
-            //window.clearInterval(intervalId);
+
+            this.xCoor = canvas.getPaddle(0).xCoor + 10;
+            this.yCoor = 300;
            // canvas.getContext().fillStyle = "#ddd";
            // canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
         }
@@ -126,6 +128,8 @@ exports.Ball.prototype.checkOutside = function (canvas, player) {
         if (this.yCoor + this.dy - this.getRadius() < 0) {
             //BALL IST DRAUßEn / OBERER RAND
             //window.clearInterval(intervalId);
+            this.xCoor = canvas.getPaddle(1).xCoor + 10;
+            this.yCoor = 200;
             //canvas.getContext().fillStyle = "#ddd";
             //canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
         }
