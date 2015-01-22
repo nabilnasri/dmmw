@@ -41,18 +41,6 @@ module.exports =
     possibleColors: function possibleColors(){
     //red/orange/yellow/green/blue
         return ["#F22613", "#D35400", "#F7CA18", "#00B16A", "#4183D7"];
-    },
-
-    /*
-     Konvertiert HexFarbe zu RGB
-     */
-    hexToRgb: function hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
     }
 
 };

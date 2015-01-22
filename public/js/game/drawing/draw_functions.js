@@ -1,10 +1,35 @@
-function Drawing(gameInfo){
+Draw = (function(){
+    var drawing;
+
+    function createInstance() {
+        drawing = new Drawing();
+        return drawing;
+    }
+
+    //Gibt die Instanz vom Spiel zurück
+    return {
+        getInstance: function () {
+            if (!drawing) {
+                drawing = createInstance();
+            }
+            return drawing;
+        }
+    };
+
+})();
+
+function Drawing(){
     this.canvas = new CanvasInit();
-    this.gameInfo = gameInfo; //WIRD gesettet bei client Comm
-    this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
-    this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+    this.gameInfo = GameInfo.getInstance(); //WIRD gesettet bei client Comm
+    this.scaleX = 0;
+    this.scaleY = 0;
 }
 
+
+Drawing.prototype.setScale = function(){
+    this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
+    this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+};
 
 /*
  Funktion zeichnet einen Kreis.
@@ -43,6 +68,8 @@ Drawing.prototype.drawBricks = function() {
             if (this.gameInfo.playingField.bricks[i][j] != 0) {
                 var current_brick = this.gameInfo.playingField.bricks[i][j];
                 current_brick.currentColor = this.gameInfo.colorpicker[j];
+                sendBrickColor(i, j, current_brick.currentColor);
+                //ToDO: Brickfarbe muss hochgeschickt werden
                 this.rect(
                     this.canvas.Context(),
                     current_brick.xCoor * this.scaleX,
@@ -167,12 +194,12 @@ Drawing.prototype.animate = function() {
 /*
 Wenn Bricks getroffen werden, werden die "ausgefadet"
  */
-Drawing.prototype.fadingOut = function(ctx,brick){
-    var xCorr = brick.getXCoor();
-    var yCorr = brick.getYCoor();
-    var width = brick.getWidth();
-    var height = brick.getHeight();
-    var rgb= hexToRgb(brick.getCurrentColor());
+Drawing.prototype.fadingOut = function(brick){
+    var xCorr = brick.xCoor * this.scaleX;
+    var yCorr = brick.yCoor * this.scaleY;
+    var width = brick.brickWidth;
+    var height = brick.brickHeight;
+    var rgb= hexToRgb(brick.currentColor);
 
     var r = rgb["r"];
     var g = rgb["g"];
@@ -183,6 +210,7 @@ Drawing.prototype.fadingOut = function(ctx,brick){
     var db = (255 - b);
 
     var i = 0;
+    var ctx = this.canvas.Context();
     var interval = setInterval(function() {
         ctx.fillStyle = 'rgb(' + Math.round(r + dr * i) + ','
         + Math.round(g + dg * i) + ','
@@ -195,6 +223,14 @@ Drawing.prototype.fadingOut = function(ctx,brick){
     }, 20);
 };
 
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
 
 
 

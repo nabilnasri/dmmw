@@ -2,7 +2,8 @@ var Brick = require("./brick");
 var Ball = require("./ball");
 var Paddle = require("./paddle");
 var custom = require("../../helper/custom_functions");
-
+var handler = require('../../../communication/socket_request_handler');
+var game = require('../../game');
 
 /*
 "Spielfeld-Klasse" - Hier werden die einzelnen Elemente(Ball, Paddle, Bricks) initialisiert.
@@ -100,8 +101,8 @@ exports.PlayingField.prototype.initPaddles = function () {
  */
 exports.PlayingField.prototype.initBalls = function () {
     var b = {};
-    b[0] = new Ball.Ball("#009a80", this.getPaddle(0).xCoor + 10, 300, "one");
-    b[1] = new Ball.Ball("#fe5332", this.getPaddle(1).xCoor + 10, 200, "two");
+    b[0] = new Ball.Ball("#009a80", this.getPaddle(0).xCoor + 50, 480, "one");
+    b[1] = new Ball.Ball("#fe5332", this.getPaddle(1).xCoor + 50, 20, "two");
 
     return b;
 };
@@ -144,7 +145,6 @@ exports.PlayingField.prototype.getColWidth = function () {
 };
 
 
-var game = require('../../game');
 exports.PlayingField.prototype.simulateGame = function (sio) {
     var player_one_ball = this.getBall(0);
     var player_one_paddle = this.getPaddle(0);
@@ -179,12 +179,8 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
 
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
-    var gameInfo = {};
-    gameInfo["balls"] = game.Dmmw.getInstance().playingField.balls;
-    sio.sockets.emit('gameBalls', {balls: gameInfo["balls"]}); //Spiel absenden
-    gameInfo["colorpicker"] = game.Dmmw.getInstance().colorpicker;
-    sio.sockets.emit('gameColorPicker', {colorpicker: gameInfo["colorpicker"]}); //Spiel absenden
 
-
+    handler.sendBalls(sio);
+    handler.sendColorpicker(sio);
 };
 

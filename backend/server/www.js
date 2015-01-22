@@ -13,7 +13,7 @@ var server = app.listen(app.get('port'), function () {
 
 var game = require('../game/game');
 var sio = io.listen(server);
-
+var handler = require('../communication/socket_request_handler');
 
 function playGame(){
     var gameInfo = {};
@@ -25,33 +25,19 @@ function playGame(){
 
 
 sio.sockets.on('connection', function (socket) {
-    // das an den client senden
-    socket.emit('motion', {text: 'Du bist nun mit dem Server verbunden!'});
-    // eingehende nachricht eines nutzers
     socket.on('motion', function (data) {
-        // schickt an alle angemeldeten diese nachricht
-        //VON WELCHEM USER KAM DIE NACHRICHT?
-        winston.log("info", " mootion");
         if(game.Dmmw.getInstance().playingField != null){
-            if(data.text == "right"){
-                game.Dmmw.getInstance().playingField.getPaddle(0).xCoor += 20;
-            }else if(data.text == "left"){
-                game.Dmmw.getInstance().playingField.getPaddle(0).xCoor -= 20;
-            }
-            var gameInfo = {};
-            gameInfo["paddles"] = game.Dmmw.getInstance().playingField.paddles;
-            sio.sockets.emit('gamePaddles', {paddles: gameInfo["paddles"]}); //Paddles absenden
+            game.Dmmw.getInstance().playingField.getPaddle(0).motionMove(data.text, sio)
         }
     });
 
     //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
     socket.on('gameData', function(){
-        var gameInfo = {};
         game.Dmmw.getInstance().init(); //Spiel initialisieren
-        gameInfo["game"] = game.Dmmw.getInstance(); //Spiel ins dictionary packen
-        sio.sockets.emit('gameInfo', {game: gameInfo["game"]}); //Spiel absenden
+        handler.sendComplete(sio);
         setInterval(playGame, 25);
     });
+    //////////////////////////////////
 
     socket.on('keyMove', function (data) {
         if(data.direction == "right"){
@@ -61,9 +47,7 @@ sio.sockets.on('connection', function (socket) {
             game.Dmmw.getInstance().playingField.getPaddle(0).leftDown = true;
         }
 
-        var gameInfo = {};
-        gameInfo["paddles"] = game.Dmmw.getInstance().playingField.paddles;
-        sio.sockets.emit('gamePaddles', {paddles: gameInfo["paddles"]}); //Paddles absenden
+        handler.sendPaddles(sio);
     });
 
     socket.on('keyRelease', function (data) {
@@ -73,10 +57,14 @@ sio.sockets.on('connection', function (socket) {
         if(data.direction == "left"){
             game.Dmmw.getInstance().playingField.getPaddle(0).leftDown = false;
         }
+        handler.sendPaddles(sio);
+    });
 
-        var gameInfo = {};
-        gameInfo["paddles"] = game.Dmmw.getInstance().playingField.paddles;
-        sio.sockets.emit('gamePaddles', {paddles: gameInfo["paddles"]});
-    })
+    socket.on('brickColor', function(data){
+        var row = data.row;
+        var col = data.col;
+        var brickColor = data.brickColor;
+        game.Dmmw.getInstance().playingField.bricks[row][col].currentColor = brickColor;
+    });
 
 });

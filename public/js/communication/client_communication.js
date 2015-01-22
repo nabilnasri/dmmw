@@ -1,16 +1,6 @@
 //ausgehende Antwort die vom Server an alle gesendet wird
 var socket = io.connect();
 
-socket.on('motion', function (data) {
-    //setze den text
-    //Dmmw.getInstance().motionMove(data.text);
-    $('#eingabe').text(data.text);
-});
-
-
-
-
-
 function sendReady(){
     socket.emit("gameData");
 }
@@ -22,57 +12,48 @@ function sendKeyRelease(direction){
     socket.emit("keyRelease", {direction: direction});
 }
 
-//Anfrage die vom Client zum Server geschickt wird
 function sendMotion(ev) {
-    // Socket senden
     socket.emit('motion', {text: moveIt(ev)});
 }
 
+function sendBrickColor(row,col,color){
+    socket.emit("brickColor", {row: row, col:col, brickColor:color});
+}
 
-/*
-GAME REQUESTS
- */
+//GAME REQUESTS ---
+
 socket.on('connect', function() {
-    //socket.emit("gameData");
+    //CLIENT HAT SICH ERFOLGREICH VERBUNDEN
 });
 
 var drawing = null;
 socket.on('gameInfo', function (data) {
-    var gameInfo = GameInfo.getInstance();
-    gameInfo.playingField = data["game"]["playingField"];
-    gameInfo.balls = data["game"]["playingField"]["balls"];
-    gameInfo.paddles = data["game"]["playingField"]["paddles"];
-    gameInfo.bricks = data["game"]["playingField"]["bricks"];
-    gameInfo.colorpicker = data["game"]["colorpicker"];
-    if(drawing == null){
-        drawing = new Drawing(gameInfo);
-    }
+    initGame(data);
+    drawing = Draw.getInstance();
+    drawing.setScale();
     drawing.draw();
 });
 
 socket.on('gameBalls', function(data){
-    var gameInfo = GameInfo.getInstance();
-    gameInfo.balls = data["balls"];
+    updateBalls(data["balls"]);
     drawing.draw();
 });
 
 socket.on('gameBricks', function(data){
-    var gameInfo = GameInfo.getInstance();
-    gameInfo.bricks[data["row"]][data["col"]] = 0;
+    updateBricks(data["row"], data["col"]);
 });
 
 socket.on('gameColorPicker', function(data){
-    var gameInfo = GameInfo.getInstance();
-    gameInfo.colorpicker = data["colorpicker"];
+    updateColorPicker(data["colorpicker"]);
 });
 
 socket.on('gamePaddles', function(data){
-    var gameInfo = GameInfo.getInstance();
-    gameInfo.paddles = data["paddles"];
+    updatePaddles(data["paddles"]);
     drawing.draw();
 });
 
+socket.on('playerPoints', function(data){
+    updatePoints(data.points, data.player);
+});
 
-/*
-END GAME REQUESTS
- */
+//--- GAME REQUESTS

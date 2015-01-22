@@ -3,6 +3,7 @@
  */
 
 settings = require("../../helper/settings");
+winston = require("winston");
 
 exports.Brick = function Brick(width, height, padding) {
     this.brickWidth = width;

@@ -1,3 +1,6 @@
+var winston = require('winston');
+var handler = require('../../../communication/socket_request_handler');
+
 /*
 "Ball-Klasse" - Hier wird die Bewegung festgelegt. Und die Logik, wo auch immer der Ball hin dotzt.
  */
@@ -13,7 +16,6 @@ exports.Ball = function Ball(color, xCoor, yCoor, player) {
     this.player = player;
     this.score = 0;
 };
-var winston = require('winston');
 
 /*
  BALL LOGIC --START--
@@ -42,30 +44,15 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
         canvas.countDestroyedBricks+=1;
         //fadingOut(canvas.getContext(), brickHitted); //fade out Brick
         canvas.getBricks()[row][col] = 0; //destroy Brick
-        sio.sockets.emit('gameBricks', {row: row, col:col}); //Spiel absenden
+        handler.sendBrickCoordinates(sio, row, col);
+
+
         //Ab hier muss anders gelöst werden!!
-        this.score+=points;
-        /*
-
-
-        if (this.player === "one") {
-            document.getElementById("score-one").innerHTML = String(this.score);
-            $("#score-add-one").text("+"+points);
-            $('#score-add-one').show();
-            setPlayerOneHeight();
-            setTimeout(function() {
-                $('#score-add-one').hide();
-                setPlayerOneHeight();
-            }, 1000);
-        } else if (this.player === "two") {
-            document.getElementById("score-two").innerHTML = String(this.score);
-            $("#score-add-two").text("+"+points);
-            $('#score-add-two').show();
-            setTimeout(function() {
-                $('#score-add-two').hide();
-            }, 1000);
+        if(this.player === "one"){
+            handler.sendPoints(sio, points, "one");
+        }else if(this.player === "two"){
+            handler.sendPoints(sio, points, "two");
         }
-         */
     }
 
 };
