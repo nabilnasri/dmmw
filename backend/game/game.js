@@ -35,6 +35,7 @@ function Game(){
     this.colorcounter = 0;
     this.pause = false;
     this.intervallId = 0;
+    this.running = false;
 
     this.setProperties = function(){
         this.playingField = new PlayingField.PlayingField(8, 15);

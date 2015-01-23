@@ -29,8 +29,11 @@ sio.sockets.on('connection', function (socket) {
 
     //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
     socket.on('gameData', function(){
-        handler.sendComplete(sio);
-        game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+        if(!game.Dmmw.getInstance().running){
+            handler.sendComplete(sio);
+            game.Dmmw.getInstance().running = true;
+            game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+        }
     });
 
     socket.on('gamePause', function(){
