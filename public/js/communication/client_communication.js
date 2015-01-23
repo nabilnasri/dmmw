@@ -5,6 +5,10 @@ function sendReady(){
     socket.emit("gameData");
 }
 
+function sendPause(){
+    socket.emit("gamePause");
+}
+
 function sendKeyMove(direction){
     socket.emit("keyMove", {direction: direction});
 }

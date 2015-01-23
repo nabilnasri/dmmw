@@ -27,8 +27,17 @@ function Drawing(){
 
 
 Drawing.prototype.setScale = function(){
-    this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
-    this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+    if(this.canvas.FieldWidth() >= this.gameInfo.playingField.FieldWidth){
+        this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
+    }else{
+        this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth();
+    }
+
+    if(this.canvas.FieldHeight() >= this.gameInfo.playingField.FieldHeight){
+        this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+    }else{
+        this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight();
+    }
 };
 
 /*
@@ -69,13 +78,12 @@ Drawing.prototype.drawBricks = function() {
                 var current_brick = this.gameInfo.playingField.bricks[i][j];
                 current_brick.currentColor = this.gameInfo.colorpicker[j];
                 sendBrickColor(i, j, current_brick.currentColor);
-                //ToDO: Brickfarbe muss hochgeschickt werden
                 this.rect(
                     this.canvas.Context(),
                     current_brick.xCoor * this.scaleX,
                     current_brick.yCoor * this.scaleY,
-                    current_brick.brickWidth,
-                    current_brick.brickHeight,
+                    current_brick.brickWidth * this.scaleX,
+                    current_brick.brickHeight * this.scaleY,
                     current_brick.currentColor
                 );
             }
@@ -84,12 +92,16 @@ Drawing.prototype.drawBricks = function() {
 };
 
 Drawing.prototype.drawPaddle = function(ctx, yCoor, player_paddle) {
+    yCoor = yCoor * this.scaleY - player_paddle.PaddleHeight;
+    if(yCoor < 0){
+        yCoor = 0;
+    }
     this.rect(
         ctx,
         player_paddle.xCoor * this.scaleX,
-        yCoor * this.scaleY,
-        player_paddle.PaddleWidth,
-        player_paddle.PaddleHeight,
+        yCoor,
+        player_paddle.PaddleWidth * this.scaleX,
+        player_paddle.PaddleHeight * this.scaleY,
         player_paddle.PaddleColor
     );
 };
@@ -140,18 +152,11 @@ Drawing.prototype.draw = function() {
     this.setCanvasStyle();
     this.clear();
     //Zeichne alle "statischen" Sachen
-    this.drawPaddle(ctx, this.gameInfo.playingField.FieldHeight - player_one_paddle.PaddleHeight, player_one_paddle);
+    this.drawPaddle(ctx, this.gameInfo.playingField.FieldHeight, player_one_paddle);
     this.drawPaddle(ctx, 0, player_two_paddle);
     this.drawBall(ctx, player_one_ball);
     this.drawBall(ctx, player_two_ball);
     this.drawBricks();
-
-    /*
-    Geht nicht.
-     */
-    //player_two_paddle.checkRightDown();
-    //player_two_paddle.checkLeftDown();
-
 
     /*
     Hier wird überprüft, ob noch Bricks vorhanden sind.
@@ -197,8 +202,8 @@ Wenn Bricks getroffen werden, werden die "ausgefadet"
 Drawing.prototype.fadingOut = function(brick){
     var xCorr = brick.xCoor * this.scaleX;
     var yCorr = brick.yCoor * this.scaleY;
-    var width = brick.brickWidth;
-    var height = brick.brickHeight;
+    var width = brick.brickWidth * this.scaleX;
+    var height = brick.brickHeight * this.scaleY;
     var rgb= hexToRgb(brick.currentColor);
 
     var r = rgb["r"];

@@ -9,8 +9,8 @@ var game = require('../../game');
 "Spielfeld-Klasse" - Hier werden die einzelnen Elemente(Ball, Paddle, Bricks) initialisiert.
  */
 exports.PlayingField = function PlayingField(rows, cols) {
-    this.FieldWidth = 500; //document.getElementsByTagName('canvas')[0].width;
-    this.FieldHeight = 500; //document.getElementsByTagName('canvas')[0].height;
+    this.FieldWidth = 500;
+    this.FieldHeight = 500;
     this.nRows = rows;
     this.nCols = cols;
     this.color = "#2f241e";
