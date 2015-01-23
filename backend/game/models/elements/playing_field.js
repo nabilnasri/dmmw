@@ -27,6 +27,7 @@ exports.PlayingField = function PlayingField(rows, cols) {
 /*
 Bricks werden initialisiert.
  */
+
 exports.PlayingField.prototype.setBricks = function () {
     var i, j;
     var b;
@@ -62,6 +63,27 @@ exports.PlayingField.prototype.setBricks = function () {
     return b;
 };
 
+exports.PlayingField.prototype.setMasterBrick = function () {
+    var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
+    var brickPadding = brickWidthNoPadding/6;
+    var brickWidth = brickWidthNoPadding - brickPadding;
+    var brickHeight = brickWidth / 3;
+
+    return new Brick.Brick(brickWidth,brickHeight,brickPadding);
+};
+
+
+exports.PlayingField.prototype.moveMasterBrick = function () {
+    var time = (new Date()).getTime();
+    var amplitude = 150;
+
+    var period = 2000;  //Millisekunden
+    var centerX = this.getFieldWidth() / 2 - this.masterBrick.getWidth() / 2;
+    //Einfache Sinus-Funktion
+    var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
+    this.masterBrick.xCoor = nextX;
+};
+
 /*
 Funktion prüft ob Bricks verfügbar sind, wenn nicht, dann
 wird der MasterBrick (s.o) initialisiert.
@@ -69,14 +91,9 @@ wird der MasterBrick (s.o) initialisiert.
 exports.PlayingField.prototype.bricksAvailable = function(){
     var totalBricks = this.getRows()*this.getCols();
 
-    var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
-    var brickPadding = brickWidthNoPadding/6;
-    var brickWidth = brickWidthNoPadding - brickPadding;
-    var brickHeight = brickWidth / 3;
-
     if(this.countDestroyedBricks==totalBricks){
         if(this.masterBrick == null){
-            this.masterBrick = new Brick.Brick(brickWidth,brickHeight,brickPadding);
+            this.masterBrick = this.setMasterBrick();
         }
         return false;
     }
@@ -173,6 +190,11 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
     player_two_ball.checkHitBottomBorder(this);
     player_two_ball.checkOutside(this, 2);
     player_two_ball.checkHitPaddle(this, player_two_paddle, 2);
+
+    if(!this.bricksAvailable()){
+        this.moveMasterBrick();
+        handler.sendMasterBrick(sio, this.masterBrick);
+    }
 
     player_one_ball.xCoor += player_one_ball.dx;
     player_one_ball.yCoor += player_one_ball.dy;

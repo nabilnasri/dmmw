@@ -22,6 +22,11 @@ function updateBricks(row, col){
     gameInfo.bricks[row][col] = 0;
 }
 
+function updateMasterBrick(masterBrick){
+    gameInfo.bricksAvailable = false;
+    gameInfo.masterBrick = masterBrick;
+}
+
 function updateColorPicker(colorpicker){
     gameInfo.colorpicker = colorpicker;
 }

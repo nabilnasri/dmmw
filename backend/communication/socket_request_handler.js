@@ -23,6 +23,10 @@ module.exports =
         sio.sockets.emit('gameBricks', {row: row, col:col});
     },
 
+    sendMasterBrick: function sendMasterBrick(sio, masterBrick){
+        sio.sockets.emit('gameMasterBrick', {masterBrick: masterBrick});
+    },
+
     sendColorpicker: function sendColorPicker(sio){
         gameInfo["colorpicker"] = game.Dmmw.getInstance().colorpicker;
         sio.sockets.emit('gameColorPicker', {colorpicker: gameInfo["colorpicker"]});

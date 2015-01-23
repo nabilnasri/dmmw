@@ -26,7 +26,6 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
     var col = Math.floor(this.xCoor / canvas.getColWidth());
     var wallHeight = canvas.getRows() * canvas.getRowHeight();
 
-
     if (
         (
         row < canvas.getRows()
@@ -40,9 +39,7 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
     ){
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
-        var brickHitted = canvas.getBricks()[row][col];
         canvas.countDestroyedBricks+=1;
-        //fadingOut(canvas.getContext(), brickHitted); //fade out Brick
         canvas.getBricks()[row][col] = 0; //destroy Brick
         handler.sendBrickCoordinates(sio, row, col);
 

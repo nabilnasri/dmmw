@@ -23,5 +23,7 @@ function DrawInformation(){
     this.balls = null;
     this.paddles = null;
     this.bricks = null;
+    this.masterBrick = null;
+    this.bricksAvailable = true;
     this.colorpicker = null;
 }

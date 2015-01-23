@@ -41,5 +41,3 @@ exports.Brick.prototype.getYCoor= function () {
 exports.Brick.prototype.getCurrentColor= function () {
     return this.currentColor;
 };
-
-

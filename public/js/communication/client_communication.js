@@ -47,6 +47,11 @@ socket.on('gameBricks', function(data){
     updateBricks(data["row"], data["col"]);
 });
 
+socket.on('gameMasterBrick', function(data){
+    console.log(data["masterBrick"]);
+    updateMasterBrick(data["masterBrick"]);
+});
+
 socket.on('gameColorPicker', function(data){
     updateColorPicker(data["colorpicker"]);
 });

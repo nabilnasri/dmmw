@@ -145,7 +145,6 @@ Drawing.prototype.draw = function() {
     var player_two_ball = this.gameInfo.balls[1];
     var player_two_paddle = this.gameInfo.paddles[1];
 
-
     /*
     Canvas stylen.
      */
@@ -156,17 +155,11 @@ Drawing.prototype.draw = function() {
     this.drawPaddle(ctx, 0, player_two_paddle);
     this.drawBall(ctx, player_one_ball);
     this.drawBall(ctx, player_two_ball);
-    this.drawBricks();
-
-    /*
-    Hier wird überprüft, ob noch Bricks vorhanden sind.
-    Falls nicht, wird der MasterBrick gezeichnet.
-     */
-    //var bricks_available = canvas.bricksAvailable();
-    //if(!bricks_available){
-    //    animate(canvas);
-    //}
-
+    if (this.gameInfo.bricksAvailable){
+        this.drawBricks();
+    }else{
+        this.animate();
+    }
 };
 
 
@@ -175,23 +168,15 @@ Drawing.prototype.draw = function() {
 Animation des MasterBricks
  */
 Drawing.prototype.animate = function() {
-    var time = (new Date()).getTime();
-    var amplitude = 150;
-    var masterBrick = this.canvas.masterBrick;
-
-    var period = 2000;  //Millisekunden
-    var centerX = this.canvas.getFieldWidth() / 2 - masterBrick.getWidth() / 2;
-    //Einfache Sinus-Funktion
-    var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
-    masterBrick.xCoor = nextX;
-
     //Hier wird der Brick gezeichnet.
+    var masterBrick = this.gameInfo.masterBrick;
+    //var color = this.gameInfo.colorpicker[Math.floor(Math.random()*this.gameInfo.colorpicker.length)];
     this.rect(
         this.canvas.Context(),
-        masterBrick.getXCoor(),
-        this.canvas.getFieldHeight()/2,
-        masterBrick.getWidth(),
-        masterBrick.getHeight(),
+        masterBrick.xCoor * this.scaleX,
+        this.canvas.FieldHeight()/2,
+        masterBrick.brickWidth * this.scaleX,
+        masterBrick.brickHeight * this.scaleY,
         "#4183D7"
     );
 };
