@@ -6,9 +6,6 @@ Controller Klasse.
 Orientation des Devices
  */
 
-
-
-
 function moveIt(ev) {
     //Aktuelle Orientation
     var orientation = window.orientation;
@@ -93,7 +90,6 @@ function doTouchStart(eve) {
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
 
-
     hitPowerUp(px, py,concan_x,concan_y);
 }
 
@@ -109,13 +105,13 @@ function hitPowerUp(px,py,concan_x,concan_y) {
     if(( concan_x <= px+50 && concan_x>= px-50 ) && ( concan_y <= py+50 && concan_y>= py-50 )){
 
         alert("getroffen");
+        clear(displayCanvas);
     }
-
 }
 
+    var displayCanvas = document.getElementById("con_canvas");
 function canvasApp() {
 
-    var displayCanvas = document.getElementById("con_canvas");
     var context = displayCanvas.getContext("2d");
     var particleList;
     var numParticles;
@@ -247,14 +243,8 @@ function canvasApp() {
             px = p.x;
             py = p.y;
 
-
-
-
             //advance
             p = p.next;
         }
     }
-
-
-
 }
