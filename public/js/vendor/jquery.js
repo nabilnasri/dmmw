@@ -2955,7 +2955,7 @@ jQuery.fn.extend({
 			elem.jquery ? elem[0] : elem, this );
 	},
 
-	addUser: function( selector, context ) {
+	add: function( selector, context ) {
 		return this.pushStack(
 			jQuery.unique(
 				jQuery.merge( this.get(), jQuery( selector, context ) )
@@ -2964,7 +2964,7 @@ jQuery.fn.extend({
 	},
 
 	addBack: function( selector ) {
-		return this.addUser( selector == null ?
+		return this.add( selector == null ?
 			this.prevObject : this.prevObject.filter(selector)
 		);
 	}
@@ -3101,7 +3101,7 @@ jQuery.Callbacks = function( options ) {
 		firingLength,
 		// Index of currently firing callback (modified by remove if needed)
 		firingIndex,
-		// First callback to fire (used internally by addUser and fireWith)
+		// First callback to fire (used internally by add and fireWith)
 		firingStart,
 		// Actual callback list
 		list = [],
@@ -3117,7 +3117,7 @@ jQuery.Callbacks = function( options ) {
 			firing = true;
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
 				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
-					memory = false; // To prevent further calls using addUser
+					memory = false; // To prevent further calls using add
 					break;
 				}
 			}
@@ -3137,7 +3137,7 @@ jQuery.Callbacks = function( options ) {
 		// Actual Callbacks object
 		self = {
 			// Add a callback or a collection of callbacks to the list
-			addUser: function() {
+			add: function() {
 				if ( list ) {
 					// First, we save the current length
 					var start = list.length;
@@ -3154,7 +3154,7 @@ jQuery.Callbacks = function( options ) {
 							}
 						});
 					})( arguments );
-					// Do we need to addUser the callbacks to the
+					// Do we need to add the callbacks to the
 					// current firing batch?
 					if ( firing ) {
 						firingLength = list.length;
@@ -3252,7 +3252,7 @@ jQuery.extend({
 
 	Deferred: function( func ) {
 		var tuples = [
-				// action, addUser listener, listener list, final state
+				// action, add listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks("once memory"), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks("once memory"), "rejected" ],
 				[ "notify", "progress", jQuery.Callbacks("memory") ]
@@ -3303,12 +3303,12 @@ jQuery.extend({
 			var list = tuple[ 2 ],
 				stateString = tuple[ 3 ];
 
-			// promise[ done | fail | progress ] = list.addUser
-			promise[ tuple[1] ] = list.addUser;
+			// promise[ done | fail | progress ] = list.add
+			promise[ tuple[1] ] = list.add;
 
 			// Handle state
 			if ( stateString ) {
-				list.addUser(function() {
+				list.add(function() {
 					// state = [ resolved | rejected ]
 					state = stateString;
 
@@ -3364,7 +3364,7 @@ jQuery.extend({
 
 			progressValues, progressContexts, resolveContexts;
 
-		// addUser listeners to Deferred subordinates; treat others as resolved
+		// add listeners to Deferred subordinates; treat others as resolved
 		if ( length > 1 ) {
 			progressValues = new Array( length );
 			progressContexts = new Array( length );
@@ -4013,7 +4013,7 @@ jQuery.extend({
 	_queueHooks: function( elem, type ) {
 		var key = type + "queueHooks";
 		return jQuery._data( elem, key ) || jQuery._data( elem, key, {
-			empty: jQuery.Callbacks("once memory").addUser(function() {
+			empty: jQuery.Callbacks("once memory").add(function() {
 				jQuery._removeData( elem, type + "queue" );
 				jQuery._removeData( elem, key );
 			})
@@ -4080,7 +4080,7 @@ jQuery.fn.extend({
 			tmp = jQuery._data( elements[ i ], type + "queueHooks" );
 			if ( tmp && tmp.empty ) {
 				count++;
-				tmp.empty.addUser( resolve );
+				tmp.empty.add( resolve );
 			}
 		}
 		resolve();
@@ -4274,7 +4274,7 @@ jQuery.event = {
 
 	global: {},
 
-	addUser: function( elem, types, handler, data, selector ) {
+	add: function( elem, types, handler, data, selector ) {
 		var tmp, events, t, handleObjIn,
 			special, eventHandle, handleObj,
 			handlers, type, namespaces, origType,
@@ -4364,8 +4364,8 @@ jQuery.event = {
 				}
 			}
 
-			if ( special.addUser ) {
-				special.addUser.call( elem, handleObj );
+			if ( special.add ) {
+				special.add.call( elem, handleObj );
 
 				if ( !handleObj.handler.guid ) {
 					handleObj.handler.guid = handler.guid;
@@ -4530,7 +4530,7 @@ jQuery.event = {
 				tmp = cur;
 			}
 
-			// Only addUser window if we got to document (e.g., not plain obj or detached DOM)
+			// Only add window if we got to document (e.g., not plain obj or detached DOM)
 			if ( tmp === (elem.ownerDocument || document) ) {
 				eventPath.push( tmp.defaultView || tmp.parentWindow || window );
 			}
@@ -5035,13 +5035,13 @@ if ( !support.submitBubbles ) {
 				return false;
 			}
 
-			// Lazy-addUser a submit handler when a descendant form may potentially be submitted
-			jQuery.event.addUser( this, "click._submit keypress._submit", function( e ) {
+			// Lazy-add a submit handler when a descendant form may potentially be submitted
+			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
 				// Node name check avoids a VML-related crash in IE (#9807)
 				var elem = e.target,
 					form = jQuery.nodeName( elem, "input" ) || jQuery.nodeName( elem, "button" ) ? elem.form : undefined;
 				if ( form && !jQuery._data( form, "submitBubbles" ) ) {
-					jQuery.event.addUser( form, "submit._submit", function( event ) {
+					jQuery.event.add( form, "submit._submit", function( event ) {
 						event._submit_bubble = true;
 					});
 					jQuery._data( form, "submitBubbles", true );
@@ -5084,12 +5084,12 @@ if ( !support.changeBubbles ) {
 				// after a propertychange. Eat the blur-change in special.change.handle.
 				// This still fires onchange a second time for check/radio after blur.
 				if ( this.type === "checkbox" || this.type === "radio" ) {
-					jQuery.event.addUser( this, "propertychange._change", function( event ) {
+					jQuery.event.add( this, "propertychange._change", function( event ) {
 						if ( event.originalEvent.propertyName === "checked" ) {
 							this._just_changed = true;
 						}
 					});
-					jQuery.event.addUser( this, "click._change", function( event ) {
+					jQuery.event.add( this, "click._change", function( event ) {
 						if ( this._just_changed && !event.isTrigger ) {
 							this._just_changed = false;
 						}
@@ -5099,12 +5099,12 @@ if ( !support.changeBubbles ) {
 				}
 				return false;
 			}
-			// Delegated event; lazy-addUser a change handler on descendant inputs
-			jQuery.event.addUser( this, "beforeactivate._change", function( e ) {
+			// Delegated event; lazy-add a change handler on descendant inputs
+			jQuery.event.add( this, "beforeactivate._change", function( e ) {
 				var elem = e.target;
 
 				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "changeBubbles" ) ) {
-					jQuery.event.addUser( elem, "change._change", function( event ) {
+					jQuery.event.add( elem, "change._change", function( event ) {
 						if ( this.parentNode && !event.isSimulated && !event.isTrigger ) {
 							jQuery.event.simulate( "change", this.parentNode, event, true );
 						}
@@ -5217,7 +5217,7 @@ jQuery.fn.extend({
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.addUser( this, types, fn, data, selector );
+			jQuery.event.add( this, types, fn, data, selector );
 		});
 	},
 	one: function( types, selector, data, fn ) {
@@ -5402,7 +5402,7 @@ function cloneCopyEvent( src, dest ) {
 
 		for ( type in events ) {
 			for ( i = 0, l = events[ type ].length; i < l; i++ ) {
-				jQuery.event.addUser( dest, type, events[ type ][ i ] );
+				jQuery.event.add( dest, type, events[ type ][ i ] );
 			}
 		}
 	}
@@ -5576,7 +5576,7 @@ jQuery.extend({
 						tmp = tmp.lastChild;
 					}
 
-					// Manually addUser leading whitespace removed by IE
+					// Manually add leading whitespace removed by IE
 					if ( !support.leadingWhitespace && rleadingWhitespace.test( elem ) ) {
 						nodes.push( context.createTextNode( rleadingWhitespace.exec( elem )[0] ) );
 					}
@@ -6521,7 +6521,7 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 		val = 0;
 
 	for ( ; i < 4; i += 2 ) {
-		// both box models exclude margin, so addUser it if we want it
+		// both box models exclude margin, so add it if we want it
 		if ( extra === "margin" ) {
 			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
 		}
@@ -6537,10 +6537,10 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		} else {
-			// at this point, extra isn't content, so addUser padding
+			// at this point, extra isn't content, so add padding
 			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 
-			// at this point, extra isn't content nor padding, so addUser border
+			// at this point, extra isn't content nor padding, so add border
 			if ( extra !== "padding" ) {
 				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
@@ -6581,7 +6581,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		val = parseFloat( val ) || 0;
 	}
 
-	// use the active box-sizing model to addUser/subtract irrelevant styles
+	// use the active box-sizing model to add/subtract irrelevant styles
 	return ( val +
 		augmentWidthOrHeight(
 			elem,
@@ -6608,7 +6608,7 @@ jQuery.extend({
 		}
 	},
 
-	// Don't automatically addUser "px" to these possibly-unitless properties
+	// Don't automatically add "px" to these possibly-unitless properties
 	cssNumber: {
 		"columnCount": true,
 		"fillOpacity": true,
@@ -6665,7 +6665,7 @@ jQuery.extend({
 				return;
 			}
 
-			// If a number was passed in, addUser 'px' to the (except for certain CSS properties)
+			// If a number was passed in, add 'px' to the (except for certain CSS properties)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
@@ -8714,7 +8714,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	}
 
 	// If we found a dataType
-	// We addUser the dataType to the list if needed
+	// We add the dataType to the list if needed
 	// and return the corresponding response
 	if ( finalDataType ) {
 		if ( finalDataType !== dataTypes[ 0 ] ) {
@@ -8885,7 +8885,7 @@ jQuery.extend({
 		},
 
 		// For options that shouldn't be deep extended:
-		// you can addUser your own custom options here if
+		// you can add your own custom options here if
 		// and when you create one that shouldn't be
 		// deep extended (see ajaxExtend)
 		flatOptions: {
@@ -9007,7 +9007,7 @@ jQuery.extend({
 					if ( map ) {
 						if ( state < 2 ) {
 							for ( code in map ) {
-								// Lazy-addUser the new callback in a way that preserves old ones
+								// Lazy-add the new callback in a way that preserves old ones
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
 						} else {
@@ -9030,7 +9030,7 @@ jQuery.extend({
 			};
 
 		// Attach deferreds
-		deferred.promise( jqXHR ).complete = completeDeferred.addUser;
+		deferred.promise( jqXHR ).complete = completeDeferred.add;
 		jqXHR.success = jqXHR.done;
 		jqXHR.error = jqXHR.fail;
 
@@ -9104,7 +9104,7 @@ jQuery.extend({
 					// If there is already a '_' parameter, set its value
 					cacheURL.replace( rts, "$1_=" + nonce++ ) :
 
-					// Otherwise addUser one to the end
+					// Otherwise add one to the end
 					cacheURL + ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + nonce++;
 			}
 		}
@@ -9507,7 +9507,7 @@ jQuery.fn.extend({
 	},
 	serializeArray: function() {
 		return this.map(function() {
-			// Can addUser propHook for "elements" to filter or addUser form elements
+			// Can add propHook for "elements" to filter or add form elements
 			var elements = jQuery.prop( this, "elements" );
 			return elements ? jQuery.makeArray( elements ) : this;
 		})
