@@ -1,4 +1,3 @@
-
 window.onload = function () {
     setCanvasProperties();
 };
@@ -39,8 +38,8 @@ function setCanvasProperties(){
 
 
 /*
-Ajax Request (zurück zu Home)
- */
+* Ajax Request (zurück zu Home)
+*/
 function refresh_site() {
     NProgress.start();
     $.ajax({

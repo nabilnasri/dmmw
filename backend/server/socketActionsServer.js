@@ -1,6 +1,9 @@
 var serverSocket;
 var gamersSocket;
-var gameManager = require('../game/models/administration/GamesManager');
+var gm;
+
+var game = require('../game/game');
+var handler = require('../communication/socket_request_handler');
 
 /**
  * Die Methode wird durch www.js aufgrufen
@@ -8,10 +11,10 @@ var gameManager = require('../game/models/administration/GamesManager');
  * @param sio ->socket lib
  * @param socket ->socket-object vom verbundenen client
  */
-exports.initGame = function(sio, socket){
+exports.initGame = function(sio, socket, gamesManager){
     serverSocket = sio;
     gamersSocket = socket;
-    var gm = gameManager.Gamemanager();
+    gm = gamesManager;
 
 
     gamersSocket.emit('connected', { message: "Ahoi !" });
@@ -23,6 +26,12 @@ exports.initGame = function(sio, socket){
 
     // Player Events
     gamersSocket.on('playerJoinGame', playerJoinGame);
+    gamersSocket.on('motion', motion);
+    gamersSocket.on('gameData', gameData);
+    gamersSocket.on('gamePause', gamePause);
+    gamersSocket.on('keyMove', keyMove);
+    gamersSocket.on('keyRelease', keyRelease);
+    gamersSocket.on('brickColor', brickColor);
 };
 
 /**
@@ -101,6 +110,66 @@ function hostPrepareGame(gameId) {
     //TODO stoesst beim host(s) die methode zum spielstart aus
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
 }
+
+function playGame(){
+    game.Dmmw.getInstance().playingField.simulateGame(serverSocket);
+    game.Dmmw.getInstance().redraw(); //SHIFT ARRAY
+}
+
+
+function motion(data) {
+    if(game.Dmmw.getInstance().playingField != null){
+        game.Dmmw.getInstance().playingField.getPaddle(0).motionMove(data.text, serverSocket)
+    }
+}
+
+//MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
+function gameData(){
+    if(!game.Dmmw.getInstance().running){
+        handler.sendComplete(serverSocket);
+        game.Dmmw.getInstance().running = true;
+        game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+    }
+}
+function gamePause (){
+    game.Dmmw.getInstance().pause = !game.Dmmw.getInstance().pause;
+
+    if(game.Dmmw.getInstance().pause){
+        clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
+    }else{
+        game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+    }
+}
+
+function keyMove (data) {
+    if(data.direction == "right"){
+        game.Dmmw.getInstance().playingField.getPaddle(1).rightDown = true;
+    }
+    if(data.direction == "left"){
+        game.Dmmw.getInstance().playingField.getPaddle(1).leftDown = true;
+    }
+
+    handler.sendPaddles(serverSocket);
+}
+
+
+function keyRelease(data) {
+    if(data.direction == "right"){
+        game.Dmmw.getInstance().playingField.getPaddle(1).rightDown = false;
+    }
+    if(data.direction == "left"){
+        game.Dmmw.getInstance().playingField.getPaddle(1).leftDown = false;
+    }
+    handler.sendPaddles(serverSocket);
+}
+
+function brickColor(data){
+    var row = data.row;
+    var col = data.col;
+    var brickColor = data.brickColor;
+    game.Dmmw.getInstance().playingField.bricks[row][col].currentColor = brickColor;
+}
+
 
 /**
  * The game is over, and a player has clicked a button to restart the game.

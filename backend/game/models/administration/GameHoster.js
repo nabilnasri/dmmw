@@ -22,15 +22,15 @@ exports.GameHoster.prototype.getGameId = function(){
  * */
 exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
     if (role === 'host' && this.hostCounter <= 2) {
-        var u = user.Server_User("", playerSocketId, role);
+        var u = user.Server_User('', playerSocketId, role);
         this.userList.push({hostCounter: u});
         this.hostcounter  += 1;
     } else if (role === 'player' && this.playerCounter <=2) {
-        var u = user.Server_User("", playerSocketId, role);
+        var u = user.Server_User('', playerSocketId, role);
         this.userList.push({playerCounter: u});
         this.playerCounter += 1;
     } else {
-        Console.log("ERROR BEIM USER SETZEN");
+        Console.log('ERROR BEIM USER SETZEN');
         return -1;
     }
 

@@ -28,7 +28,7 @@ var IO = {
         IO.socket.on('gameInfo', IO.gameInfo);
         IO.socket.on('gameBalls', IO.gameBalls);
         IO.socket.on('gameBricks', IO.gameBricks);
-        IO.socket.on('gameMasterBrick', IO.gameMasterBicks);
+        IO.socket.on('gameMasterBrick', IO.gameMasterBricks);
         IO.socket.on('gameColorPicker', IO.gameColorPicker);
         IO.socket.on('gamePaddles', IO.gamePaddles);
         IO.socket.on('playerPoints', IO.playerPoints);
@@ -98,7 +98,7 @@ var IO = {
     },
 
 
-    gameMasterBicks: function (data) {
+    gameMasterBricks: function (data) {
         updateMasterBrick(data["masterBrick"]);
     },
 
