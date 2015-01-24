@@ -4,18 +4,14 @@
 </head>
 
 <body>
-    <div class="container">
-        <% include main/navbar.ejs %>
 
-        <div style="background-color: #204d74; width:100%;height: 100%;">
-            DAS IST DER CONTROLLER
-        </div>
-    </div>
+<canvas id="con_canvas" style="background-color: green;" />
 
-    <% include main/footer.ejs %>
-    <% include main/global_js_scripts.ejs %>
-    <div id="content-scripts">
-        <script src="../js/game/controller/controller.js"></script>
-    </div>
+<% include main/global_js_scripts.ejs %>
+<div id="content-scripts">
+    <script src="../js/communication/socket_handler.js"></script>
+    <script src="../js/communication/client_communication.js"></script>
+    <script src="../js/game/controller/controller.js"></script>
+</div>
 
 </body>
