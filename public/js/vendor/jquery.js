@@ -6816,7 +6816,7 @@ jQuery.cssHooks.marginRight = addGetHookIf( support.reliableMarginRight,
 	}
 );
 
-// These hooks are used by animate to expand properties
+// These hooks are used by drawMasterBrick to expand properties
 jQuery.each({
 	margin: "",
 	padding: "",
@@ -7450,10 +7450,10 @@ jQuery.fn.extend({
 		// show any hidden elements after setting opacity to 0
 		return this.filter( isHidden ).css( "opacity", 0 ).show()
 
-			// animate to the value specified
-			.end().animate({ opacity: to }, speed, easing, callback );
+			// drawMasterBrick to the value specified
+			.end().drawMasterBrick({ opacity: to }, speed, easing, callback );
 	},
-	animate: function( prop, speed, easing, callback ) {
+	drawMasterBrick: function( prop, speed, easing, callback ) {
 		var empty = jQuery.isEmptyObject( prop ),
 			optall = jQuery.speed( speed, easing, callback ),
 			doAnimation = function() {
@@ -7569,7 +7569,7 @@ jQuery.each([ "toggle", "show", "hide" ], function( i, name ) {
 	jQuery.fn[ name ] = function( speed, easing, callback ) {
 		return speed == null || typeof speed === "boolean" ?
 			cssFn.apply( this, arguments ) :
-			this.animate( genFx( name, true ), speed, easing, callback );
+			this.drawMasterBrick( genFx( name, true ), speed, easing, callback );
 	};
 });
 
@@ -7583,7 +7583,7 @@ jQuery.each({
 	fadeToggle: { opacity: "toggle" }
 }, function( name, props ) {
 	jQuery.fn[ name ] = function( speed, easing, callback ) {
-		return this.animate( props, speed, easing, callback );
+		return this.drawMasterBrick( props, speed, easing, callback );
 	};
 });
 

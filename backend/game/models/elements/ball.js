@@ -20,28 +20,41 @@ exports.Ball = function Ball(color, xCoor, yCoor, player) {
 /*
  BALL LOGIC --START--
  */
-exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
-    var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
-    var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
-    var col = Math.floor(this.xCoor / canvas.getColWidth());
-    var wallHeight = canvas.getRows() * canvas.getRowHeight();
+exports.Ball.prototype.checkHitBrick = function (playingField, sio) {
+    var real_row = ((playingField.getFieldHeight() - ((playingField.getRowHeight() * playingField.getRows()))) / 2) / playingField.getRowHeight();
+    var row = Math.floor(this.yCoor / playingField.getRowHeight() - real_row);
+    var col = Math.floor(this.xCoor / playingField.getColWidth());
+    var wallHeight = playingField.getRows() * playingField.getRowHeight();
+
+    if(!playingField.bricksAvailable()){
+    }
 
     if (
         (
-        row < canvas.getRows()
-        && this.getYCoor(canvas) <= wallHeight
+        row < playingField.getRows()
+        && this.getYCoor(playingField) <= wallHeight
         && row >= 0
         && col >= 0
-        && canvas.getBricks()[row][col] != 0
+        && playingField.getBricks()[row][col] != 0
         )
         ||
-        (!canvas.bricksAvailable() && this.getYCoor(canvas) == canvas.masterBrick.getYCoor() && this.getXCoor() == canvas.masterBrick.getXCoor())
+        (
+        !playingField.bricksAvailable()
+        && this.xCoor >= playingField.masterBrick.getXCoor()
+        && this.xCoor <= playingField.masterBrick.getXCoor() + playingField.masterBrick.getWidth()
+        )
     ){
+        if(!playingField.bricksAvailable()){
+            return;
+        }else{
+            var points = playingField.getBricks()[row][col].getPoints();
+            playingField.countDestroyedBricks+=1;
+            playingField.getBricks()[row][col] = 0; //destroy Brick
+            handler.sendBrickCoordinates(sio, row, col);
+        }
+
         this.dy = -this.dy; //Ball dotzt zurueck
-        var points = canvas.getBricks()[row][col].getPoints();
-        canvas.countDestroyedBricks+=1;
-        canvas.getBricks()[row][col] = 0; //destroy Brick
-        handler.sendBrickCoordinates(sio, row, col);
+
 
 
         //Ab hier muss anders gelöst werden!!
@@ -54,8 +67,8 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
 
 };
 
-exports.Ball.prototype.checkHitRightBorder = function (canvas) {
-    if (this.xCoor + this.dx + this.getRadius() > canvas.FieldWidth) {
+exports.Ball.prototype.checkHitRightBorder = function (playingField) {
+    if (this.xCoor + this.dx + this.getRadius() > playingField.FieldWidth) {
         this.dx = -this.dx;
     }
 };
@@ -72,15 +85,15 @@ exports.Ball.prototype.checkHitTopBorder = function () {
     }
 };
 
-exports.Ball.prototype.checkHitBottomBorder = function (canvas) {
-    if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
+exports.Ball.prototype.checkHitBottomBorder = function (playingField) {
+    if (this.yCoor + this.dy + this.getRadius() > playingField.FieldHeight) {
         this.dy = -this.dy;
     }
 };
 
-exports.Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
+exports.Ball.prototype.checkHitPaddle = function (playingField, player_paddle, player) {
     if(player===1){
-        if(this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight - player_paddle.PaddleHeight){
+        if(this.yCoor + this.dy + this.getRadius() > playingField.FieldHeight - player_paddle.PaddleHeight){
             this.afterHittingPaddle(player_paddle);
         }
     }else{
@@ -98,12 +111,12 @@ exports.Ball.prototype.afterHittingPaddle = function(player_paddle){
     }
 };
 
-exports.Ball.prototype.checkOutside = function (canvas, player) {
+exports.Ball.prototype.checkOutside = function (playingField, player) {
     if(player===1){
-        if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
+        if (this.yCoor + this.dy + this.getRadius() > playingField.FieldHeight) {
             //BALL IST DRAUßEn / UNTERER RAND
 
-            this.xCoor = canvas.getPaddle(0).xCoor + 10;
+            this.xCoor = playingField.getPaddle(0).xCoor + 10;
             this.yCoor = 300;
            // canvas.getContext().fillStyle = "#ddd";
            // canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
@@ -112,7 +125,7 @@ exports.Ball.prototype.checkOutside = function (canvas, player) {
         if (this.yCoor + this.dy - this.getRadius() < 0) {
             //BALL IST DRAUßEn / OBERER RAND
             //window.clearInterval(intervalId);
-            this.xCoor = canvas.getPaddle(1).xCoor + 10;
+            this.xCoor = playingField.getPaddle(1).xCoor + 10;
             this.yCoor = 200;
             //canvas.getContext().fillStyle = "#ddd";
             //canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
@@ -124,8 +137,8 @@ exports.Ball.prototype.checkOutside = function (canvas, player) {
  */
 
 
-exports.Ball.prototype.getYCoor = function (canvas) {
-    return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight()*canvas.getRows()) / 2));
+exports.Ball.prototype.getYCoor = function (playingField) {
+    return Math.floor(this.yCoor - (playingField.getFieldHeight() - (playingField.getRowHeight()*playingField.getRows()) / 2));
 };
 
 exports.Ball.prototype.getRadius = function () {

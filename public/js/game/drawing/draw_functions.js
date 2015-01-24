@@ -91,6 +91,23 @@ Drawing.prototype.drawBricks = function() {
     }
 };
 
+/*
+ Animation des MasterBricks
+ */
+Drawing.prototype.drawMasterBrick = function() {
+    //Hier wird der Brick gezeichnet.
+    var masterBrick = this.gameInfo.masterBrick;
+    //var color = this.gameInfo.colorpicker[Math.floor(Math.random()*this.gameInfo.colorpicker.length)];
+    this.rect(
+        this.canvas.Context(),
+        masterBrick.xCoor * this.scaleX,
+        this.canvas.FieldHeight()/2,
+        masterBrick.brickWidth * this.scaleX,
+        masterBrick.brickHeight * this.scaleY,
+        "#4183D7"
+    );
+};
+
 Drawing.prototype.drawPaddle = function(ctx, yCoor, player_paddle) {
     yCoor = yCoor * this.scaleY - player_paddle.PaddleHeight;
     if(yCoor < 0){
@@ -114,23 +131,6 @@ Drawing.prototype.drawBall = function(ctx, player_ball) {
         player_ball.radius,
         player_ball.ballColor
     );
-};
-
-/*
-Wie soll das Spielfeld aussehen?
- */
-Drawing.prototype.setCanvasStyle = function(){
-    this.canvas.Context().font = "80pt Impact";
-    this.canvas.Context().textAlign = "center";
-    this.canvas.Context().lineWidth = 1;
-};
-
-/*
- Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
- */
-Drawing.prototype.clear = function() {
-    this.canvas.Context().clearRect(0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight());
-    this.rect(this.canvas.Context(), 0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight(), "rgba(0,0,0,0.7");
 };
 
 Drawing.prototype.draw = function() {
@@ -158,27 +158,8 @@ Drawing.prototype.draw = function() {
     if (this.gameInfo.bricksAvailable){
         this.drawBricks();
     }else{
-        this.animate();
+        this.drawMasterBrick();
     }
-};
-
-
-
-/*
-Animation des MasterBricks
- */
-Drawing.prototype.animate = function() {
-    //Hier wird der Brick gezeichnet.
-    var masterBrick = this.gameInfo.masterBrick;
-    //var color = this.gameInfo.colorpicker[Math.floor(Math.random()*this.gameInfo.colorpicker.length)];
-    this.rect(
-        this.canvas.Context(),
-        masterBrick.xCoor * this.scaleX,
-        this.canvas.FieldHeight()/2,
-        masterBrick.brickWidth * this.scaleX,
-        masterBrick.brickHeight * this.scaleY,
-        "#4183D7"
-    );
 };
 
 /*
@@ -222,6 +203,22 @@ function hexToRgb(hex) {
     } : null;
 }
 
+/*
+ Wie soll das Spielfeld aussehen?
+ */
+Drawing.prototype.setCanvasStyle = function(){
+    this.canvas.Context().font = "80pt Impact";
+    this.canvas.Context().textAlign = "center";
+    this.canvas.Context().lineWidth = 1;
+};
+
+/*
+ Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
+ */
+Drawing.prototype.clear = function() {
+    this.canvas.Context().clearRect(0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight());
+    this.rect(this.canvas.Context(), 0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight(), "rgba(0,0,0,0.7");
+};
 
 
 function CanvasInit(){

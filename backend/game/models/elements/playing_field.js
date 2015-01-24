@@ -68,8 +68,9 @@ exports.PlayingField.prototype.setMasterBrick = function () {
     var brickPadding = brickWidthNoPadding/6;
     var brickWidth = brickWidthNoPadding - brickPadding;
     var brickHeight = brickWidth / 3;
-
-    return new Brick.Brick(brickWidth,brickHeight,brickPadding);
+    var masterBrick = new Brick.Brick(brickWidth,brickHeight,brickPadding);
+    masterBrick.yCoor = this.getFieldHeight() / 2;
+    return masterBrick
 };
 
 
@@ -175,7 +176,7 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();
 
-    player_one_ball.checkHitBrick(this, sio);
+    //player_one_ball.checkHitBrick(this, sio);
     player_one_ball.checkHitRightBorder(this);
     player_one_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
@@ -196,8 +197,8 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
         handler.sendMasterBrick(sio, this.masterBrick);
     }
 
-    player_one_ball.xCoor += player_one_ball.dx;
-    player_one_ball.yCoor += player_one_ball.dy;
+   // player_one_ball.xCoor += player_one_ball.dx;
+   // player_one_ball.yCoor += player_one_ball.dy;
 
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
