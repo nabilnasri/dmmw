@@ -10,6 +10,7 @@ var IO = {
         IO.socket = io.connect();
         IO.bindEvents();
         IO.drawing = null;
+        IO.user = new Client_User();
     },
 
     /**
@@ -46,6 +47,7 @@ var IO = {
      * @param data {{ gameId: int, mySocketId: * }}
      */
     onNewRandomGameCreated: function (data) {
+        console.log('incoming data in IO.onNewRandomGameCreated: ', data);
         IO.user.gameInit(data);
     },
 
@@ -115,9 +117,10 @@ var IO = {
         updatePoints(data.points, data.player);
     },
 
-    /* ****************
-     *   SOCKET EMIT  *
-     * ************** */
+
+    /** ********************************
+     *           SOCKET EMIT           *
+     * ****************************** **/
 
     sendReady: function () {
         IO.socket.emit("gameData");

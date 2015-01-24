@@ -18,7 +18,13 @@ $(document).ready(function() {
     }
 
     $(document).on("click", '.random-game', function () {
-        IO.socket.emit('createNewRandomGame', {data:'player'});
+        var data = {};
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+            data.role = 'player';
+        } else {
+            data.role = 'host';
+        }
+        IO.socket.emit('createNewRandomGame', data);
         refresh_site();
     });
 

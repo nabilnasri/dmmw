@@ -1,5 +1,5 @@
-function Client_User(socketId) {
-    this.mySocketId = socketId;
+function Client_User() {
+    this.mySocketId ;
     this.myLives = 3;
     this.myCurrentPoints = 0;
     this.myUsername;
@@ -8,30 +8,16 @@ function Client_User(socketId) {
     this.playerNumber;
 }
 
-Client_User.prototype.onClickRandomGame = function () {
-    // console.log('Clicked "Create A Game"');
-    //TODO userrole hier herausfinden uns speichern
-    var data = {
-        role : "hostOderPlayer"
-    };
-    IO.socket.emit('createNewRandomGame', data);
-};
-
-Client_User.prototype.onClickPrivateGame = function () {
-    // console.log('Clicked "Create A Game"');
-    //TODO userrole hier herausfinden uns speichern
-    IO.socket.emit('createNewPrivateGame');
-};
-
 /**
  * The Host screen is displayed for the first time.
- * @param data{{ gameId: int, mySocketId: * }}
+ * @param data{{ gameId: String, mySocketId: String, playerNumber: int, role: String }}
  */
 Client_User.prototype.gameInit = function (data) {
-    Client_User.gameId = data.gameId;
-    Client_User.mySocketId = data.mySocketId;
-    Client_User.playerNumber = data.playerCounter;
-    Client_User.displayScreen(user.myRole);
+    this.gameId = data.gameId;
+    this.mySocketId = data.mySocketId;
+    this.playerNumber = data.playerCounter;
+    this.myRole = data.role;
+    this.displayScreen();
 };
 
 /**
@@ -101,7 +87,7 @@ Client_User.prototype.onJoinClick = function () {
     // console.log('Clicked "Join A Game"');
 
     // Display the Join Game HTML on the player's screen.
-    Client_User.$gameArea.html(Client_User.$templateJoinGame);
+    this.$gameArea.html(Client_User.$templateJoinGame);
 };
 
 /**
@@ -119,8 +105,8 @@ Client_User.prototype.onPlayerStartClick = function () {
     IO.socket.emit('playerJoinGame', data);
 
     // Set the appropriate properties for the current player.
-    Client_User.myRole = 'Player';
-    Client_User.myUsername = data.playerName;
+    this.myRole = 'Player';
+    this.myUsername = data.playerName;
 };
 
 /**
@@ -133,7 +119,6 @@ Client_User.prototype.onPlayerRestart = function () {
         playerName: Client_User.Player.myName
     }
     IO.socket.emit('playerRestart', data);
-    Client_User.currentRound = 0;
     $('#gameArea').html("<h3>Waiting on host to start new game.</h3>");
 };
 
@@ -154,3 +139,64 @@ Client_User.prototype.updateWaitingScreen = function (data) {
 Client_User.prototype.endGame = function () {
     //TODO gewinner und verlierer anzeigen.
 };
+
+
+/** *********************
+ *    GETTER / SETTER   *
+ * ******************* **/
+
+Client_User.prototype.getSocketId = function(){
+    return this.mySocketId;
+}
+
+Client_User.prototype.setSocketId = function(socketId){
+    this.mySocketId = socketId;
+}
+
+Client_User.prototype.getLives = function(){
+    return this.myLives;
+}
+
+Client_User.prototype.setLives = function(lives){
+    this.myLives = lives;
+}
+
+Client_User.prototype.getCurrentsPoint = function(){
+    return this.myCurrentPoints;
+}
+
+Client_User.prototype.setCurrentsPoint = function(points){
+    this.myCurrentPoints = points;
+}
+
+Client_User.prototype.getUsername = function(){
+    return this.myUsername;
+}
+
+Client_User.prototype.setCurrentsPoint = function(username){
+    this.myUsername = username;
+}
+
+Client_User.prototype.getGameId = function(){
+    return this.myGameId;
+}
+
+Client_User.prototype.setGameId = function(gameId){
+    this.myGameId = gameId;
+}
+
+Client_User.prototype.getRole = function(){
+    return this.myRole;
+}
+
+Client_User.prototype.setGameId = function(role){
+    this.myRole = role;
+}
+
+Client_User.prototype.getPlayerNumner = function (){
+    return this.playerNumber;
+}
+
+Client_User.prototype.setPlayerNumber = function(playerNumber){
+    this.playerNumber = playerNumber;
+}

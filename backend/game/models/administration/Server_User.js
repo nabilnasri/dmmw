@@ -1,10 +1,13 @@
+var winston = require('winston');
+
 exports.Server_User = function Server_User(role, playerSocketId){
-    this.username = username;
+    winston.log('info', 'User mit mit role = ' + role + '  und socketId = ' + playerSocketId + ' erstellt');
+    this.username = '';
     this.playerSockerId = playerSocketId;
     this.role = role;
-    this.currentPoints.lives = 3;
+    this.lives = 3;
     this.currentPoints = 0;
-}
+};
 
 exports.Server_User.prototype.setUsername = function(username){
     this.username = username;

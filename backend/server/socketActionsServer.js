@@ -1,7 +1,8 @@
+var winston = require('winston');
+
 var serverSocket;
 var gamersSocket;
 var gm;
-var winston = require('winston');
 
 /**
  * Die Methode wird durch www.js aufgrufen
@@ -29,30 +30,22 @@ exports.initGame = function(sio, socket, gamesManager){
  * The 'random game' button was clicked and 'createNewRandomGame' event occurred.
  */
 function createNewRandomGame(data) {
+    winston.log('info','user ist ein: ' +  data.role);
     // Create a unique Socket.IO Room
-    winston.log('info','Ich war hier ' +  data.data);
     var thisGameId = ( Math.random() * 100000 ) | 0;
     var playerSocketId = this.id;
     gm.addGame(thisGameId, serverSocket);
-    var playerNumber = gm.setUser(thisGameId, data.role, playerSocketId);
+    var playerNumber = gm.addUser(data.role, playerSocketId, thisGameId);
+
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('newRandomGameCreated', {gameId: thisGameId, mySocketId: playerSocketId, playerNumber: playerNumber});
-    // Join the Room and wait for the players
+    this.emit('newRandomGameCreated', {gameId: thisGameId, mySocketId: playerSocketId, playerNumber: playerNumber, role: data.role});
+
+    //joint den User in den Loooom!
     this.join(thisGameId.toString());
 }
 
 function createNewPrivateGame() {
-    // Create a unique Socket.IO Room
-    var thisGameId = ( Math.random() * 100000 ) | 0;
-    var playerSocketId = this.id;
-    //TODO role festlege(smartphone oder laptop, jenachdem Player oder Host)
-    gm.addGame(thisGameId);
-    gm.setUser(thisGameId, playerSocketId);
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('newPrivateGameCreated', {gameId: thisGameId, mySocketId: playerSocketId});
 
-    // Join the Room and wait for the players
-    this.join(thisGameId.toString());
 }
 
 
@@ -63,10 +56,6 @@ function createNewPrivateGame() {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
-
-    // A reference to the player's Socket.IO socket object
-    var sock = this;
-
     // Look up the room ID in the Socket.IO manager object.
     var room = gamersSocket.manager.rooms["/" + data.gameId];
 
@@ -76,7 +65,7 @@ function playerJoinGame(data) {
         data.mySocketId = sock.id;
 
         // Join the room
-        sock.join(data.gameId);
+        this.join(data.gameId);
 
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
