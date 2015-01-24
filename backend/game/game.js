@@ -6,6 +6,7 @@ var customFunctions = require("./helper/custom_functions");
  mehreren Stellen des Programms zu nutzten.
  */
 exports.Dmmw = (function(){
+    var gameList = {};
     var game;
 
     function createInstance() {
@@ -15,11 +16,11 @@ exports.Dmmw = (function(){
 
     //Gibt die Instanz vom Spiel zurück
     return {
-        getInstance: function () {
-            if (!game) {
-                game = createInstance();
+        getInstance: function (gameId) {
+            if (!gameList[gameId]) {
+                gameList[gameId] = createInstance();
             }
-            return game;
+            return gameList[gameId];
         }
     };
 

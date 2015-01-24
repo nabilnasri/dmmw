@@ -20,7 +20,7 @@ exports.Ball = function Ball(color, xCoor, yCoor, player) {
 /*
  BALL LOGIC --START--
  */
-exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
+exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
@@ -41,7 +41,7 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio) {
         var points = canvas.getBricks()[row][col].getPoints();
         canvas.countDestroyedBricks+=1;
         canvas.getBricks()[row][col] = 0; //destroy Brick
-        handler.sendBrickCoordinates(sio, row, col);
+        handler.sendBrickCoordinates(sio, row, col, gameId);
 
 
         //Ab hier muss anders gelöst werden!!

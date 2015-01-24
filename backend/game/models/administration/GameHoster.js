@@ -1,10 +1,20 @@
 var user = require('./Server_User');
+var game = require('../../game');
+var handler = require('../../../communication/socket_request_handler');
 
-exports.GameHoster = function GameHost(gameId) {
+exports.GameHoster = function GameHost(gameId, serverSocket) {
     this.gameId = gameId;
+    this.serverSocket = serverSocket;
     this.userList = {};
     this.playerCounter = 1;
     this.hostCounter = 1;
+
+    serverSocket.sockets.on('motion', motion);
+    serverSocket.sockets.on('gameData', gameData);
+    serverSocket.sockets.on('gamePause', gamePause);
+    serverSocket.sockets.on('keyMove', keyMove);
+    serverSocket.sockets.on('keyRelease', keyRelease);
+    serverSocket.sockets.on('brickColor', brickColor);
     //TODO gameinstanz initialisieren
 };
 
@@ -24,7 +34,7 @@ exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
     if (role === 'host' && this.hostCounter <= 2) {
         var u = user.Server_User('', playerSocketId, role);
         this.userList.push({hostCounter: u});
-        this.hostcounter  += 1;
+        this.hostCounter  += 1;
     } else if (role === 'player' && this.playerCounter <=2) {
         var u = user.Server_User('', playerSocketId, role);
         this.userList.push({playerCounter: u});
@@ -36,3 +46,64 @@ exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
 
     return this.userList;
 };
+
+
+function playGame(){
+    game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
+    game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
+}
+
+
+function motion(data) {
+    if(game.Dmmw.getInstance(this.gameId).playingField != null){
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(0).motionMove(data.text, this.serverSocket, this.gameId)
+    }
+}
+
+//MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
+function gameData(){
+    if(!game.Dmmw.getInstance(this.gameId).running){
+        handler.sendComplete(this.serverSocket, this.gameId);
+        game.Dmmw.getInstance(this.gameId).running = true;
+        game.Dmmw.getInstance(this.gameId).intervallIdsetInterval = setInterval(playGame, 25);
+    }
+}
+function gamePause (){
+    game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance().pause;
+
+    if(game.Dmmw.getInstance(this.gameId).pause){
+        clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
+    }else{
+        game.Dmmw.getInstance(this.gameId).intervallIdsetInterval = setInterval(playGame, 25);
+    }
+}
+
+function keyMove (data) {
+    if(data.direction == "right"){
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = true;
+    }
+    if(data.direction == "left"){
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).leftDown = true;
+    }
+
+    handler.sendPaddles(this.serverSocket, this.gameId);
+}
+
+
+function keyRelease(data) {
+    if(data.direction == "right"){
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = false;
+    }
+    if(data.direction == "left"){
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).leftDown = false;
+    }
+    handler.sendPaddles(this.serverSocket, this.gameId);
+}
+
+function brickColor(data){
+    var row = data.row;
+    var col = data.col;
+    var brickColor = data.brickColor;
+    game.Dmmw.getInstance(this.gameId).playingField.bricks[row][col].currentColor = brickColor;
+}
+

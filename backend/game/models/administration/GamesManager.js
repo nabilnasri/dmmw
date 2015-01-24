@@ -1,4 +1,5 @@
 var gamehost = require('./GameHoster');
+var winston = require('winston');
 
 exports.Gamemanager = function Gamemanager() {
     //dictionary mit allen derzeit laufenden Spielinstanzen
@@ -9,9 +10,10 @@ exports.Gamemanager = function Gamemanager() {
 /**
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
-exports.Gamemanager.prototype.addGame = function(gameId){
+exports.Gamemanager.prototype.addGame = function(gameId, serverSocket){
     //TODO schauen ob ein freier room vorhanden ist, falls randomGame geklickt wurde!
-    this.gamelist.add({gameId: gamehost.GameHoster(gameId)});
+    winston.log('info','add ' +  gameid);
+    this.gamelist[gameId] = gamehost.GameHoster(gameId, serverSocket);
 };
 
 /**

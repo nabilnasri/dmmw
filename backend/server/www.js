@@ -13,7 +13,7 @@ var server = app.listen(app.get('port'), function () {
 });
 
 var sio = io.listen(server);
-var gm = gamesManager.Gamemanager();
+var gm = new gamesManager.Gamemanager();
 
 sio.sockets.on('connection', function (socket) {
     socketServerAction.initGame(sio, socket, gm);

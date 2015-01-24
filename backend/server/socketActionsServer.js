@@ -1,9 +1,7 @@
 var serverSocket;
 var gamersSocket;
 var gm;
-
-var game = require('../game/game');
-var handler = require('../communication/socket_request_handler');
+var winston = require('winston');
 
 /**
  * Die Methode wird durch www.js aufgrufen
@@ -16,7 +14,6 @@ exports.initGame = function(sio, socket, gamesManager){
     gamersSocket = socket;
     gm = gamesManager;
 
-
     gamersSocket.emit('connected', { message: "Ahoi !" });
 
     // Host Events
@@ -26,12 +23,6 @@ exports.initGame = function(sio, socket, gamesManager){
 
     // Player Events
     gamersSocket.on('playerJoinGame', playerJoinGame);
-    gamersSocket.on('motion', motion);
-    gamersSocket.on('gameData', gameData);
-    gamersSocket.on('gamePause', gamePause);
-    gamersSocket.on('keyMove', keyMove);
-    gamersSocket.on('keyRelease', keyRelease);
-    gamersSocket.on('brickColor', brickColor);
 };
 
 /**
@@ -39,13 +30,13 @@ exports.initGame = function(sio, socket, gamesManager){
  */
 function createNewRandomGame(data) {
     // Create a unique Socket.IO Room
+    winston.log('info','Ich war hier ' +  data.data);
     var thisGameId = ( Math.random() * 100000 ) | 0;
     var playerSocketId = this.id;
-    gm.addGame(thisGameId);
+    gm.addGame(thisGameId, serverSocket);
     var playerNumber = gm.setUser(thisGameId, data.role, playerSocketId);
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
     this.emit('newRandomGameCreated', {gameId: thisGameId, mySocketId: playerSocketId, playerNumber: playerNumber});
-
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
 }
@@ -109,65 +100,6 @@ function hostPrepareGame(gameId) {
 
     //TODO stoesst beim host(s) die methode zum spielstart aus
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
-}
-
-function playGame(){
-    game.Dmmw.getInstance().playingField.simulateGame(serverSocket);
-    game.Dmmw.getInstance().redraw(); //SHIFT ARRAY
-}
-
-
-function motion(data) {
-    if(game.Dmmw.getInstance().playingField != null){
-        game.Dmmw.getInstance().playingField.getPaddle(0).motionMove(data.text, serverSocket)
-    }
-}
-
-//MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
-function gameData(){
-    if(!game.Dmmw.getInstance().running){
-        handler.sendComplete(serverSocket);
-        game.Dmmw.getInstance().running = true;
-        game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
-    }
-}
-function gamePause (){
-    game.Dmmw.getInstance().pause = !game.Dmmw.getInstance().pause;
-
-    if(game.Dmmw.getInstance().pause){
-        clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
-    }else{
-        game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
-    }
-}
-
-function keyMove (data) {
-    if(data.direction == "right"){
-        game.Dmmw.getInstance().playingField.getPaddle(1).rightDown = true;
-    }
-    if(data.direction == "left"){
-        game.Dmmw.getInstance().playingField.getPaddle(1).leftDown = true;
-    }
-
-    handler.sendPaddles(serverSocket);
-}
-
-
-function keyRelease(data) {
-    if(data.direction == "right"){
-        game.Dmmw.getInstance().playingField.getPaddle(1).rightDown = false;
-    }
-    if(data.direction == "left"){
-        game.Dmmw.getInstance().playingField.getPaddle(1).leftDown = false;
-    }
-    handler.sendPaddles(serverSocket);
-}
-
-function brickColor(data){
-    var row = data.row;
-    var col = data.col;
-    var brickColor = data.brickColor;
-    game.Dmmw.getInstance().playingField.bricks[row][col].currentColor = brickColor;
 }
 
 

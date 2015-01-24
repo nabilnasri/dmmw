@@ -18,6 +18,7 @@ $(document).ready(function() {
     }
 
     $(document).on("click", '.random-game', function () {
+        IO.socket.emit('createNewRandomGame', {data:'player'});
         refresh_site();
     });
 

@@ -162,7 +162,7 @@ exports.PlayingField.prototype.getColWidth = function () {
 };
 
 
-exports.PlayingField.prototype.simulateGame = function (sio) {
+exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     var player_one_ball = this.getBall(0);
     var player_one_paddle = this.getPaddle(0);
 
@@ -175,7 +175,7 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();
 
-    player_one_ball.checkHitBrick(this, sio);
+    player_one_ball.checkHitBrick(this, sio, gameId);
     player_one_ball.checkHitRightBorder(this);
     player_one_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
@@ -183,7 +183,7 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
     player_one_ball.checkOutside(this, 1);
     player_one_ball.checkHitPaddle(this, player_one_paddle, 1);
     ////////////////////////////////////////////////////////////////////////
-    player_two_ball.checkHitBrick(this, sio);
+    player_two_ball.checkHitBrick(this, sio, gameId);
     player_two_ball.checkHitRightBorder(this);
     player_two_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
@@ -193,7 +193,7 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
 
     if(!this.bricksAvailable()){
         this.moveMasterBrick();
-        handler.sendMasterBrick(sio, this.masterBrick);
+        handler.sendMasterBrick(sio, this.masterBrick, gameId);
     }
 
     player_one_ball.xCoor += player_one_ball.dx;
@@ -202,7 +202,7 @@ exports.PlayingField.prototype.simulateGame = function (sio) {
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
 
-    handler.sendBalls(sio);
-    handler.sendColorpicker(sio);
+    handler.sendBalls(sio, gameId);
+    handler.sendColorpicker(sio, gameId);
 };
 
