@@ -77,7 +77,7 @@ Drawing.prototype.drawBricks = function() {
             if (this.gameInfo.playingField.bricks[i][j] != 0) {
                 var current_brick = this.gameInfo.playingField.bricks[i][j];
                 current_brick.currentColor = this.gameInfo.colorpicker[j];
-                sendBrickColor(i, j, current_brick.currentColor);
+                IO.sendBrickColor(i, j, current_brick.currentColor);
                 this.rect(
                     this.canvas.Context(),
                     current_brick.xCoor * this.scaleX,

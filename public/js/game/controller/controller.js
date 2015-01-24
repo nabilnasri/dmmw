@@ -68,7 +68,7 @@ function portrait_primary(ev) {
 }
 
 //Eventlistner wenn man das Gerät bewegt.
-window.addEventListener('devicemotion', sendMotion, false);
+window.addEventListener('devicemotion', IO.sendMotion, false);
 
 window.addEventListener('keydown', onKeyDown, false);
 window.addEventListener('keyup', onKeyUp, false);
@@ -80,16 +80,16 @@ window.addEventListener('keyup', onKeyUp, false);
  */
 function onKeyUp(evt) {
     if (evt.keyCode === 39) {
-        sendKeyRelease("right");
+        IO.sendKeyRelease("right");
     } else if (evt.keyCode === 37) {
-        sendKeyRelease("left");
+        IO.sendKeyRelease("left");
     }
 }
 
 function onKeyDown(evt) {
     if (evt.keyCode === 39) {
-        sendKeyMove("right");
+        IO.sendKeyMove("right");
     } else if (evt.keyCode === 37) {
-        sendKeyMove("left");
+        IO.sendKeyMove("left");
     }
 }

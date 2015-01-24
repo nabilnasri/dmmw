@@ -14,6 +14,7 @@ var server = app.listen(app.get('port'), function () {
 var game = require('../game/game');
 var sio = io.listen(server);
 var handler = require('../communication/socket_request_handler');
+var socketServerAction = require('./socketActionsServer');
 
 function playGame(){
     game.Dmmw.getInstance().playingField.simulateGame(sio);
@@ -21,6 +22,7 @@ function playGame(){
 }
 
 sio.sockets.on('connection', function (socket) {
+    socketServerAction.initGame(sio, socket);
     socket.on('motion', function (data) {
         if(game.Dmmw.getInstance().playingField != null){
             game.Dmmw.getInstance().playingField.getPaddle(0).motionMove(data.text, sio)
