@@ -104,6 +104,7 @@ window.onload = function(){
 
 var px;
 var py;
+var losch = false;
 function initialise(){
     var canvas = document.getElementById("con_canvas");
     canvas.width  = window.innerWidth;
@@ -121,6 +122,7 @@ function doTouchStart(eve) {
 }
 
 function hitPowerUp(px,py,concan_x,concan_y) {
+
     px = Math.ceil(px);
     py = Math.ceil(py);
     concan_x = Math.ceil(concan_x);
@@ -132,7 +134,9 @@ function hitPowerUp(px,py,concan_x,concan_y) {
     if(( concan_x <= px+50 && concan_x>= px-50 ) && ( concan_y <= py+50 && concan_y>= py-50 )){
 
         alert("getroffen");
-        clear(displayCanvas);
+        losch = true;
+
+
     }
 }
 
@@ -158,16 +162,16 @@ function canvasApp() {
     function init() {
 
         numParticles = 1; // kann man nutzen als Menge der PowerUps
-        maxParticleRad = 6;
-        minParticleRad = 3;
-        particleRad = 7; // größe der PowerUps
+        maxParticleRad = 32;
+        minParticleRad = 28;
+        particleRad = 15; // größe der PowerUps
 
         displayWidth = displayCanvas.width;
         displayHeight = displayCanvas.height;
 
-        initVelMax = 1.5;
-        maxVelComp = 2.5;
-        randAccel = 0.2; //bescheunigungsfaktor
+        initVelMax = 10.5;
+        maxVelComp = 20.5;
+        randAccel = 2.5; //bescheunigungsfaktor
 
         particleList = {}; // powerUpListe
         createParticles();
@@ -232,13 +236,13 @@ function canvasApp() {
                 p.velX = maxVelComp;
             }
             else if (p.velX < -maxVelComp) {
-                p.velX = -maxVelComp;
+                p.velX += -maxVelComp;
             }
             if (p.velY > maxVelComp) {
                 p.velY = maxVelComp;
             }
             else if (p.velY < -maxVelComp) {
-                p.velY = -maxVelComp;
+                p.velY += -maxVelComp;
             }
 
             p.x += p.velX;
@@ -262,19 +266,29 @@ function canvasApp() {
                 p.velY *= -1;
             }
 
-            context.fillStyle = p.color;
-            context.beginPath();
-            context.arc(p.x, p.y, p.rad, 0, 2 * Math.PI, false);
-            context.closePath();
-            context.fill();
-            px = p.x;
-            py = p.y;
+            if (losch){
 
-            //advance
-            p = p.next;
+                context.clear();
+            }else {
+
+                context.fillStyle = p.color;
+                context.beginPath();
+                context.arc(p.x, p.y, p.rad, 0, 2 * Math.PI, false);
+                context.closePath();
+                context.fill();
+                px = p.x;
+                py = p.y;
+
+                //advance
+                p = p.next;
+
+            }
+
         }
     }
 }
+
+
 
 function rect(ctx, x, y, w, h, color) {
     ctx.beginPath();
