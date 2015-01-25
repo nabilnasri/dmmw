@@ -1,31 +1,50 @@
-$(document).ready(function() {
-    function refresh_site() {
+$(document).ready(function () {
+    function refresh_site(page) {
         NProgress.start();
         $.ajax({
-            url: "/game",
+            url: '/' + page,
             type: 'GET',
             dataType: "html",
             data: {}
         }).done(function (data) {
-            var content =  $(data).find('#content').html();
+            var content = $(data).find('#content').html();
             $("#content").html(content);
             var scripts = $(data).find('#content-scripts').html();
             $('#content-scripts').html(scripts);
-            history.pushState(null, null, "/game");
+            history.pushState(null, null, '/' + page);
             NProgress.done();
             jQuery(window).trigger('load');
         });
     }
 
-    $(document).on("click", '.random-game', function () {
+    $(document).on('click', '.random-game', function () {
         var data = {};
-        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             data.role = 'player';
         } else {
             data.role = 'host';
         }
         IO.socket.emit('createNewRandomGame', data);
-        refresh_site();
+        refresh_site('game');
+    });
+
+    $(document).on('click', '.private-game', function () {
+        refresh_site('private');
+    });
+
+    $(document).on('click', '.join-private', function () {
+        refresh_site('enterInfos');
+    });
+
+
+    $(document).on('click', '#connect-to-room', function () {
+        console.log("AAAH ", $('#gameId').val());
+        var data = {
+            gameId: $('#gameId').val()
+        };
+        IO.socket.emit('playerJoinGame', data);
+
+        //refresh_site('private/createOrJoin');
     });
 
 });

@@ -56,13 +56,15 @@ function createNewPrivateGame() {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
+    winston.log('info','user joined dem room : ' +  data.gameId);
+    //winston.log('info','user joined dem roo222m : ' +  gamersSocket.sockets.clients());
     // Look up the room ID in the Socket.IO manager object.
     var room = gamersSocket.manager.rooms["/" + data.gameId];
 
     // If the room exists...
     if( room != undefined ){
         // attach the socket id to the data object.
-        data.mySocketId = sock.id;
+        data.mySocketId = this.id;
 
         // Join the room
         this.join(data.gameId);

@@ -20,5 +20,12 @@ router.get('/controller', function(req, res) {
     res.render('controller', {title:"DMMW"});
 });
 
+router.get('/private', function(req, res) {
+    res.render('private_game', {title:"DMMW"});
+});
+
+router.get('/enterInfos', function(req, res) {
+    res.render('enter_infos', {title:"DMMW"});
+});
 
 module.exports = router;

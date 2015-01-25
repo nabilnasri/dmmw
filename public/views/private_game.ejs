@@ -8,24 +8,24 @@
     <% include main/navbar.ejs %>
     <div id="content">
         <div class="row center-block">
-            <a class="random-game">
+            <a class="create-private">
                 <div class="col-md-4 option" id="searchGame">
                     <div class="row">
-                        <h1><span class="glyphicon glyphicon-random"/></h1>
+                        <h1><span class="glyphicon glyphicon-plus"/></h1>
                     </div>
                     <div class="row">
-                        <span id="randomText">RANDOM GAME</span>
+                        <span id="randomText">CREATE</span>
                     </div>
                 </div>
             </a>
 
-            <a class="private-game">
+            <a class="join-private">
                 <div class="col-md-4 option pull-right" id="createGame">
                     <div class="row">
-                        <h1><span class="glyphicon glyphicon-lock"/></h1>
+                        <h1><span class="glyphicon glyphicon-bullhorn"/></h1>
                     </div>
                     <div class="row">
-                        <span id="privateText">PRIVATE GAME</span>
+                        <span id="privateText">JOIN</span>
                     </div>
                 </div>
             </a>
@@ -34,11 +34,6 @@
     <% include main/footer.ejs %>
     <% include main/global_js_scripts.ejs %>
     <div id="content-scripts">
-        <script src="../js/game/game_info.js"></script>
-        <script src="../js/game/models/Client_User.js"></script>
-        <script src="../js/communication/socket_handler.js"></script>
-        <script src="../js/communication/client_communication.js"></script>
-        <script src="../js/custom/home_functions.js"></script>
     </div>
 </div>
 </body>
