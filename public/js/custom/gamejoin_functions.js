@@ -16,8 +16,11 @@ $(document).ready(function () {
             jQuery(window).trigger('load');
         });
     }
+    $(document).on('click', '.join-private', function () {
+        refresh_site('enterInfos');
+    });
 
-    $(document).on('click', '.random-game', function () {
+    $(document).on('click', '.create-private', function () {
         var data = {};
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             data.role = 'player';
@@ -28,7 +31,17 @@ $(document).ready(function () {
         refresh_site('game');
     });
 
-    $(document).on('click', '.private-game', function () {
-        refresh_site('private');
+    $(document).on('click', '#connect-to-room', function () {
+        var data = {
+            gameId: $('#gameId').val()
+        };
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            data.role = 'player';
+        } else {
+            data.role = 'host';
+        }
+        IO.socket.emit('playerJoinGame', data);
+
+        //refresh_site('private/createOrJoin');
     });
 });
