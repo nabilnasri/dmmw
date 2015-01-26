@@ -36,6 +36,16 @@ $(document).ready(function () {
         refresh_site('enterInfos');
     });
 
+    $(document).on('click', '.create-private', function () {
+        var data = {};
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            data.role = 'player';
+        } else {
+            data.role = 'host';
+        }
+        IO.socket.emit('createNewRandomGame', data);
+        refresh_site('game');
+    });
 
     $(document).on('click', '#connect-to-room', function () {
         console.log("AAAH ", $('#gameId').val());
