@@ -24,6 +24,14 @@ exports.initGame = function (sio, socket, gamesManager) {
 
     // Player Events
     gamersSocket.on('playerJoinGame', playerJoinGame);
+
+    // Game Events
+    //gamersSocket.on('motion', motion);
+    gamersSocket.on('gameData', gameData);
+    /*gamersSocket.on('gamePause', gamePause);
+    gamersSocket.on('keyMove', keyMove);
+    gamersSocket.on('keyRelease', keyRelease);
+    gamersSocket.on('brickColor', brickColor);*/
 };
 
 /**
@@ -33,14 +41,14 @@ function createNewRandomGame(data) {
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
     var playerSocketId = this.id;
-    gm.addGame(thisGameId, serverSocket);
-    var playerNumber = gm.addUser(data.role, playerSocketId, thisGameId);
+    gm.addGame(thisGameId, serverSocket, gamersSocket);
+    gm.addUser(data.role, playerSocketId, thisGameId);
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
     this.emit('newRandomGameCreated', {
         gameId: thisGameId,
         mySocketId: playerSocketId,
-        playerNumber: playerNumber,
+        //playerNumber: playerNumber,
         role: data.role
     });
 
@@ -99,6 +107,11 @@ function hostPrepareGame(gameId) {
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
 }
 
+function gameData(data){
+    winston.log('info', ['socket onMotion aufgerufen fuer gameID', data.gameId].join(' '));
+    gm.startGame(data.gameId);
+}
+
 
 /**
  * The game is over, and a player has clicked a button to restart the game.
@@ -109,6 +122,6 @@ function hostPrepareGame(gameId) {
 
     // Emit the player's data back to the clients in the game room.
     data.playerId = this.id;
-    serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom',data);
+    gamersSocket.sockets.in(data.gameId).emit('playerJoinedRoom',data);
 }
  */
