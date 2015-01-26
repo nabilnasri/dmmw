@@ -8,8 +8,8 @@ exports.GameHoster = function GameHost(gameId, serverSocket) {
     this.gameId = gameId;
     this.serverSocket = serverSocket;
     this.userList = {};
-    this.playerCounter = 1;
-    this.hostCounter = 1;
+    this.playerCounter = 0;
+    this.hostCounter = 0;
     this.roomSocket = serverSocket;
 
     this.roomSocket.sockets.on('motion', motion);
@@ -27,7 +27,6 @@ exports.GameHoster.prototype.getGameId = function () {
     return this.gameId;
 };
 
-
 /**
  * setzt neuen user im GameHoster und gibt die Spielernummern zurueck um auf der Client Seite
  * Punktezahl etc. richtig zu setzen
@@ -36,20 +35,27 @@ exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
     winston.log('info', 'User mit role = ' + role + ' und socketId = ' + playerSocketId + ' wird hinzugefuegt zum host mit gameid ' + this.gameId);
     if (role === 'host' && this.hostCounter <= 2) {
         var u = new user.Server_User(role, playerSocketId);
-        this.userList[this.hostCounter] = u;
         this.hostCounter += 1;
-        return this.hostCounter-1;
+        this.userList[this.hostCounter] = u;
     } else if (role === 'player' && this.playerCounter <= 2) {
         var u = new user.Server_User(role, playerSocketId);
-        this.userList[this.playerCounter] = u;
         this.playerCounter += 1;
-        return this.playerCounter-1;
+        this.userList[this.playerCounter] = u;
     } else {
         winston.log('error', 'FEHLER BEIM USER SETZEN');
-        return -1;
     }
 };
 
+/**
+ * gibt Anzahl der angemeldeten user zurueck als dictionary zurueck
+ * */
+exports.GameHoster.prototype.userAmount = function () {
+
+    return {
+        playCounter: this.playCounter,
+        hostCounter: this.hostCounter
+    };
+};
 
 function playGame() {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
@@ -109,4 +115,3 @@ function brickColor(data) {
     var brickColor = data.brickColor;
     game.Dmmw.getInstance(this.gameId).playingField.bricks[row][col].currentColor = brickColor;
 }
-
