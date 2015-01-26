@@ -30,7 +30,6 @@ exports.initGame = function (sio, socket, gamesManager) {
  * The 'random game' button was clicked and 'createNewRandomGame' event occurred.
  */
 function createNewRandomGame(data) {
-    winston.log('info', 'user ist ein: ' + data.role);
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
     var playerSocketId = this.id;
@@ -65,7 +64,6 @@ function playerJoinGame(data) {
     // If the room exists...
 
     var gameId = data.gameId;
-    winston.log('info', ['socket Useramount : ', gm.checkUserAmount(gameId)].join(' '));
 
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
         winston.log('info', 'user joined dem room : ' + data.gameId);
@@ -74,7 +72,8 @@ function playerJoinGame(data) {
 
         // Join the room
         this.join(data.gameId.toString());
-
+        gm.addUser(data.role, this.id, gameId);
+        winston.log('info', ['socket Useramount : ', gm.checkUserAmount(gameId)].join(' '));
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
 

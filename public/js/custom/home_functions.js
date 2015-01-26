@@ -52,6 +52,11 @@ $(document).ready(function () {
         var data = {
             gameId: $('#gameId').val()
         };
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            data.role = 'player';
+        } else {
+            data.role = 'host';
+        }
         IO.socket.emit('playerJoinGame', data);
 
         //refresh_site('private/createOrJoin');
