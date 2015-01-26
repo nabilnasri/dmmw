@@ -64,7 +64,7 @@ function playerJoinGame(data) {
         data.mySocketId = this.id;
 
         // Join the room
-        this.join(data.gameId);
+        this.join(data.gameId.toString());
 
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
