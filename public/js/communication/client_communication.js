@@ -56,6 +56,7 @@ var IO = {
      * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     playerJoinedRoom: function (data) {
+        console.log("playerJoined " + data);
         IO.user.updateWaitingScreen(data);
     },
 

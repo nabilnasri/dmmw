@@ -12,7 +12,7 @@ exports.Gamemanager = function Gamemanager() {
  * */
 exports.Gamemanager.prototype.addGame = function(gameId, serverSocket){
     //TODO schauen ob ein freier room vorhanden ist, falls randomGame geklickt wurde!
-    winston.log('info','GameManager addUser: ' +  gameId);
+    winston.log('info',['GameManager addGame: ', gameId].join(' '));
     this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket);
 };
 
@@ -21,6 +21,6 @@ exports.Gamemanager.prototype.addGame = function(gameId, serverSocket){
  * Punktezahl etc. richtig zu setzen
  * */
 exports.Gamemanager.prototype.addUser = function(role, playerSocketId, gameId){
-    winston.log('info','gamelistKeys: ' + Object.keys(this.gamelist));
+    winston.log('info',['addUser ',playerSocketId,' in gameID ', gameId].join(' '));
     return this.gamelist[gameId].setUser(role, playerSocketId);
 };

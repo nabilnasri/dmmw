@@ -125,13 +125,13 @@ Client_User.prototype.onPlayerRestart = function () {
 /**
  * Display the waiting screen for player 1
  * @param data
- */
+
 Client_User.prototype.updateWaitingScreen = function (data) {
     if (IO.socket.socket.sessionid === data.mySocketId) {
         Client_User.myRole = 'Player';
         Client_User.gameId = data.gameId;
     }
-};
+};*/
 
 /**
  * Show the "Game Over" screen.

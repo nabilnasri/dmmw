@@ -56,13 +56,10 @@ function createNewPrivateGame() {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
-    winston.log('info','user joined dem room : ' +  data.gameId);
-    //winston.log('info','user joined dem roo222m : ' +  gamersSocket.sockets.clients());
     // Look up the room ID in the Socket.IO manager object.
-    var room = gamersSocket.manager.rooms["/" + data.gameId];
-
     // If the room exists...
-    if( room != undefined ){
+    if( serverSocket.sockets.adapter.rooms[data.gameId] != undefined ){
+        winston.log('info','user joined dem room : ' +  data.gameId);
         // attach the socket id to the data object.
         data.mySocketId = this.id;
 
@@ -73,8 +70,9 @@ function playerJoinGame(data) {
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
 
     } else {
+        winston.log('info','error : ');
         // Otherwise, send an error message back to the player.
-        this.emit('error',{message: "This room does not exist."} );
+        //this.emit('error',{message: "This room does not exist."} );
     }
 }
 
