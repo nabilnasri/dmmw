@@ -10,7 +10,6 @@ var IO = {
         IO.socket = io.connect();
         IO.bindEvents();
         IO.drawing = null;
-        IO.user = new Client_User();
     },
 
     /**
@@ -39,7 +38,7 @@ var IO = {
      * The client is successfully connected!
      */
     onConnected: function () {
-        IO.user = new Client_User(IO.socket.io.engine.id);
+        IO.user = new Client_User();
     },
 
     /**
@@ -47,7 +46,9 @@ var IO = {
      * @param data {{ gameId: int, mySocketId: * }}
      */
     onNewRandomGameCreated: function (data) {
-        console.log('incoming data in IO.onNewRandomGameCreated: ', data);
+        IO.user.setGameId(data.gameId);
+        IO.user.setSocketId(data.mySocketId);
+        IO.user.setRole(data.role);
         IO.user.gameInit(data);
     },
 
@@ -124,7 +125,8 @@ var IO = {
      * ****************************** **/
 
     sendReady: function () {
-        IO.socket.emit("gameData");
+        console.log("emit los gesendet", IO.user.getGameId());
+        IO.socket.emit("gameData", {gameId : IO.user.getGameId()});
     },
 
     sendPause: function () {

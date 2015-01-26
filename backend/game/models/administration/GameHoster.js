@@ -10,14 +10,6 @@ exports.GameHoster = function GameHost(gameId, serverSocket) {
     this.userList = {};
     this.playerCounter = 0;
     this.hostCounter = 0;
-    this.roomSocket = serverSocket;
-
-    this.roomSocket.sockets.on('motion', motion);
-    this.roomSocket.sockets.on('gameData', gameData);
-    this.roomSocket.sockets.on('gamePause', gamePause);
-    this.roomSocket.sockets.on('keyMove', keyMove);
-    this.roomSocket.sockets.on('keyRelease', keyRelease);
-    this.roomSocket.sockets.on('brickColor', brickColor);
 };
 
 /**
@@ -50,11 +42,17 @@ exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
  * gibt Anzahl der angemeldeten user zurueck als dictionary zurueck
  * */
 exports.GameHoster.prototype.userAmount = function () {
-
     return {
         playCounter: this.playCounter,
         hostCounter: this.hostCounter
     };
+};
+
+/**
+ * startet neues Spiel
+ * */
+exports.GameHoster.prototype.startNewgame = function () {
+    gameData();
 };
 
 function playGame() {
@@ -71,6 +69,7 @@ function motion(data) {
 
 //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
 function gameData() {
+    winston.log('info', 'starte das spiel!');
     if (!game.Dmmw.getInstance(this.gameId).running) {
         handler.sendComplete(this.serverSocket, this.gameId);
         game.Dmmw.getInstance(this.gameId).running = true;

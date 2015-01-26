@@ -1,22 +1,18 @@
 function Client_User() {
-    this.mySocketId ;
+    this.mySocketId = null;
     this.myLives = 3;
     this.myCurrentPoints = 0;
-    this.myUsername;
-    this.myGameId;
-    this.myRole;
-    this.playerNumber;
+    this.myUsername = null;
+    this.myGameId = null;
+    this.myRole = null;
+    this.playerNumber = null;
 }
 
 /**
  * The Host screen is displayed for the first time.
  * @param data{{ gameId: String, mySocketId: String, playerNumber: int, role: String }}
  */
-Client_User.prototype.gameInit = function (data) {
-    this.gameId = data.gameId;
-    this.mySocketId = data.mySocketId;
-    this.playerNumber = data.playerCounter;
-    this.myRole = data.role;
+Client_User.prototype.gameInit = function () {
     this.displayScreen();
 };
 
@@ -126,7 +122,7 @@ Client_User.prototype.onPlayerRestart = function () {
  * Display the waiting screen for player 1
  * @param data
 
-Client_User.prototype.updateWaitingScreen = function (data) {
+ Client_User.prototype.updateWaitingScreen = function (data) {
     if (IO.socket.socket.sessionid === data.mySocketId) {
         Client_User.myRole = 'Player';
         Client_User.gameId = data.gameId;
@@ -145,58 +141,58 @@ Client_User.prototype.endGame = function () {
  *    GETTER / SETTER   *
  * ******************* **/
 
-Client_User.prototype.getSocketId = function(){
+Client_User.prototype.getSocketId = function () {
     return this.mySocketId;
-}
+};
 
-Client_User.prototype.setSocketId = function(socketId){
+Client_User.prototype.setSocketId = function (socketId) {
     this.mySocketId = socketId;
-}
+};
 
-Client_User.prototype.getLives = function(){
+Client_User.prototype.getLives = function () {
     return this.myLives;
-}
+};
 
-Client_User.prototype.setLives = function(lives){
+Client_User.prototype.setLives = function (lives) {
     this.myLives = lives;
-}
+};
 
-Client_User.prototype.getCurrentsPoint = function(){
+Client_User.prototype.getCurrentsPoint = function () {
     return this.myCurrentPoints;
-}
+};
 
-Client_User.prototype.setCurrentsPoint = function(points){
+Client_User.prototype.setCurrentsPoint = function (points) {
     this.myCurrentPoints = points;
-}
+};
 
-Client_User.prototype.getUsername = function(){
+Client_User.prototype.getUsername = function () {
     return this.myUsername;
-}
+};
 
-Client_User.prototype.setCurrentsPoint = function(username){
+Client_User.prototype.setCurrentsPoint = function (username) {
     this.myUsername = username;
-}
+};
 
-Client_User.prototype.getGameId = function(){
+Client_User.prototype.getGameId = function () {
     return this.myGameId;
-}
+};
 
-Client_User.prototype.setGameId = function(gameId){
+Client_User.prototype.setGameId = function (gameId) {
     this.myGameId = gameId;
-}
+};
 
-Client_User.prototype.getRole = function(){
+Client_User.prototype.getRole = function () {
     return this.myRole;
-}
+};
 
-Client_User.prototype.setGameId = function(role){
+Client_User.prototype.setRole = function (role) {
     this.myRole = role;
-}
+};
 
-Client_User.prototype.getPlayerNumner = function (){
+Client_User.prototype.getPlayerNumner = function () {
     return this.playerNumber;
-}
+};
 
-Client_User.prototype.setPlayerNumber = function(playerNumber){
+Client_User.prototype.setPlayerNumber = function (playerNumber) {
     this.playerNumber = playerNumber;
-}
+};
