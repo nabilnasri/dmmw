@@ -24,7 +24,6 @@ exports.GameHoster.prototype.getGameId = function () {
  * Punktezahl etc. richtig zu setzen
  * */
 exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
-    winston.log('info', 'User mit role = ' + role + ' und socketId = ' + playerSocketId + ' wird hinzugefuegt zum host mit gameid ' + this.gameId);
     if (role === 'host' && this.hostCounter <= 2) {
         var u = new user.Server_User(role, playerSocketId);
         this.hostCounter += 1;
@@ -52,41 +51,39 @@ exports.GameHoster.prototype.userAmount = function () {
  * startet neues Spiel
  * */
 exports.GameHoster.prototype.startNewgame = function () {
-    gameData();
+    this.gameData();
 };
 
-function playGame() {
+exports.GameHoster.prototype.playGame = function() {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
-}
+};
 
-
-function motion(data) {
+exports.GameHoster.prototype.motion = function(data) {
     if (game.Dmmw.getInstance(this.gameId).playingField != null) {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(0).motionMove(data.text, this.serverSocket, this.gameId)
     }
-}
+};
 
 //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
-function gameData() {
-    winston.log('info', 'starte das spiel!');
+exports.GameHoster.prototype.gameData = function() {
     if (!game.Dmmw.getInstance(this.gameId).running) {
         handler.sendComplete(this.serverSocket, this.gameId);
         game.Dmmw.getInstance(this.gameId).running = true;
-        game.Dmmw.getInstance(this.gameId).intervallIdsetInterval = setInterval(playGame, 25);
+        game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
     }
-}
-function gamePause() {
+};
+exports.GameHoster.prototype.gamePause = function() {
     game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance().pause;
 
     if (game.Dmmw.getInstance(this.gameId).pause) {
-        clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
+        clearInterval(game.Dmmw.getInstance().intervallId);
     } else {
-        game.Dmmw.getInstance(this.gameId).intervallIdsetInterval = setInterval(playGame, 25);
+        game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
     }
-}
+};
 
-function keyMove(data) {
+exports.GameHoster.prototype.keyMove = function(data) {
     if (data.direction == "right") {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = true;
     }
@@ -95,10 +92,10 @@ function keyMove(data) {
     }
 
     handler.sendPaddles(this.serverSocket, this.gameId);
-}
+};
 
 
-function keyRelease(data) {
+exports.GameHoster.prototype.keyRelease = function(data) {
     if (data.direction == "right") {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = false;
     }
@@ -106,11 +103,11 @@ function keyRelease(data) {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).leftDown = false;
     }
     handler.sendPaddles(this.serverSocket, this.gameId);
-}
+};
 
-function brickColor(data) {
+exports.GameHoster.prototype.brickColor = function(data) {
     var row = data.row;
     var col = data.col;
     var brickColor = data.brickColor;
     game.Dmmw.getInstance(this.gameId).playingField.bricks[row][col].currentColor = brickColor;
-}
+};

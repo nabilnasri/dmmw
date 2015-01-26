@@ -1,4 +1,5 @@
 var game = require('../game/game');
+var winston = require('winston');
 var gameInfo = {};
 
 module.exports =
@@ -28,7 +29,7 @@ module.exports =
     },
 
     sendColorpicker: function sendColorPicker(sio, gameId){
-        gameInfo["colorpicker"] = game.Dmmw.getInstance().colorpicker;
+        gameInfo["colorpicker"] = game.Dmmw.getInstance(gameId).colorpicker;
         sio.sockets.in(gameId).emit('gameColorPicker', {colorpicker: gameInfo["colorpicker"]});
     },
 

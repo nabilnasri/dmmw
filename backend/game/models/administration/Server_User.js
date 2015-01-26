@@ -1,7 +1,6 @@
 var winston = require('winston');
 
 exports.Server_User = function Server_User(role, playerSocketId){
-    winston.log('info', 'User mit mit role = ' + role + '  und socketId = ' + playerSocketId + ' erstellt');
     this.username = '';
     this.playerSockerId = playerSocketId;
     this.role = role;

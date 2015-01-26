@@ -81,7 +81,6 @@ function playerJoinGame(data) {
         // Join the room
         this.join(data.gameId.toString());
         gm.addUser(data.role, this.id, gameId);
-        winston.log('info', ['socket Useramount : ', gm.checkUserAmount(gameId)].join(' '));
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
 
@@ -108,7 +107,6 @@ function hostPrepareGame(gameId) {
 }
 
 function gameData(data){
-    winston.log('info', ['socket onMotion aufgerufen fuer gameID', data.gameId].join(' '));
     gm.startGame(data.gameId);
 }
 

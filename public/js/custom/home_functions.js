@@ -48,7 +48,6 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#connect-to-room', function () {
-        console.log("AAAH ", $('#gameId').val());
         var data = {
             gameId: $('#gameId').val()
         };

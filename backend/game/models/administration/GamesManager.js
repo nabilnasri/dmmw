@@ -27,7 +27,6 @@ exports.Gamemanager.prototype.addUser = function (role, gamersSocket, gameId) {
  * checke wie viele user im game sind
  * */
 exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
-    winston.log('info', ['checkUserAmount in: ', gameId, 'actUserAmount: ', this.gamelist[gameId].userAmount()['hostCounter']].join(' '));
     var userAmount = this.gamelist[gameId].userAmount();
     //echte abfrage
     /*if (userAmount['playerCounter'] == 2  && userAmount['hostCounter']){

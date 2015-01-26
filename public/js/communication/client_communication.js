@@ -57,7 +57,6 @@ var IO = {
      * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     playerJoinedRoom: function (data) {
-        console.log("playerJoined " + data);
         IO.user.updateWaitingScreen(data);
     },
 
@@ -125,7 +124,6 @@ var IO = {
      * ****************************** **/
 
     sendReady: function () {
-        console.log("emit los gesendet", IO.user.getGameId());
         IO.socket.emit("gameData", {gameId : IO.user.getGameId()});
     },
 
