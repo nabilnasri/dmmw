@@ -29,9 +29,9 @@ exports.initGame = function (sio, socket, gamesManager) {
     //gamersSocket.on('motion', motion);
     gamersSocket.on('gameData', gameDataSocket);
     gamersSocket.on('gamePause', gamePauseSocket);
-     gamersSocket.on('keyMove', keyMoveSocket);
-     gamersSocket.on('keyRelease', keyReleaseSocket);
-     gamersSocket.on('brickColor', brickColorSocket);
+    gamersSocket.on('keyMove', keyMoveSocket);
+    gamersSocket.on('keyRelease', keyReleaseSocket);
+    gamersSocket.on('brickColor', brickColorSocket);
 };
 
 /**
@@ -78,8 +78,6 @@ function playerJoinGame(data) {
         // attach the socket id to the data object.
         data.mySocketId = playerSocketId;
 
-        // Join the room
-        this.join(data.gameId.toString());
         gm.addUser(data.role, playerSocketId, gameId);
 
         // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
@@ -90,6 +88,8 @@ function playerJoinGame(data) {
             role: data.role
         });
 
+        // Join the room
+        this.join(data.gameId.toString());
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
 

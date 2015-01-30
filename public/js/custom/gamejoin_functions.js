@@ -33,14 +33,14 @@ $(document).ready(function () {
 
     $(document).on('click', '#connect-to-room', function () {
         var data = {
-            gameId: $('#gameId').val()
+            gameId: $('#gameId').val(),
+            username: $('#username').val()
         };
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             data.role = 'player';
         } else {
             data.role = 'host';
         }
-        IO.user
         IO.socket.emit('playerJoinGame', data);
 
         refresh_site('game');

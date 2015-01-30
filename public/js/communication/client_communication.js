@@ -38,6 +38,7 @@ var IO = {
      * The client is successfully connected!
      */
     onConnected: function () {
+        console.log('onConnected');
         IO.user = new Client_User();
     },
 
@@ -46,6 +47,8 @@ var IO = {
      * @param data {{ gameId: int, mySocketId: * }}
      */
     initUser: function (data) {
+        console.log("initUser" + JSON.stringify(IO.user));
+        console.log('dataataa INIT USER ' + JSON.stringify(data));
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setRole(data.role);
