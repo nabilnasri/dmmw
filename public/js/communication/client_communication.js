@@ -128,23 +128,23 @@ var IO = {
     },
 
     sendPause: function () {
-        IO.socket.emit("gamePause");
+        IO.socket.emit("gamePause", {gameId : IO.user.getGameId()});
     },
 
     sendKeyMove: function (direction) {
-        IO.socket.emit("keyMove", {direction: direction});
+        IO.socket.emit("keyMove", {direction: direction, gameId : IO.user.getGameId()});
     },
 
     sendKeyRelease: function (direction) {
-        IO.socket.emit("keyRelease", {direction: direction});
+        IO.socket.emit("keyRelease", {direction: direction, gameId : IO.user.getGameId()});
     },
 
     sendMotion: function (ev) {
-        IO.socket.emit('motion', {text: moveIt(ev)});
+        IO.socket.emit('motion', {text: moveIt(ev), gameId : IO.user.getGameId()});
     },
 
     sendBrickColor: function (row, col, color) {
-        IO.socket.emit("brickColor", {row: row, col: col, brickColor: color});
+        IO.socket.emit("brickColor", {row: row, col: col, brickColor: color, gameId : IO.user.getGameId()});
     }
 };
 

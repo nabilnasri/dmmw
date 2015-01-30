@@ -27,11 +27,11 @@ exports.initGame = function (sio, socket, gamesManager) {
 
     // Game Events
     //gamersSocket.on('motion', motion);
-    gamersSocket.on('gameData', gameData);
-    /*gamersSocket.on('gamePause', gamePause);
-    gamersSocket.on('keyMove', keyMove);
-    gamersSocket.on('keyRelease', keyRelease);
-    gamersSocket.on('brickColor', brickColor);*/
+    gamersSocket.on('gameData', gameDataSocket);
+    gamersSocket.on('gamePause', gamePauseSocket);
+     gamersSocket.on('keyMove', keyMoveSocket);
+     gamersSocket.on('keyRelease', keyReleaseSocket);
+     gamersSocket.on('brickColor', brickColorSocket);
 };
 
 /**
@@ -115,8 +115,24 @@ function hostPrepareGame(gameId) {
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
 }
 
-function gameData(data){
+function gameDataSocket(data) {
     gm.startGame(data.gameId);
+}
+
+function gamePauseSocket(data) {
+    gm.pauseGame(data);
+}
+
+function keyMoveSocket(data) {
+    gm.keyMoveGame(data);
+}
+
+function keyReleaseSocket(data) {
+    gm.keyReleaseGame(data);
+}
+
+function brickColorSocket(data) {
+    gm.brickColorGame(data);
 }
 
 

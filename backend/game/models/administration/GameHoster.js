@@ -49,13 +49,6 @@ exports.GameHoster.prototype.userAmount = function () {
     };
 };
 
-/**
- * startet neues Spiel
- * */
-exports.GameHoster.prototype.startNewgame = function () {
-    this.gameData();
-};
-
 exports.GameHoster.prototype.playGame = function() {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
@@ -76,12 +69,15 @@ exports.GameHoster.prototype.gameData = function() {
     }
 };
 exports.GameHoster.prototype.gamePause = function() {
-    game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance().pause;
+    game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance(this.gameId).pause;
 
     if (game.Dmmw.getInstance(this.gameId).pause) {
-        clearInterval(game.Dmmw.getInstance().intervallId);
+        winston.log('info', ['Pause bei ', this.gameId, ' wurde gedrueckt!!'].join(' '));
+        clearInterval(game.Dmmw.getInstance(this.gameId).intervallId);
     } else {
+        winston.log('info', ['Pause bei ', this.gameId, ' wurde gedrueckt2!!'].join(' '));
         game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
+
     }
 };
 

@@ -48,5 +48,33 @@ exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
  * */
 exports.Gamemanager.prototype.startGame = function (gameId) {
     //TODO schauen ob ein freier room vorhanden ist, falls randomGame geklickt wurde!
-    this.gamelist[gameId].startNewgame();
+    this.gamelist[gameId].gameData();
+};
+
+/**
+ * pausiere Spielinstanz
+ * */
+exports.Gamemanager.prototype.pauseGame = function (data) {
+    this.gamelist[data.gameId].gamePause();
+};
+
+/**
+ * pausiere Spielinstanz
+ * */
+exports.Gamemanager.prototype.keyMoveGame = function (data) {
+    this.gamelist[data.gameId].keyMove(data);
+};
+
+/**
+ * pausiere Spielinstanz
+ * */
+exports.Gamemanager.prototype.keyReleaseGame = function (data) {
+    this.gamelist[data.gameId].keyRelease(data);
+};
+
+/**
+ * pausiere Spielinstanz
+ * */
+exports.Gamemanager.prototype.brickColorGame = function (data) {
+    this.gamelist[data.gameId].brickColor(data);
 };
