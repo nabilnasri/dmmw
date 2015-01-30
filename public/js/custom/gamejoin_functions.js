@@ -40,6 +40,7 @@ $(document).ready(function () {
         } else {
             data.role = 'host';
         }
+        IO.user
         IO.socket.emit('playerJoinGame', data);
 
         refresh_site('game');

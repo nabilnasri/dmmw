@@ -45,7 +45,7 @@ function createNewRandomGame(data) {
     gm.addUser(data.role, playerSocketId, thisGameId);
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('newRandomGameCreated', {
+    this.emit('initUser', {
         gameId: thisGameId,
         mySocketId: playerSocketId,
         //playerNumber: playerNumber,
@@ -68,19 +68,28 @@ function createNewPrivateGame() {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
-    // Look up the room ID in the Socket.IO manager object.
-    // If the room exists...
-
+    var playerSocketId = this.id;
     var gameId = data.gameId;
 
+    // Look up the room ID in the Socket.IO manager object.
+    // If the room exists...
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
         winston.log('info', 'user joined dem room : ' + data.gameId);
         // attach the socket id to the data object.
-        data.mySocketId = this.id;
+        data.mySocketId = playerSocketId;
 
         // Join the room
         this.join(data.gameId.toString());
-        gm.addUser(data.role, this.id, gameId);
+        gm.addUser(data.role, playerSocketId, gameId);
+
+        // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
+        this.emit('initUser', {
+            gameId: gameId,
+            mySocketId: playerSocketId,
+            //playerNumber: playerNumber,
+            role: data.role
+        });
+
         // Emit an event notifying the clients that the player has joined the room.
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
 

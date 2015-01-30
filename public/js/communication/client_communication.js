@@ -19,7 +19,7 @@ var IO = {
     bindEvents: function () {
         IO.socket.on('connected', IO.onConnected);
 
-        IO.socket.on('newRandomGameCreated', IO.onNewRandomGameCreated);
+        IO.socket.on('initUser', IO.initUser);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
@@ -45,7 +45,7 @@ var IO = {
      * A new game has been created and a random game ID has been generated.
      * @param data {{ gameId: int, mySocketId: * }}
      */
-    onNewRandomGameCreated: function (data) {
+    initUser: function (data) {
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setRole(data.role);
