@@ -58,6 +58,6 @@ function refresh_site() {
 }
 
 $("#backtohome").click(function(){
-    refresh_site();
+    //refresh_site();
 });
 

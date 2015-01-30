@@ -24,6 +24,7 @@ $(document).ready(function () {
         } else {
             data.role = 'host';
         }
+        console.log("CREATE RANDOM GAME");
         IO.socket.emit('createNewRandomGame', data);
         refresh_site('game');
     });

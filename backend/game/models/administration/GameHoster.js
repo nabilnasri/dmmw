@@ -24,6 +24,8 @@ exports.GameHoster.prototype.getGameId = function () {
  * Punktezahl etc. richtig zu setzen
  * */
 exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
+    winston.log("info", role + " role");
+    winston.log("info", this.hostCounter + " hostCoun");
     if (role === 'host' && this.hostCounter <= 2) {
         var u = new user.Server_User(role, playerSocketId);
         this.hostCounter += 1;

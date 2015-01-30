@@ -113,7 +113,7 @@ Client_User.prototype.onPlayerRestart = function () {
     var data = {
         gameId: Client_User.gameId,
         playerName: Client_User.Player.myName
-    }
+    };
     IO.socket.emit('playerRestart', data);
     $('#gameArea').html("<h3>Waiting on host to start new game.</h3>");
 };
