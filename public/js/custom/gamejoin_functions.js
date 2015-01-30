@@ -42,6 +42,6 @@ $(document).ready(function () {
         }
         IO.socket.emit('playerJoinGame', data);
 
-        //refresh_site('private/createOrJoin');
+        refresh_site('game');
     });
 });
