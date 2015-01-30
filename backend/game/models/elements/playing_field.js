@@ -120,7 +120,8 @@ exports.PlayingField.prototype.initBalls = function () {
     var b = {};
     b[0] = new Ball.Ball("#009a80", this.getPaddle(0).xCoor + 50, 480, "one");
     b[1] = new Ball.Ball("#fe5332", this.getPaddle(1).xCoor + 50, 20, "two");
-
+    b[0].createParticles();
+    b[1].createParticles();
     return b;
 };
 
@@ -169,6 +170,10 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     var player_two_ball = this.getBall(1);
     var player_two_paddle = this.getPaddle(1);
 
+    var ballArray = [];
+    ballArray[0] = player_one_ball;
+    ballArray[1] = player_two_ball;
+
     player_one_paddle.checkRightDown();
     player_one_paddle.checkLeftDown();
 
@@ -202,7 +207,22 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
 
+
+    for (var i = 0; i < ballArray.length; i++) {
+        var ball = ballArray[i];
+        for (var j = 0; j < ball.particles.length; j++) {
+            var p = ball.particles[j];
+
+            p.remainingLife--;
+            p.radius--;
+
+            // particle wiederbeleben
+            if (p.remainingLife < 0 || p.radius < 0) {
+                ball.particles[j] = new Ball.Particle(ball);
+            }
+        }
+    }
+
     handler.sendBalls(sio, gameId);
     handler.sendColorpicker(sio, gameId);
 };
-

@@ -114,6 +114,20 @@ Drawing.prototype.drawBall = function (ctx, player_ball) {
         player_ball.radius,
         player_ball.ballColor
     );
+    for (var j = 0; j < player_ball.particles.length; j++) {
+        var p = player_ball.particles[j];
+        ctx.beginPath();
+        // Deckkraft geht gegen 0 am Ende eines Partikels
+        p.opacity = Math.round(p.remainingLife / p.life * 100) / 100;
+        // gradient (wortwörtlich -> Steigung) aber siehe Wikipedia fuer Erklaerung
+        var gradient = ctx.createRadialGradient(p.x * this.scaleX, p.y * this.scaleY, 0, p.x * this.scaleX, p.y * this.scaleY, player_ball.radius * 1.2);
+        gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+        gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+        gradient.addColorStop(1, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", 0)");
+        ctx.fillStyle = gradient;
+        ctx.arc(p.x * this.scaleX, p.y * this.scaleY, p.radius, Math.PI * 2, false);
+        ctx.fill();
+    }
 };
 
 /*
