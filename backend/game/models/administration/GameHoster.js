@@ -8,6 +8,7 @@ exports.GameHoster = function GameHost(gameId, serverSocket) {
     this.gameId = gameId;
     this.serverSocket = serverSocket;
     this.userList = {};
+    this.playerList = [];
     this.playerCounter = 0;
     this.hostCounter = 0;
 };
@@ -29,6 +30,7 @@ exports.GameHoster.prototype.setUser = function (role, playerSocketId, username)
         var u = new user.Server_User(role, playerSocketId, username);
         this.hostCounter += 1;
         this.userList[this.hostCounter] = u;
+        this.playerList.push(u);
         return this.hostCounter;
     } else if (role === 'player' && this.playerCounter <= 1) {
         var u = new user.Server_User(role, playerSocketId, username);

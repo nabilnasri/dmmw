@@ -56,6 +56,8 @@ function createNewRandomGame(data) {
 
     //joint den User in den Loooom!
     this.join(thisGameId.toString());
+
+    serverSocket.sockets.in(thisGameId).emit('playerInfo', {user:gm.gamelist[thisGameId].playerList});
 }
 
 function createNewPrivateGame() {
@@ -95,8 +97,8 @@ function playerJoinGame(data) {
         // Join the room
         this.join(data.gameId.toString());
         // Emit an event notifying the clients that the player has joined the room.
+        serverSocket.sockets.in(data.gameId).emit('playerInfo', {user:gm.gamelist[data.gameId].playerList});
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
-
     } else {
         winston.log('info', 'error : ');
         // Otherwise, send an error m.essage back to the player.

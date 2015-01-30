@@ -6,6 +6,7 @@ function Client_User() {
     this.myGameId = null;
     this.myRole = null;
     this.playerNumber = null;
+    this.player = [];
 }
 
 /**
@@ -28,8 +29,20 @@ Client_User.prototype.displayScreen = function () {
  * Update the Host screen when the first player joins
  */
 Client_User.prototype.updateWaitingScreen = function (data) {
+    var info = this.player;
+    for(var i=1; i<=info.length; i++) {
+        document.getElementById('name' + i).innerHTML = info[i-1]["username"];
+    }
     //TODO hier unseren warteScreen einbauen
     // If this is a restarted game, show the screen.
+};
+
+
+/**
+ * Update the Usernames on the screen if player joins
+ */
+Client_User.prototype.updateUsernames = function (data) {
+    this.player = data["user"];
 };
 
 /**

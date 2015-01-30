@@ -22,6 +22,7 @@ var IO = {
         IO.socket.on('initUser', IO.initUser);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('setUserData', IO.setUserData);
+        IO.socket.on('playerInfo', IO.playerInfo);
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
         IO.socket.on('error', IO.error);
@@ -77,6 +78,10 @@ var IO = {
      */
     beginNewGame: function (data) {
         IO.user.gameCountdown(data);
+    },
+
+    playerInfo: function (data) {
+        IO.user.updateUsernames(data);
     },
 
     /**

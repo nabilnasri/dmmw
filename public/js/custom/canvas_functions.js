@@ -1,17 +1,19 @@
 window.onload = function () {
-    var playerNumber = IO.user.getPlayerNumner();
-    var username = IO.user.getUsername();
-    if (playerNumber != null) {
-        document.getElementById('name' + playerNumber).innerHTML = username;
-    } else {
-        console.log('error beim setzen der PlayerNumber');
-    }
+    setPlayerNames();
     setCanvasProperties();
 };
 
 initCanvasProperties();
 
 $(document).keyup(onKeyUp);
+
+
+function setPlayerNames(){
+    var info = IO.user.player;
+    for(var i=1; i<=info.length; i++) {
+        document.getElementById('name' + i).innerHTML = info[i-1]["username"];
+    }
+}
 
 
 function initCanvasProperties() {

@@ -92,7 +92,7 @@ Drawing.prototype.drawBricks = function () {
 };
 
 Drawing.prototype.drawPaddle = function (ctx, yCoor, player_paddle) {
-    yCoor = yCoor * this.scaleY - player_paddle.PaddleHeight;
+    yCoor = yCoor * this.scaleY;
     if (yCoor < 0) {
         yCoor = 0;
     }
@@ -165,7 +165,7 @@ Drawing.prototype.draw = function () {
     this.setCanvasStyle();
     this.clear();
     //Zeichne alle "statischen" Sachen
-    this.drawPaddle(ctx, this.gameInfo.playingField.FieldHeight, player_one_paddle);
+    this.drawPaddle(ctx, this.gameInfo.playingField.FieldHeight - player_one_paddle.PaddleHeight , player_one_paddle);
     this.drawPaddle(ctx, 0, player_two_paddle);
     this.drawBall(ctx, player_one_ball);
     this.drawBall(ctx, player_two_ball);
