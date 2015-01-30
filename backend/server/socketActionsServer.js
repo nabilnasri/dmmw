@@ -42,14 +42,16 @@ function createNewRandomGame(data) {
     var thisGameId = ( Math.random() * 100000 ) | 0;
     var playerSocketId = this.id;
     gm.addGame(thisGameId, serverSocket, gamersSocket);
-    gm.addUser(data.role, playerSocketId, thisGameId);
+    var playerNumber = gm.addUser(data.role, playerSocketId, thisGameId, data.username);
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
     this.emit('initUser', {
         gameId: thisGameId,
         mySocketId: playerSocketId,
         //playerNumber: playerNumber,
-        role: data.role
+        role: data.role,
+        username: data.username,
+        playernumber : playerNumber
     });
 
     //joint den User in den Loooom!
@@ -78,14 +80,16 @@ function playerJoinGame(data) {
         // attach the socket id to the data object.
         data.mySocketId = playerSocketId;
 
-        gm.addUser(data.role, playerSocketId, gameId);
+        var playerNumber = gm.addUser(data.role, playerSocketId, gameId, data.username);
 
         // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
         this.emit('initUser', {
             gameId: gameId,
             mySocketId: playerSocketId,
             //playerNumber: playerNumber,
-            role: data.role
+            role: data.role,
+            username: data.username,
+            playernumber : playerNumber
         });
 
         // Join the room

@@ -12,8 +12,11 @@ router.get('/', function(req, res) {
 });
 
 router.get('/game', function(req, res) {
-    var device = deviceDetector.detect( req );
     res.render('canvas', {title:"DMMW"});
+});
+
+router.get('/enterName', function(req, res) {
+    res.render('enter_name', {title:"DMMW"});
 });
 
 router.get('/controller', function(req, res) {

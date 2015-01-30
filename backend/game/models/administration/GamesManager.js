@@ -19,8 +19,8 @@ exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSoc
  * setzt neuen user im jeweiligen GamehHost und gibt die Spielernummer zurueck um auf der Client Seite
  * Punktezahl etc. richtig zu setzen
  * */
-exports.Gamemanager.prototype.addUser = function (role, gamersSocket, gameId) {
-    this.gamelist[gameId].setUser(role, gamersSocket);
+exports.Gamemanager.prototype.addUser = function (role, gamersSocket, gameId, username) {
+    return this.gamelist[gameId].setUser(role, gamersSocket, username);
 };
 
 /**

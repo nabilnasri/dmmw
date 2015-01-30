@@ -1,41 +1,42 @@
 <html>
-    <head>
-        <% include main/global_css_sheets.ejs %>
-    </head>
-    <body>
-        <div class="container">
-            <% include main/navbar.ejs %>
-            <div id="content">
-                <div class="row">
-                    <div class="col-md-3 player text-center" id="player-one">
-                        <h1 id="score-add-one" style="display: none;"></h1>
-                        <span id="name-one">JOENDHARD</span>
-                        <span id="score-one">0</span>
-                    </div>
-                    <div class="col-md-6 playground-container" id="playground-container">
-                        <canvas id="playground"></canvas>
-                    </div>
-                    <div class="col-md-3 player text-center" id="player-two">
-                        <span id="name--two">Glogomir</span>
-                        <span id="score-two">0</span>
-                        <h1 id="score-add-two" style="display: none;"></h1>
-                    </div>
-                </div>
-                <audio id="nyan" loop="loop">
-                    <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
-                </audio>
-                <img id="nyanImg" class="img-cat" src="../img/dmmwplay.jpg" alt="nyan" style="display: none">
+<head>
+    <% include main/global_css_sheets.ejs %>
+</head>
+<body>
+<div class="container">
+    <% include main/navbar.ejs %>
+    <div id="content">
+        <div class="row">
+            <div class="col-md-3 player text-center" id="player-one">
+                <h1 id="score-add-one" style="display: none;"></h1>
+                <span id="name-one">JOENDHARD</span>
+                <span id="score-one">0</span>
             </div>
-            <% include main/footer.ejs %>
-            <% include main/global_js_scripts.ejs %>
-            <div id="content-scripts">
-                <script src="../js/game/game_info.js"></script>
-                <script src="../js/game/drawing/draw_functions.js"></script>
-                <script src="../js/custom/canvas_functions.js"></script>
-                <script src="../js/game/models/Client_User.js"></script>
-                <script src="../js/communication/socket_handler.js"></script>
-                <script src="../js/game/controller/controller.js"></script>
+            <div class="col-md-6 playground-container" id="playground-container">
+                <canvas id="playground"></canvas>
+            </div>
+            <div class="col-md-3 player text-center" id="player-two">
+                <span id="name--two">Glogomir</span>
+                <span id="score-two">0</span>
+
+                <h1 id="score-add-two" style="display: none;"></h1>
             </div>
         </div>
-    </body>
+        <audio id="nyan" loop="loop">
+            <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
+        </audio>
+        <img id="nyanImg" class="img-cat" src="../img/dmmwplay.jpg" alt="nyan" style="display: none">
+    </div>
+    <% include main/footer.ejs %>
+    <% include main/global_js_scripts.ejs %>
+    <div id="content-scripts">
+        <script src="../js/game/game_info.js"></script>
+        <script src="../js/game/drawing/draw_functions.js"></script>
+        <script src="../js/custom/canvas_functions.js"></script>
+        <script src="../js/game/models/Client_User.js"></script>
+        <script src="../js/communication/socket_handler.js"></script>
+        <script src="../js/game/controller/controller.js"></script>
+    </div>
+</div>
+</body>
 </html>

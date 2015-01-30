@@ -169,7 +169,7 @@ Client_User.prototype.getUsername = function () {
     return this.myUsername;
 };
 
-Client_User.prototype.setCurrentsPoint = function (username) {
+Client_User.prototype.setUsername = function (username) {
     this.myUsername = username;
 };
 

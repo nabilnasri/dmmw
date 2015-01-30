@@ -20,14 +20,17 @@ $(document).ready(function () {
         refresh_site('enterInfos');
     });
 
-    $(document).on('click', '.create-private', function () {
-        var data = {};
+    $(document).on('click', '#start-random-game', function () {
+        var data = {
+            username: $('#username').val()
+        };
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             data.role = 'player';
         } else {
             data.role = 'host';
         }
         IO.socket.emit('createNewRandomGame', data);
+
         refresh_site('game');
     });
 
@@ -45,4 +48,5 @@ $(document).ready(function () {
 
         refresh_site('game');
     });
+
 });

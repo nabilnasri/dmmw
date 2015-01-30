@@ -23,19 +23,21 @@ exports.GameHoster.prototype.getGameId = function () {
  * setzt neuen user im GameHoster und gibt die Spielernummern zurueck um auf der Client Seite
  * Punktezahl etc. richtig zu setzen
  * */
-exports.GameHoster.prototype.setUser = function (role, playerSocketId) {
-    winston.log("info", role + " role");
-    winston.log("info", this.hostCounter + " hostCoun");
-    if (role === 'host' && this.hostCounter <= 2) {
-        var u = new user.Server_User(role, playerSocketId);
+exports.GameHoster.prototype.setUser = function (role, playerSocketId, username) {
+    winston.log("info", ['role: ',role, ' username: ', username].join(' '));
+    if (role === 'host' && this.hostCounter <= 1) {
+        var u = new user.Server_User(role, playerSocketId, username);
         this.hostCounter += 1;
         this.userList[this.hostCounter] = u;
-    } else if (role === 'player' && this.playerCounter <= 2) {
-        var u = new user.Server_User(role, playerSocketId);
+        return this.hostCounter;
+    } else if (role === 'player' && this.playerCounter <= 1) {
+        var u = new user.Server_User(role, playerSocketId, username);
         this.playerCounter += 1;
         this.userList[this.playerCounter] = u;
+        return this.playerCounter;
     } else {
         winston.log('error', 'FEHLER BEIM USER SETZEN');
+        return null;
     }
 };
 
@@ -72,10 +74,8 @@ exports.GameHoster.prototype.gamePause = function() {
     game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance(this.gameId).pause;
 
     if (game.Dmmw.getInstance(this.gameId).pause) {
-        winston.log('info', ['Pause bei ', this.gameId, ' wurde gedrueckt!!'].join(' '));
         clearInterval(game.Dmmw.getInstance(this.gameId).intervallId);
     } else {
-        winston.log('info', ['Pause bei ', this.gameId, ' wurde gedrueckt2!!'].join(' '));
         game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
 
     }

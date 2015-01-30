@@ -1,4 +1,13 @@
 window.onload = function () {
+    var playerNumber = IO.user.getPlayerNumner();
+    var username = IO.user.getUsername();
+    if(playerNumber== '1'){
+        document.getElementById('name-one').innerHTML = username;
+    }else if (playerNumber == '2'){
+        document.getElementById('name-two').innerHTML = username;
+    } else{
+        console.log('error beim setzen der PlayerNumber');
+    }
     setCanvasProperties();
 };
 
@@ -25,8 +34,6 @@ function onKeyUp(evt) {
         IO.sendPause();
     }
 }
-
-
 
 function setCanvasProperties(){
     var pg = $("#playground");
@@ -60,4 +67,3 @@ function refresh_site() {
 $("#backtohome").click(function(){
     //refresh_site();
 });
-

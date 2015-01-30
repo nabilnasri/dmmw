@@ -26,6 +26,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/game', routes);
 app.use('/controller', routes);
+app.use('/enterName', routes);
 
 app.use('/private', routes);
 app.use('/enterInfos', routes);

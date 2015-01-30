@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <% include main/global_css_sheets.ejs %>
+</head>
+
+<body>
+<div class="container">
+    <% include main/navbar.ejs %>
+    <div id="content">
+        <div class="row center-block">
+            <form class="form-horizontal">
+
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label" for="formGroupInputLarge">Username</label>
+
+                    <div class="col-sm-10">
+                        <input name="username" class="form-control" type="text" id="username" placeholder="Username">
+                    </div>
+                </div>
+                <input id="start-random-game" class="btn btn-danger" value="start random game">
+            </form>
+        </div>
+    </div>
+    <% include main/footer.ejs %>
+    <% include main/global_js_scripts.ejs %>
+    <div id="content-scripts">
+        <script src="../js/game/game_info.js"></script>
+        <script src="../js/game/models/Client_User.js"></script>
+        <script src="../js/communication/socket_handler.js"></script>
+        <script src="../js/custom/gamejoin_functions.js"></script>
+    </div>
+</div>
+</body>

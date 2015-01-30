@@ -18,15 +18,7 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '.random-game', function () {
-        var data = {};
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            data.role = 'player';
-        } else {
-            data.role = 'host';
-        }
-        console.log("CREATE RANDOM GAME");
-        IO.socket.emit('createNewRandomGame', data);
-        refresh_site('game');
+        refresh_site('enterName');
     });
 
     $(document).on('click', '.private-game', function () {

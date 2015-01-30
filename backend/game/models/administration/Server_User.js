@@ -1,7 +1,7 @@
 var winston = require('winston');
 
-exports.Server_User = function Server_User(role, playerSocketId){
-    this.username = '';
+exports.Server_User = function Server_User(role, playerSocketId, username){
+    this.username = username;
     this.playerSockerId = playerSocketId;
     this.role = role;
     this.lives = 3;
