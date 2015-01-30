@@ -5,6 +5,18 @@ Controller Klasse.
 /*
 Orientation des Devices
  */
+
+//Eventlistner wenn man das Gerät bewegt.
+window.addEventListener('devicemotion', sendMotion, false);
+
+window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener('keyup', onKeyUp, false);
+
+var px;
+var py;
+var deletePowerUp = false;
+var displayCanvas = document.getElementById("con_canvas");
+
 function moveIt(ev) {
     //Aktuelle Orientation
     var orientation = window.orientation;
@@ -34,7 +46,6 @@ function landscape_primary(ev) {
     }
 
 }
-
 /*
  Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
  */
@@ -50,7 +61,6 @@ function landscape_secondary(ev) {
     }
 
 }
-
 /*
  Wenn sich das Handy im Potrait(normal)[0grad] befindet
  */
@@ -66,15 +76,6 @@ function portrait_primary(ev) {
     }
 
 }
-
-//Eventlistner wenn man das Gerät bewegt.
-window.addEventListener('devicemotion', sendMotion, false);
-
-window.addEventListener('keydown', onKeyDown, false);
-window.addEventListener('keyup', onKeyUp, false);
-
-
-
 /*
  Static Funktion (ohne prototype)
  */
@@ -94,22 +95,19 @@ function onKeyDown(evt) {
     }
 }
 
-
-
 window.onload = function(){
     initialise();
     canvasApp();
+
 };
 
-
-var px;
-var py;
-var losch = false;
 function initialise(){
     var canvas = document.getElementById("con_canvas");
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.addEventListener("touchstart",doTouchStart,false);
+    customArea(canvas);
+    randomPUps();
 }
 
 function doTouchStart(eve) {
@@ -128,21 +126,13 @@ function hitPowerUp(px,py,concan_x,concan_y) {
     concan_x = Math.ceil(concan_x);
     concan_y = Math.ceil(concan_y);
 
-    alert(px + "x" + " " + py + "y");
-    alert(concan_x + "coooncanx" + " " + concan_y + "cooooncany");
-
     if(( concan_x <= px+50 && concan_x>= px-50 ) && ( concan_y <= py+50 && concan_y>= py-50 )){
-
-        alert("getroffen");
-        losch = true;
-
-
+        //randomPUps();
+        deletePowerUp = true;
     }
 }
 
-var displayCanvas = document.getElementById("con_canvas");
 function canvasApp() {
-
     var context = displayCanvas.getContext("2d");
     var particleList;
     var numParticles;
@@ -177,9 +167,8 @@ function canvasApp() {
         createParticles();
 
         context.fillStyle = "#000000";  // muss unser window sein
-        context.fillRect(0, 0, displayWidth, displayHeight); // unsere window daten
-
-        timer = setInterval(onTimer, 1000 / 40); // wann tauchen die PowerUps auf?
+        context.fillRect(displayHeight*0.25, displayHeight, displayWidth, displayHeight*0.75); // unsere window daten //poweruparea
+        timer = setInterval(onTimer, 1000 / 40); // aktualisierungZeit
     }
 
     function createParticles() { // create PowerUps
@@ -218,7 +207,7 @@ function canvasApp() {
 
         //fading. This won't work very well in Chrome, IE, and Firefox - gray trails will be left behind.
         context.fillStyle = "rgba(0,0,0,0.04)";
-        context.fillRect(0, 0, displayWidth, displayHeight);
+        context.fillRect(0, displayHeight*0.25, displayWidth, displayHeight*0.75); //
 
         //update and draw particles
         p = particleList.first;
@@ -257,8 +246,13 @@ function canvasApp() {
                 p.x = p.rad;
                 p.velX *= -1;
             }
-            if (p.y > displayHeight - p.rad) {
+            if (p.y > displayHeight - p.rad ) {
                 p.y = displayHeight - p.rad;
+                p.velY *= -1;
+            }
+
+            if (p.y < displayHeight*0.25 + p.rad ) {
+                p.y = displayHeight*0.25 + p.rad;
                 p.velY *= -1;
             }
             if (p.y < p.rad) {
@@ -266,10 +260,15 @@ function canvasApp() {
                 p.velY *= -1;
             }
 
-            if (losch){
+            if (deletePowerUp){
 
+                particleList = {};
+                deletePowerUp = false;
                 context.clear();
+
+
             }else {
+
 
                 context.fillStyle = p.color;
                 context.beginPath();
@@ -288,8 +287,6 @@ function canvasApp() {
     }
 }
 
-
-
 function rect(ctx, x, y, w, h, color) {
     ctx.beginPath();
     ctx.fillStyle = color;
@@ -298,7 +295,23 @@ function rect(ctx, x, y, w, h, color) {
     ctx.fill();
 }
 
-function clear(canvas) {
-    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-    rect(canvas.getContext("2d"), 0, 0, canvas.width, canvas.height, "rgba(0,0,0,0.7");
+function customArea(canvas){
+
+    var height =  window.innerHeight;
+    var width = window.innerWidth;
+    var xCA = 0;
+    var yCA = 0;
+    var color = "#F27935";
+
+    rect(canvas.getContext("2d"), xCA , yCA , width, height*0.25, color );
+
 }
+
+function randomPUps(){
+
+    var r =Math.floor(Math.random() * 7);
+    var randomUp = new selectPowerUp();
+
+    randomUp.powerUpArray[r];
+}
+
