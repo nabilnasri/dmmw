@@ -21,6 +21,7 @@ var IO = {
 
         IO.socket.on('initUser', IO.initUser);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
+        IO.socket.on('setUserData', IO.setUserData);
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
         IO.socket.on('error', IO.error);
@@ -61,6 +62,13 @@ var IO = {
      */
     playerJoinedRoom: function (data) {
         IO.user.updateWaitingScreen(data);
+    },
+
+    /**
+     * setzt die user-Daten aller nutzer.
+     */
+    setUserData: function (data) {
+
     },
 
     /**
@@ -127,27 +135,27 @@ var IO = {
      * ****************************** **/
 
     sendReady: function () {
-        IO.socket.emit("gameData", {gameId : IO.user.getGameId()});
+        IO.socket.emit("gameData", {gameId: IO.user.getGameId()});
     },
 
     sendPause: function () {
-        IO.socket.emit("gamePause", {gameId : IO.user.getGameId()});
+        IO.socket.emit("gamePause", {gameId: IO.user.getGameId()});
     },
 
     sendKeyMove: function (direction) {
-        IO.socket.emit("keyMove", {direction: direction, gameId : IO.user.getGameId()});
+        IO.socket.emit("keyMove", {direction: direction, gameId: IO.user.getGameId()});
     },
 
     sendKeyRelease: function (direction) {
-        IO.socket.emit("keyRelease", {direction: direction, gameId : IO.user.getGameId()});
+        IO.socket.emit("keyRelease", {direction: direction, gameId: IO.user.getGameId()});
     },
 
     sendMotion: function (ev) {
-        IO.socket.emit('motion', {text: moveIt(ev), gameId : IO.user.getGameId()});
+        IO.socket.emit('motion', {text: moveIt(ev), gameId: IO.user.getGameId()});
     },
 
     sendBrickColor: function (row, col, color) {
-        IO.socket.emit("brickColor", {row: row, col: col, brickColor: color, gameId : IO.user.getGameId()});
+        IO.socket.emit("brickColor", {row: row, col: col, brickColor: color, gameId: IO.user.getGameId()});
     }
 };
 

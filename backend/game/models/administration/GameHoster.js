@@ -24,7 +24,7 @@ exports.GameHoster.prototype.getGameId = function () {
  * Punktezahl etc. richtig zu setzen
  * */
 exports.GameHoster.prototype.setUser = function (role, playerSocketId, username) {
-    winston.log("info", ['role: ',role, ' username: ', username].join(' '));
+    winston.log("info", ['role: ', role, ' username: ', username].join(' '));
     if (role === 'host' && this.hostCounter <= 1) {
         var u = new user.Server_User(role, playerSocketId, username);
         this.hostCounter += 1;
@@ -51,26 +51,26 @@ exports.GameHoster.prototype.userAmount = function () {
     };
 };
 
-exports.GameHoster.prototype.playGame = function() {
+exports.GameHoster.prototype.playGame = function () {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
 };
 
-exports.GameHoster.prototype.motion = function(data) {
+exports.GameHoster.prototype.motion = function (data) {
     if (game.Dmmw.getInstance(this.gameId).playingField != null) {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(0).motionMove(data.text, this.serverSocket, this.gameId)
     }
 };
 
 //MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
-exports.GameHoster.prototype.gameData = function() {
+exports.GameHoster.prototype.gameData = function () {
     if (!game.Dmmw.getInstance(this.gameId).running) {
         handler.sendComplete(this.serverSocket, this.gameId);
         game.Dmmw.getInstance(this.gameId).running = true;
         game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
     }
 };
-exports.GameHoster.prototype.gamePause = function() {
+exports.GameHoster.prototype.gamePause = function () {
     game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance(this.gameId).pause;
 
     if (game.Dmmw.getInstance(this.gameId).pause) {
@@ -81,7 +81,7 @@ exports.GameHoster.prototype.gamePause = function() {
     }
 };
 
-exports.GameHoster.prototype.keyMove = function(data) {
+exports.GameHoster.prototype.keyMove = function (data) {
     if (data.direction == "right") {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = true;
     }
@@ -93,7 +93,7 @@ exports.GameHoster.prototype.keyMove = function(data) {
 };
 
 
-exports.GameHoster.prototype.keyRelease = function(data) {
+exports.GameHoster.prototype.keyRelease = function (data) {
     if (data.direction == "right") {
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = false;
     }
@@ -103,7 +103,7 @@ exports.GameHoster.prototype.keyRelease = function(data) {
     handler.sendPaddles(this.serverSocket, this.gameId);
 };
 
-exports.GameHoster.prototype.brickColor = function(data) {
+exports.GameHoster.prototype.brickColor = function (data) {
     var row = data.row;
     var col = data.col;
     var brickColor = data.brickColor;

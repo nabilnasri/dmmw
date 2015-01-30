@@ -35,12 +35,15 @@ exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
      return false;
      }*/
 
-    //echte abfrage
-    if (userAmount['hostCounter']) {
-        return true;
-    } else {
-        return false;
-    }
+    //test abfrage ohnne playerCounter(fuer mobile devices)
+    return userAmount['hostCounter'] == 2;
+};
+
+/**
+ * fuer die Steuerung mit dem mobile Device
+ * */
+exports.Gamemanager.prototype.motionGame = function (data) {
+    this.gamelist[data.gameId].motion(data);
 };
 
 /**
@@ -59,21 +62,21 @@ exports.Gamemanager.prototype.pauseGame = function (data) {
 };
 
 /**
- * pausiere Spielinstanz
+ * beim druecken der Pfeiltaste auf der Tastatur
  * */
 exports.Gamemanager.prototype.keyMoveGame = function (data) {
     this.gamelist[data.gameId].keyMove(data);
 };
 
 /**
- * pausiere Spielinstanz
+ * beim loslassen der Pfeiltaste auf der Tastatur
  * */
 exports.Gamemanager.prototype.keyReleaseGame = function (data) {
     this.gamelist[data.gameId].keyRelease(data);
 };
 
 /**
- * pausiere Spielinstanz
+ * sendet Farbe der Bricks
  * */
 exports.Gamemanager.prototype.brickColorGame = function (data) {
     this.gamelist[data.gameId].brickColor(data);

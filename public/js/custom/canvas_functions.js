@@ -1,11 +1,9 @@
 window.onload = function () {
     var playerNumber = IO.user.getPlayerNumner();
     var username = IO.user.getUsername();
-    if(playerNumber== '1'){
-        document.getElementById('name-one').innerHTML = username;
-    }else if (playerNumber == '2'){
-        document.getElementById('name-two').innerHTML = username;
-    } else{
+    if (playerNumber != null) {
+        document.getElementById('name' + playerNumber).innerHTML = username;
+    } else {
         console.log('error beim setzen der PlayerNumber');
     }
     setCanvasProperties();
@@ -16,12 +14,12 @@ initCanvasProperties();
 $(document).keyup(onKeyUp);
 
 
-function initCanvasProperties(){
+function initCanvasProperties() {
     $("#playground-container").height(window.innerHeight - $("#navbar").height());
     setPlayerOneHeight();
 }
 
-function setPlayerOneHeight(){
+function setPlayerOneHeight() {
     $("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
 }
 
@@ -35,18 +33,18 @@ function onKeyUp(evt) {
     }
 }
 
-function setCanvasProperties(){
+function setCanvasProperties() {
     var pg = $("#playground");
     var pg_parent = pg.parent();
     var canvas = document.getElementsByTagName('canvas')[0];
-    canvas.width  = pg_parent.width();
+    canvas.width = pg_parent.width();
     canvas.height = pg_parent.height();
 }
 
 
 /*
-* Ajax Request (zurück zu Home)
-*/
+ * Ajax Request (zurück zu Home)
+ */
 function refresh_site() {
     NProgress.start();
     $.ajax({
@@ -55,7 +53,7 @@ function refresh_site() {
         dataType: "html",
         data: {}
     }).done(function (data) {
-        var content =  $(data).find('#content').html();
+        var content = $(data).find('#content').html();
         $("#content").html(content);
         var scripts = $(data).find('#content-scripts').html();
         $('#content-scripts').html(scripts);
@@ -64,6 +62,6 @@ function refresh_site() {
     });
 }
 
-$("#backtohome").click(function(){
+$("#backtohome").click(function () {
     //refresh_site();
 });

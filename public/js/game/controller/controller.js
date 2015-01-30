@@ -1,9 +1,9 @@
 /*
-Controller Klasse.
+ Controller Klasse.
  */
 
 /*
-Orientation des Devices
+ Orientation des Devices
  */
 function moveIt(ev) {
     //Aktuelle Orientation
@@ -20,7 +20,7 @@ function moveIt(ev) {
 }
 
 /*
-Wenn sich das Handy im Landscape(Primary)[Seitlich 90grad nach Links] befindet
+ Wenn sich das Handy im Landscape(Primary)[Seitlich 90grad nach Links] befindet
  */
 function landscape_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
@@ -43,7 +43,7 @@ function landscape_secondary(ev) {
 
     if (acc.y > 1) {
         return "left";
-    } else if(acc.y < -1) {
+    } else if (acc.y < -1) {
         return "right";
     } else {
         return "stop";
@@ -72,7 +72,6 @@ window.addEventListener('devicemotion', IO.sendMotion, false);
 
 window.addEventListener('keydown', onKeyDown, false);
 window.addEventListener('keyup', onKeyUp, false);
-
 
 
 /*

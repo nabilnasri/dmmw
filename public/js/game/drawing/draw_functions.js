@@ -1,4 +1,4 @@
-Draw = (function(){
+Draw = (function () {
     var drawing;
 
     function createInstance() {
@@ -18,7 +18,7 @@ Draw = (function(){
 
 })();
 
-function Drawing(){
+function Drawing() {
     this.canvas = new CanvasInit();
     this.gameInfo = GameInfo.getInstance(); //WIRD gesettet bei client Comm
     this.scaleX = 0;
@@ -26,16 +26,16 @@ function Drawing(){
 }
 
 
-Drawing.prototype.setScale = function(){
-    if(this.canvas.FieldWidth() >= this.gameInfo.playingField.FieldWidth){
+Drawing.prototype.setScale = function () {
+    if (this.canvas.FieldWidth() >= this.gameInfo.playingField.FieldWidth) {
         this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
-    }else{
+    } else {
         this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth();
     }
 
-    if(this.canvas.FieldHeight() >= this.gameInfo.playingField.FieldHeight){
+    if (this.canvas.FieldHeight() >= this.gameInfo.playingField.FieldHeight) {
         this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
-    }else{
+    } else {
         this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight();
     }
 };
@@ -45,7 +45,7 @@ Drawing.prototype.setScale = function(){
  Benötigt als erstes Attribut einen Context, um
  darin zeichnen zu können.
  */
-Drawing.prototype.circle = function(ctx, x, y, r, color) {
+Drawing.prototype.circle = function (ctx, x, y, r, color) {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.arc(x, y, r, 0, Math.PI * 2, true);
@@ -58,7 +58,7 @@ Drawing.prototype.circle = function(ctx, x, y, r, color) {
  Wird verwendet für Bricks, Paddle.
  Benötigt einen Context, um da rein zeichnen zu können.
  */
-Drawing.prototype.rect = function(ctx, x, y, w, h, color) {
+Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.rect(x, y, w, h);
@@ -69,7 +69,7 @@ Drawing.prototype.rect = function(ctx, x, y, w, h, color) {
 /*
  Funktion zeichnet Bricks ins Feld.
  */
-Drawing.prototype.drawBricks = function() {
+Drawing.prototype.drawBricks = function () {
     var i, j;
     for (i = 0; i < this.gameInfo.playingField.nRows; i++) {
         this.canvas.Context().lineWidth = 2;
@@ -91,9 +91,9 @@ Drawing.prototype.drawBricks = function() {
     }
 };
 
-Drawing.prototype.drawPaddle = function(ctx, yCoor, player_paddle) {
+Drawing.prototype.drawPaddle = function (ctx, yCoor, player_paddle) {
     yCoor = yCoor * this.scaleY - player_paddle.PaddleHeight;
-    if(yCoor < 0){
+    if (yCoor < 0) {
         yCoor = 0;
     }
     this.rect(
@@ -106,7 +106,7 @@ Drawing.prototype.drawPaddle = function(ctx, yCoor, player_paddle) {
     );
 };
 
-Drawing.prototype.drawBall = function(ctx, player_ball) {
+Drawing.prototype.drawBall = function (ctx, player_ball) {
     this.circle(
         ctx,
         player_ball.xCoor * this.scaleX,
@@ -117,9 +117,9 @@ Drawing.prototype.drawBall = function(ctx, player_ball) {
 };
 
 /*
-Wie soll das Spielfeld aussehen?
+ Wie soll das Spielfeld aussehen?
  */
-Drawing.prototype.setCanvasStyle = function(){
+Drawing.prototype.setCanvasStyle = function () {
     this.canvas.Context().font = "80pt Impact";
     this.canvas.Context().textAlign = "center";
     this.canvas.Context().lineWidth = 1;
@@ -128,14 +128,14 @@ Drawing.prototype.setCanvasStyle = function(){
 /*
  Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
  */
-Drawing.prototype.clear = function() {
+Drawing.prototype.clear = function () {
     this.canvas.Context().clearRect(0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight());
     this.rect(this.canvas.Context(), 0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight(), "rgba(0,0,0,0.7");
 };
 
-Drawing.prototype.draw = function() {
+Drawing.prototype.draw = function () {
     /*
-    Um nicht immer die Variablen "auszuschreiben".
+     Um nicht immer die Variablen "auszuschreiben".
      */
     var ctx = this.canvas.Context();
 
@@ -146,7 +146,7 @@ Drawing.prototype.draw = function() {
     var player_two_paddle = this.gameInfo.paddles[1];
 
     /*
-    Canvas stylen.
+     Canvas stylen.
      */
     this.setCanvasStyle();
     this.clear();
@@ -155,26 +155,25 @@ Drawing.prototype.draw = function() {
     this.drawPaddle(ctx, 0, player_two_paddle);
     this.drawBall(ctx, player_one_ball);
     this.drawBall(ctx, player_two_ball);
-    if (this.gameInfo.bricksAvailable){
+    if (this.gameInfo.bricksAvailable) {
         this.drawBricks();
-    }else{
+    } else {
         this.animate();
     }
 };
 
 
-
 /*
-Animation des MasterBricks
+ Animation des MasterBricks
  */
-Drawing.prototype.animate = function() {
+Drawing.prototype.animate = function () {
     //Hier wird der Brick gezeichnet.
     var masterBrick = this.gameInfo.masterBrick;
     //var color = this.gameInfo.colorpicker[Math.floor(Math.random()*this.gameInfo.colorpicker.length)];
     this.rect(
         this.canvas.Context(),
         masterBrick.xCoor * this.scaleX,
-        this.canvas.FieldHeight()/2,
+        this.canvas.FieldHeight() / 2,
         masterBrick.brickWidth * this.scaleX,
         masterBrick.brickHeight * this.scaleY,
         "#4183D7"
@@ -182,14 +181,14 @@ Drawing.prototype.animate = function() {
 };
 
 /*
-Wenn Bricks getroffen werden, werden die "ausgefadet"
+ Wenn Bricks getroffen werden, werden die "ausgefadet"
  */
-Drawing.prototype.fadingOut = function(brick){
+Drawing.prototype.fadingOut = function (brick) {
     var xCorr = brick.xCoor * this.scaleX;
     var yCorr = brick.yCoor * this.scaleY;
     var width = brick.brickWidth * this.scaleX;
     var height = brick.brickHeight * this.scaleY;
-    var rgb= hexToRgb(brick.currentColor);
+    var rgb = hexToRgb(brick.currentColor);
 
     var r = rgb["r"];
     var g = rgb["g"];
@@ -201,13 +200,13 @@ Drawing.prototype.fadingOut = function(brick){
 
     var i = 0;
     var ctx = this.canvas.Context();
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         ctx.fillStyle = 'rgb(' + Math.round(r + dr * i) + ','
         + Math.round(g + dg * i) + ','
         + Math.round(b + db * i) + ')';
-        ctx.fillRect(xCorr,yCorr,width,height);
+        ctx.fillRect(xCorr, yCorr, width, height);
         i++;
-        if(i === steps) {
+        if (i === steps) {
             clearInterval(interval);
         }
     }, 20);
@@ -223,19 +222,18 @@ function hexToRgb(hex) {
 }
 
 
-
-function CanvasInit(){
+function CanvasInit() {
     this.ele = document.getElementById("playground");
 
-    this.Context = function(){
+    this.Context = function () {
         return this.ele.getContext("2d");
     };
 
-    this.FieldWidth = function(){
+    this.FieldWidth = function () {
         return document.getElementsByTagName('canvas')[0].width;
     };
 
-    this.FieldHeight = function(){
+    this.FieldHeight = function () {
         return document.getElementsByTagName('canvas')[0].height;
     }
 }

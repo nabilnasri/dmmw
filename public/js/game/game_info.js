@@ -1,4 +1,4 @@
-GameInfo = (function(){
+GameInfo = (function () {
     var game_info;
 
     function createInstance() {
@@ -18,7 +18,7 @@ GameInfo = (function(){
 
 })();
 
-function DrawInformation(){
+function DrawInformation() {
     this.playingField = null;
     this.balls = null;
     this.paddles = null;

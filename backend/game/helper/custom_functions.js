@@ -3,7 +3,7 @@ module.exports =
     /*
      Hilfsfunktion um ein Array nach rechts zu shiften
      */
-    shiftRight: function shiftRight(arr){
+    shiftRight: function shiftRight(arr) {
         var temp = [];
         temp.push(arr[arr.length - 1]);
         for (var i = 0; i <= arr.length - 2; i++) {
@@ -38,8 +38,8 @@ module.exports =
         return d;
     },
 
-    possibleColors: function possibleColors(){
-    //red/orange/yellow/green/blue
+    possibleColors: function possibleColors() {
+        //red/orange/yellow/green/blue
         return ["#F22613", "#D35400", "#F7CA18", "#00B16A", "#4183D7"];
     }
 

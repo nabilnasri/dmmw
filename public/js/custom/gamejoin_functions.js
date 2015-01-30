@@ -16,8 +16,13 @@ $(document).ready(function () {
             jQuery(window).trigger('load');
         });
     }
+
     $(document).on('click', '.join-private', function () {
         refresh_site('enterInfos');
+    });
+
+    $(document).on('click', '.create-private', function () {
+        refresh_site('enterName');
     });
 
     $(document).on('click', '#start-random-game', function () {

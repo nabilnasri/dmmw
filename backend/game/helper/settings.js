@@ -1,5 +1,5 @@
 /*
-Settings für das Spiel - nur an einem Ort ändern.
+ Settings für das Spiel - nur an einem Ort ändern.
  */
 module.exports =
 {

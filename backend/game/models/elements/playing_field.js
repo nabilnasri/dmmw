@@ -6,7 +6,7 @@ var handler = require('../../../communication/socket_request_handler');
 var game = require('../../game');
 
 /*
-"Spielfeld-Klasse" - Hier werden die einzelnen Elemente(Ball, Paddle, Bricks) initialisiert.
+ "Spielfeld-Klasse" - Hier werden die einzelnen Elemente(Ball, Paddle, Bricks) initialisiert.
  */
 exports.PlayingField = function PlayingField(rows, cols) {
     this.FieldWidth = 500;
@@ -25,17 +25,17 @@ exports.PlayingField = function PlayingField(rows, cols) {
 
 
 /*
-Bricks werden initialisiert.
+ Bricks werden initialisiert.
  */
 
 exports.PlayingField.prototype.setBricks = function () {
     var i, j;
     var b;
     var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
-    var brickPadding = brickWidthNoPadding/6;
+    var brickPadding = brickWidthNoPadding / 6;
     var brickWidth = brickWidthNoPadding - brickPadding;
     //NACHTRÄGLICH: Um den rechten Abstand beim letzten Brick entgegen zu kommen
-    brickPadding = brickPadding + (brickPadding/this.getCols());
+    brickPadding = brickPadding + (brickPadding / this.getCols());
     var brickHeight = brickWidth / 3;
     b = new Array(this.getRows());
     for (i = 0; i < this.getRows(); i++) {
@@ -45,10 +45,10 @@ exports.PlayingField.prototype.setBricks = function () {
             var xCoor = j * (new_brick.getWidth() + new_brick.getPadding());
             var offset = (this.getFieldHeight() - (this.getRows() * (new_brick.getHeight() + new_brick.getPadding()))) / 2;
             var yCoor = offset + i * (new_brick.getHeight() + new_brick.getPadding());
-            if(i===0){
+            if (i === 0) {
                 yCoor = offset;
             }
-            if(j===0){
+            if (j === 0) {
                 xCoor = j * new_brick.getWidth();
             }
             new_brick.xCoor = xCoor;
@@ -65,11 +65,11 @@ exports.PlayingField.prototype.setBricks = function () {
 
 exports.PlayingField.prototype.setMasterBrick = function () {
     var brickWidthNoPadding = this.getFieldWidth() / this.getCols();
-    var brickPadding = brickWidthNoPadding/6;
+    var brickPadding = brickWidthNoPadding / 6;
     var brickWidth = brickWidthNoPadding - brickPadding;
     var brickHeight = brickWidth / 3;
 
-    return new Brick.Brick(brickWidth,brickHeight,brickPadding);
+    return new Brick.Brick(brickWidth, brickHeight, brickPadding);
 };
 
 
@@ -85,14 +85,14 @@ exports.PlayingField.prototype.moveMasterBrick = function () {
 };
 
 /*
-Funktion prüft ob Bricks verfügbar sind, wenn nicht, dann
-wird der MasterBrick (s.o) initialisiert.
+ Funktion prüft ob Bricks verfügbar sind, wenn nicht, dann
+ wird der MasterBrick (s.o) initialisiert.
  */
-exports.PlayingField.prototype.bricksAvailable = function(){
-    var totalBricks = this.getRows()*this.getCols();
+exports.PlayingField.prototype.bricksAvailable = function () {
+    var totalBricks = this.getRows() * this.getCols();
 
-    if(this.countDestroyedBricks==totalBricks){
-        if(this.masterBrick == null){
+    if (this.countDestroyedBricks == totalBricks) {
+        if (this.masterBrick == null) {
             this.masterBrick = this.setMasterBrick();
         }
         return false;
@@ -102,7 +102,7 @@ exports.PlayingField.prototype.bricksAvailable = function(){
 };
 
 /*
-Paddles für die zwei Spieler werden initialisiert.
+ Paddles für die zwei Spieler werden initialisiert.
  */
 exports.PlayingField.prototype.initPaddles = function () {
     var p = {};
@@ -191,7 +191,7 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     player_two_ball.checkOutside(this, 2);
     player_two_ball.checkHitPaddle(this, player_two_paddle, 2);
 
-    if(!this.bricksAvailable()){
+    if (!this.bricksAvailable()) {
         this.moveMasterBrick();
         handler.sendMasterBrick(sio, this.masterBrick, gameId);
     }

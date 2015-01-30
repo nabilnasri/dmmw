@@ -14,7 +14,7 @@ exports.Brick = function Brick(width, height, padding) {
     this.yCoor = 0;
 };
 
-exports.Brick.prototype.getPoints = function (){
+exports.Brick.prototype.getPoints = function () {
     return settings.COLOR_POINTS_MAPPER[this.getCurrentColor()];
 };
 
@@ -26,7 +26,7 @@ exports.Brick.prototype.getHeight = function () {
     return this.brickHeight;
 };
 
-exports.Brick.prototype.getPadding= function () {
+exports.Brick.prototype.getPadding = function () {
     return this.brickPadding;
 };
 
@@ -34,10 +34,10 @@ exports.Brick.prototype.getXCoor = function () {
     return this.xCoor;
 };
 
-exports.Brick.prototype.getYCoor= function () {
+exports.Brick.prototype.getYCoor = function () {
     return this.yCoor;
 };
 
-exports.Brick.prototype.getCurrentColor= function () {
+exports.Brick.prototype.getCurrentColor = function () {
     return this.currentColor;
 };

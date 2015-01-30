@@ -26,7 +26,7 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('playerJoinGame', playerJoinGame);
 
     // Game Events
-    //gamersSocket.on('motion', motion);
+    //gamersSocket.on('motion', motionSocket);
     gamersSocket.on('gameData', gameDataSocket);
     gamersSocket.on('gamePause', gamePauseSocket);
     gamersSocket.on('keyMove', keyMoveSocket);
@@ -51,7 +51,7 @@ function createNewRandomGame(data) {
         //playerNumber: playerNumber,
         role: data.role,
         username: data.username,
-        playernumber : playerNumber
+        playernumber: playerNumber
     });
 
     //joint den User in den Loooom!
@@ -89,7 +89,7 @@ function playerJoinGame(data) {
             //playerNumber: playerNumber,
             role: data.role,
             username: data.username,
-            playernumber : playerNumber
+            playernumber: playerNumber
         });
 
         // Join the room
@@ -117,6 +117,10 @@ function hostPrepareGame(gameId) {
 
     //TODO stoesst beim host(s) die methode zum spielstart aus
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
+}
+
+function motionSocket(data) {
+    gm.motionGame(data);
 }
 
 function gameDataSocket(data) {
