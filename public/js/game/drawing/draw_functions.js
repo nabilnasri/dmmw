@@ -55,7 +55,7 @@ Drawing.prototype.circle = function (ctx, x, y, r, color) {
 
 /*
  Funktion zeichnet ein Rechteck.
- Wird verwendet für Bricks, Paddle.
+ Wird verwendet fuer Bricks, Paddle.
  Benötigt einen Context, um da rein zeichnen zu können.
  */
 Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
@@ -65,6 +65,25 @@ Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
     ctx.closePath();
     ctx.fill();
 };
+
+/*
+ Funktion zeichnet ein Rechteck.
+ Wird verwendet fuer Paddle.
+ Benötigt einen Context, um da rein zeichnen zu können.
+ */
+Drawing.prototype.rect2 = function (ctx, x, y, w, h, color) {
+    ctx.beginPath();
+    var scaledFieldWidth = this.gameInfo.playingField.FieldWidth * this.scaleX;
+    var gradient = ctx.createLinearGradient(scaledFieldWidth, y, w, h);
+    for(var i = 0, j = 0; i < color.length; i++, j+=2){
+        gradient.addColorStop(j / 10, color[j / 2]);
+    }
+    ctx.fillStyle = gradient;
+    ctx.rect(x, y, w, h);
+    ctx.closePath();
+    ctx.fill();
+};
+
 
 /*
  Funktion zeichnet Bricks ins Feld.
@@ -96,7 +115,7 @@ Drawing.prototype.drawPaddle = function (ctx, yCoor, player_paddle) {
     if (yCoor < 0) {
         yCoor = 0;
     }
-    this.rect(
+    this.rect2(
         ctx,
         player_paddle.xCoor * this.scaleX,
         yCoor,
@@ -114,20 +133,21 @@ Drawing.prototype.drawBall = function (ctx, player_ball) {
         player_ball.radius,
         player_ball.ballColor
     );
-    for (var j = 0; j < player_ball.particles.length; j++) {
+    for (var j = 0;j < player_ball.particles.length;j++) {
         var p = player_ball.particles[j];
         ctx.beginPath();
         // Deckkraft geht gegen 0 am Ende eines Partikels
         p.opacity = Math.round(p.remainingLife / p.life * 100) / 100;
         // gradient (wortwörtlich -> Steigung) aber siehe Wikipedia fuer Erklaerung
-        var gradient = ctx.createRadialGradient(p.x * this.scaleX, p.y * this.scaleY, 0, p.x * this.scaleX, p.y * this.scaleY, player_ball.radius * 1.2);
+        var gradient = ctx.createRadialGradient(p.x * this.scaleX, p.y * this.scaleY, 0, p.x * this.scaleX, p.y * this.scaleY, 1.2 * player_ball.radius);
         gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
         gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
         gradient.addColorStop(1, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", 0)");
         ctx.fillStyle = gradient;
-        ctx.arc(p.x * this.scaleX, p.y * this.scaleY, p.radius, Math.PI * 2, false);
+        ctx.arc(p.x * this.scaleX, p.y * this.scaleY, p.radius, 2 * Math.PI, !1);
         ctx.fill();
     }
+
 };
 
 /*

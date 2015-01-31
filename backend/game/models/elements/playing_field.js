@@ -106,9 +106,24 @@ exports.PlayingField.prototype.bricksAvailable = function () {
  */
 exports.PlayingField.prototype.initPaddles = function () {
     var p = {};
-    p[0] = new Paddle.Paddle(this.FieldWidth / 2, "#009a80");
-    p[1] = new Paddle.Paddle(this.FieldWidth / 2, "#fe5332");
-
+    var r, g, b;
+    var randomColor1, randomColor2;
+    var colorsOne = [], colorsTwo = [];
+    for(var i = 1; i <= 6; i++){
+        r = Math.round(255 * Math.random());
+        g = Math.round(100 + 255 * Math.random());
+        b = Math.round(250 * Math.random());
+        randomColor1 = "rgba(" + r + ", " + g + ", " + b + ", 1)";
+        colorsOne.push(randomColor1);
+        // rot
+        r = Math.round(139 + 255 * Math.random());
+        g = Math.round(125 * Math.random()); //davor 228 gewesen
+        b = Math.round(200 * Math.random()); //davor 225 gewesen
+        randomColor2 = "rgba(" + r + ", " + g + ", " + b + ", 1)";
+        colorsTwo.push(randomColor2);
+    }
+    p[0] = new Paddle.Paddle(this.FieldWidth / 2, colorsOne);
+    p[1] = new Paddle.Paddle(this.FieldWidth / 2, colorsTwo);
     return p;
 };
 
@@ -207,17 +222,12 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     player_two_ball.xCoor += player_two_ball.dx;
     player_two_ball.yCoor += player_two_ball.dy;
 
-
-    for (var i = 0; i < ballArray.length; i++) {
-        var ball = ballArray[i];
-        for (var j = 0; j < ball.particles.length; j++) {
+    for (var i = 0;i < ballArray.length;i++) {
+        for (var ball = ballArray[i], j = 0;j < ball.particles.length;j++) {
             var p = ball.particles[j];
-
             p.remainingLife--;
             p.radius--;
-
-            // particle wiederbeleben
-            if (p.remainingLife < 0 || p.radius < 0) {
+            if (0 > p.remainingLife || 0 > p.radius) {
                 ball.particles[j] = new Ball.Particle(ball);
             }
         }
