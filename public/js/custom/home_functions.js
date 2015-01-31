@@ -30,6 +30,6 @@ $(document).ready(function () {
      * ****************************** **/
     $(document).on('click', '.private-game', function () {
         IO.socket.emit('createNewPrivateGame');
-        refresh_site('enterName');
+        refresh_site('private');
     });
 });

@@ -31,9 +31,9 @@ exports.GameHoster.prototype.setUser = function (playerSocketId) {
 /**
  * setzt weitere Daten eines Users
  * */
-exports.GameHoster.prototype.setUserData = function (username, playerNumber) {
+exports.GameHoster.prototype.setUserDataInUser = function (username, playerNumber) {
     winston.log('info', ['Setze username = ', username, ' bei Player mit playerNumber: ', playerNumber].join(' '));
-    this.playerList[playerNumber-1].setUsername(username);
+    this.playerList[playerNumber].setUsername(username);
 };
 
 /**

@@ -26,6 +26,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#username-enter', function () {
+        IO.socket.emit('setUsername', {username: $('#username').val(), playerNumber: IO.user.getPlayerNumber(), gameId: IO.user.getGameId()});
         refresh_site('registratephone');
     });
 
@@ -35,11 +36,7 @@ $(document).ready(function () {
         var data = {
             username: $('#username').val()
         };
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            data.role = 'player';
-        } else {
-            data.role = 'host';
-        }
+
         IO.user.setUsername(username);
         IO.socket.emit('createNewRandomGame', data);
 
@@ -51,11 +48,7 @@ $(document).ready(function () {
             gameId: $('#gameId').val(),
             username: $('#username').val()
         };
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            data.role = 'player';
-        } else {
-            data.role = 'host';
-        }
+
         IO.socket.emit('playerJoinGame', data);
 
         refresh_site('waitingScreen');

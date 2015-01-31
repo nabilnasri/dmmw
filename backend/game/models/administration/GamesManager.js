@@ -43,7 +43,7 @@ exports.Gamemanager.prototype.addUser = function (gameId, gamersSocket) {
  * setzt weitere daten im user
  * */
 exports.Gamemanager.prototype.setUserInHost = function (gameId, username, playerNumber) {
-    return this.gamelist[gameId].setUserData(username, playerNumber);
+    return this.gamelist[gameId].setUserDataInUser(username, playerNumber);
 };
 
 /**
