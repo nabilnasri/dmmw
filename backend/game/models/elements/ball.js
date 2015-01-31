@@ -16,14 +16,13 @@ exports.Ball = function Ball(color, xCoor, yCoor, player) {
     this.score = 0;
     this.particles = [];
 };
-exports.Ball.prototype.createParticles = function () {
-    var particleCount = 25;
-    var particles = [];
-    for (var i = 0; i < particleCount; i++) {
+exports.Ball.prototype.createParticles = function() {
+    for (var particles = [], counter = 0;counter < 25;counter++) {
         particles.push(new Particle.Particle(this));
     }
     this.particles = particles;
 };
+
 /*
  BALL LOGIC --START--
  */
@@ -126,23 +125,22 @@ exports.Ball.prototype.getRadius = function () {
 exports.Ball.prototype.getColor = function () {
     return this.ballColor;
 };
-exports.Particle = function Particle(ball) {
+exports.Particle = function(ball) {
     this.x = ball.xCoor;
     this.y = ball.yCoor;
     this.radius = 10 + Math.random() * 20;  // radius zwischen = 10-30
-    this.life = 20 + Math.random() * 10;    // life zwischen = 20-30
-    this.remainingLife = this.life;         // Restleben
+    //this.life = 20 + Math.random() * 10;    // life zwischen = 20-30
+    this.remainingLife = this.life = 20 + 10 * Math.random();         // Restleben
 
     if (ball.ballColor == "#009a80") {
-        this.r = Math.round(Math.random() * 255);
-        this.g = Math.round(100 + Math.random() * 255);
-        this.b = Math.round(Math.random() * 250);
+        this.r = Math.round(192 * Math.random());       // davor 255
+        this.g = Math.round(100 + 255 * Math.random());
+        this.b = Math.round(170 * Math.random());       // davor 250
     }
-    else { // rote 2
-        this.r = Math.round(139 + Math.random() * 255);
-        this.g = Math.round(Math.random() * 228);
-        this.b = Math.round(Math.random() * 225);
+    else {
+        this.r = Math.round(139 + 255 * Math.random());
+        this.g = Math.round(110 * Math.random()); //davor 228 gewesen
+        this.b = Math.round(180 * Math.random()); //davor 225 gewesen
     }
 
 };
-
