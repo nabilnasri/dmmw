@@ -35,7 +35,7 @@ $(document).ready(function () {
         var gameId = $('#gameid-mobile').val();
         IO.user.setGameId(gameId);
         var data = {
-            gameID: gameId
+            gameId: gameId
         };
         IO.socket.emit('setMobileSocket', data);
         refresh_site('gamescreen');

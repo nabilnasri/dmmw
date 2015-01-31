@@ -49,6 +49,7 @@ function createNewRandomGame() {
     var playerNumber = gm.addUser(freeGameId, playerSocket.id);
 
     //joint den User in den Loooom!
+    winston.log("info", freeGameId + " FREEGAMEID");
     playerSocket.join(freeGameId.toString());
     playerSocket.emit('initUser', {
         gameId: freeGameId,
@@ -76,7 +77,6 @@ function createNewPrivateGame() {
 function playerJoinGame(data) {
     var playerSocket = this;
     var thisGameId = data.gameId;
-
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
         var playerNumber = gm.addUser(thisGameId, playerSocket.id);
         gm.setUserInHost(data.gameId, data.username, playerNumber);
@@ -124,16 +124,16 @@ function setMobileSocket(data) {
             playerNumber: playerdata.playerNumber,
             username: playerdata.username
         });
-        var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata);
+        var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata.playerNumber);
         if (sendToThisSocket != null) {
             serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
         }
-        if (gm.getAllUsers().length == 2){
+        if (gm.getAllUsers(data.gameId).length == 2){
             sendToThisSocket = gm.getUserSocket(data.gameId, 0);
             serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
         }
     } else {
-        winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
+        winston.log('info', 'error in setMobileSocket(data) in socketActionsServer.js');
         //this.emit('error',{message: "This room does not exist."} );
     }
 }

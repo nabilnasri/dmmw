@@ -88,7 +88,7 @@ var IO = {
      */
     updateMobileState: function (data) {
         console.log('updateMobileState');
-        //TODO zum wartescreen wechseln
+        refresh_site('gamescreen');
         IO.socket.emit('getAllUsers');
     },
 
