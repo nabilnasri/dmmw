@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <head>
-    <% include main/global_css_sheets.ejs %>
-    <!--HIER EIGENE(auf diese spezielle Seite bezogen) STYLESHEETS-->
+    <% include ../main/global_css_sheets.ejs %>
 </head>
 
 <body>
-    <div class="container">
-        <% include main/navbar.ejs %>
-
-        <!--HIER SEITENINHALT-->
-
-        <% include main/footer.ejs %>
+<div class="container">
+    <% include ../main/navbar.ejs %>
+    <div id="content">
+        <div class="row center-block">
+            <form class="form-horizontal">
+                <div class="form-group form-group-lg">
+                    <div class="col-sm-12">
+                        <input name="gameid-mobile" class="form-control" type="text" id="gameid-mobile" placeholder="Game ID">
+                    </div>
+                </div>
+                <input id="mobile-id-enter" class="btn btn-danger" value="Register">
+            </form>
+        </div>
     </div>
-
-    <% include main/global_js_scripts.ejs %>
-    <!--HIER EIGENE(auf diese spezielle Seite bezogen) JS-Scripts-->
+    <% include ../main/footer.ejs %>
+    <% include ../main/global_js_scripts.ejs %>
+    <div id="content-scripts">
+    </div>
+</div>
 </body>
