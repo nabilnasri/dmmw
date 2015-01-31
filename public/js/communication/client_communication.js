@@ -24,7 +24,8 @@ var IO = {
         IO.socket.on('setUserData', IO.setUserData);
         IO.socket.on('updatePlayerInfos', IO.updatePlayerInfos);
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
-
+        IO.socket.on('updateMobileState', IO.updateMobileState);
+        IO.socket.on('setAllUserData', IO.setAllUserData);
 
 
         IO.socket.on('beginNewGame', IO.beginNewGame);
@@ -75,19 +76,30 @@ var IO = {
     },
 
     /**
-     * A player has successfully joined the game.
-     * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     mobiledeviceConnected: function (data) {
         console.log('mobiledeviceConnected');
+        IO.user.setUsername(data.username);
+        IO.user.setPlayerNumber((data.playerNumber));
         //TODO waitingscreen aktuallisieren
     },
 
     /**
-     * setzt die user-Daten aller nutzer.
      */
-    setUserData: function (data) {
+    updateMobileState: function (data) {
+        console.log('updateMobileState');
+        //TODO zum wartescreen wechseln
+        IO.socket.emit('getAllUsers');
+    },
 
+    setGameIdTag: function (){
+        console.log('setGameIdTag');
+        document.getElementById('game-id-field').innerHTML = IO.user.getGameId();
+    },
+
+    setAllUserData: function (data){
+        var userList = data.user;
+        console.log("HALLOO USER " + JSON.stringify((userList)));
     },
 
     /**
@@ -96,10 +108,6 @@ var IO = {
      */
     beginNewGame: function (data) {
         IO.user.gameCountdown(data);
-    },
-
-    updatePlayerInfos: function (data) {
-        IO.user.updateUserList(data);
     },
 
     /**

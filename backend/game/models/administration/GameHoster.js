@@ -43,11 +43,17 @@ exports.GameHoster.prototype.setMobileSocketInUser = function (mobileSocketId) {
     if(this.playerList[0].getMobileSocketId() == null){
         winston.log('info', ['Setze mobileSocket bei Player 1 mit mobileSocketId: ', mobileSocketId].join(' '));
         this.playerList[0].setMobilerSocketId(mobileSocketId);
-        return 1;
+        return {
+            playerNumber: 0,
+            username: this.playerList[0].getUsername()
+        };
     }else if(this.playerList[1].getMobileSocketId() == null){
         winston.log('info', ['Setze mobileSocket bei Player 2 mit mobileSocketId: ', mobileSocketId].join(' '));
         this.playerList[1].setMobilerSocketId(mobileSocketId);
-        return 2;
+        return {
+            playerNumber: 1,
+            username: this.playerList[1].getUsername()
+        };
     }else{
         winston.log('error', 'FEHLER BEIM SETZEN DER MOBILESOCKETID');
         return null;

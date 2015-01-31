@@ -24,6 +24,8 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('setMobileSocket', setMobileSocket);
     gamersSocket.on('playerJoinGame', playerJoinGame);
 
+    gamersSocket.on('getAllUsers', getAllUsers);
+
     // Game Events
     //gamersSocket.on('motion', motionSocket);
     gamersSocket.on('gameData', gameDataSocket);
@@ -40,8 +42,8 @@ exports.initGame = function (sio, socket, gamesManager) {
 function createNewRandomGame() {
     var playerSocket = this;
     var freeGameId = gm.checkForFreeRooms();
-    if(freeGameId == null){
-        var freeGameId = Math.floor( Math.random() * 90000) + 10000;
+    if (freeGameId == null) {
+        var freeGameId = Math.floor(Math.random() * 90000) + 10000;
         gm.addGame(freeGameId, serverSocket, gamersSocket, false);
     }
     var playerNumber = gm.addUser(freeGameId, playerSocket.id);
@@ -58,7 +60,7 @@ function createNewRandomGame() {
 
 function createNewPrivateGame() {
     var playerSocket = this;
-    var thisGameId = Math.floor( Math.random() * 90000) + 10000;
+    var thisGameId = Math.floor(Math.random() * 90000) + 10000;
     gm.addGame(thisGameId, serverSocket, gamersSocket, true);
     var playerNumber = gm.addUser(thisGameId, playerSocket.id);
 
@@ -79,7 +81,10 @@ function playerJoinGame(data) {
         var playerNumber = gm.addUser(thisGameId, playerSocket.id);
         gm.setUserInHost(data.gameId, data.username, playerNumber);
         //teile dem wartenden mit, das ein user dazugekommen ist
-        serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom',{username: data.username, playerNumber: data.playerNumber});
+        serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', {
+            username: data.username,
+            playerNumber: data.playerNumber
+        });
         //fuege nun den neuen nutzer zum room
         playerSocket.join(thisGameId);
         //schicke dem client vom user alle noetigen infomationen von sich slebst
@@ -100,23 +105,41 @@ function setUsernameSocket(data) {
     var playerNumber = data.playerNumber;
     gm.setUserInHost(data.gameId, data.username, playerNumber);
 
-    if(playerNumber == 2){
+    //aktuealisiere den wartescreen des ersten spielers
+    if (playerNumber == 1) {
         var sendToThisSocket = gm.getUserSocket(data.gameId, 0);
-        serverSocket.sockets.to(sendToThisSocket).emit('playerJoinedRoom',{username: data.username, playerNumber: data.playerNumber});
+        serverSocket.sockets.to(sendToThisSocket).emit('playerJoinedRoom', {
+            username: data.username,
+            playerNumber: playerNumber
+        });
     }
 }
 
 function setMobileSocket(data) {
-    var playerNumber = gm.setMobileSocketId(data.gameId, this.id);
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
+        var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         //fuege nun den neuen nutzer zum room
         this.join(data.gameId);
-        //teile dem wartenden mit, das ein user dazugekommen ist
-        serverSocket.sockets.in(data.gameId).emit('mobiledeviceConnected',{playerNumber: playerNumber});
+        this.emit('mobiledeviceConnected', {
+            playerNumber: playerdata.playerNumber,
+            username: playerdata.username
+        });
+        var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata);
+        if (sendToThisSocket != null) {
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
+        }
+        if (gm.getAllUsers().length == 2){
+            sendToThisSocket = gm.getUserSocket(data.gameId, 0);
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
+        }
     } else {
         winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
         //this.emit('error',{message: "This room does not exist."} );
     }
+}
+
+function getAllUsers(){
+    this.emit('setAllUserData', {users: gm.getAllUsers()});
 }
 
 /*

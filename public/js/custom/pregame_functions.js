@@ -37,6 +37,7 @@ $(document).ready(function () {
         var data = {
             gameID: gameId
         };
+        IO.socket.emit('setMobileSocket', data);
         refresh_site('gamescreen');
     });
 

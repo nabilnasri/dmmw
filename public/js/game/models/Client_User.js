@@ -129,22 +129,6 @@ Client_User.prototype.setSocketId = function (socketId) {
     this.mySocketId = socketId;
 };
 
-Client_User.prototype.getLives = function () {
-    return this.myLives;
-};
-
-Client_User.prototype.setLives = function (lives) {
-    this.myLives = lives;
-};
-
-Client_User.prototype.getCurrentsPoint = function () {
-    return this.myCurrentPoints;
-};
-
-Client_User.prototype.setCurrentsPoint = function (points) {
-    this.myCurrentPoints = points;
-};
-
 Client_User.prototype.getUsername = function () {
     return this.myUsername;
 };
