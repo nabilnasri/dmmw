@@ -23,6 +23,10 @@ var IO = {
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('setUserData', IO.setUserData);
         IO.socket.on('updatePlayerInfos', IO.updatePlayerInfos);
+        IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
+
+
+
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
         IO.socket.on('error', IO.error);
@@ -40,7 +44,13 @@ var IO = {
      * The client is successfully connected!
      */
     onConnected: function () {
+        console.log('onConnected');
         IO.user = new Client_User();
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            IO.user.setRole('player');
+        } else {
+            IO.user.setRole('host');
+        }
     },
 
     /**
@@ -51,8 +61,6 @@ var IO = {
         console.log('dataataa INIT USER ' + JSON.stringify(data));
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
-        IO.user.setRole(data.role);
-        IO.user.setUsername(data.username);
         IO.user.setPlayerNumber(data.playernumber);
         IO.user.gameInit(data);
     },
@@ -62,7 +70,17 @@ var IO = {
      * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     playerJoinedRoom: function (data) {
-        //IO.user.updateWaitingScreen(data);
+        console.log('playerJoinedRoom');
+        //TODO waitingscreen aktuallisieren
+    },
+
+    /**
+     * A player has successfully joined the game.
+     * @param data {{playerName: string, gameId: int, mySocketId: int}}
+     */
+    mobiledeviceConnected: function (data) {
+        console.log('mobiledeviceConnected');
+        //TODO waitingscreen aktuallisieren
     },
 
     /**

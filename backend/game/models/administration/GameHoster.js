@@ -3,28 +3,65 @@ var user = require('./Server_User');
 var game = require('../../game');
 var handler = require('../../../communication/socket_request_handler');
 
-exports.GameHoster = function GameHost(gameId, serverSocket) {
+exports.GameHoster = function GameHost(gameId, serverSocket, isPrivate) {
     winston.log('info', 'GameHoster mit gameId ' + gameId + ' erstellt');
     this.gameId = gameId;
     this.serverSocket = serverSocket;
     //this.userList = {};
     this.playerList = [];
-    this.isPrivate = true;
+    this.isPrivate = isPrivate;
     //this.playerCounter = 0;
 };
 
 /**
  * setzt neuen user im GameHoster und gibt die Spielernummer zurueck um auf client seite zuordnungen zu machen
  * */
-exports.GameHoster.prototype.setUser = function (playerSocketId, username) {
-    winston.log("info", ['role: ', ' username: ', username].join(' '));
+exports.GameHoster.prototype.setUser = function (playerSocketId) {
+    winston.log("info", ['playerSocketId: ', playerSocketId].join(' '));
     var playListLength = this.playerList.length;
     if (playListLength <= 1) {
-        var u = new user.Server_User(playerSocketId, username);
+        var u = new user.Server_User(playerSocketId);
         this.playerList.push(u);
         return playListLength;
     }
-    winston.log('error', 'FEHLER BEIM USER SETZEN');
+    winston.log('error', 'FEHLER BEIM USER ERSTELLEN');
+    return null;
+};
+
+/**
+ * setzt weitere Daten eines Users
+ * */
+exports.GameHoster.prototype.setUserData = function (username, playerNumber) {
+    winston.log('info', ['Setze username = ', username, ' bei Player mit playerNumber: ', playerNumber].join(' '));
+    this.playerList[playerNumber-1].setUsername(username);
+};
+
+/**
+ * setzt mobileSocketId Daten eines Users
+ * */
+exports.GameHoster.prototype.setMobileSocketInUser = function (mobileSocketId) {
+    if(this.playerList[0].getMobileSocketId() == null){
+        winston.log('info', ['Setze mobileSocket bei Player 1 mit mobileSocketId: ', mobileSocketId].join(' '));
+        this.playerList[0].setMobilerSocketId(mobileSocketId);
+        return 1;
+    }else if(this.playerList[1].getMobileSocketId() == null){
+        winston.log('info', ['Setze mobileSocket bei Player 2 mit mobileSocketId: ', mobileSocketId].join(' '));
+        this.playerList[1].setMobilerSocketId(mobileSocketId);
+        return 2;
+    }else{
+        winston.log('error', 'FEHLER BEIM SETZEN DER MOBILESOCKETID');
+        return null;
+    }
+};
+
+/**
+ *
+ * */
+exports.GameHoster.prototype.getUserSocketId = function (playerNumber) {
+    if (this.playerList[playerNumber] != null) {
+        return this.playerList[playerNumber].getPlayerSocketId();
+    }
+    winston.log('error', ['FEHLER BEIM HOLEN DER SOCKET ID VOM USER ', playerNumber].join(' '));
     return null;
 };
 
@@ -117,8 +154,5 @@ exports.GameHoster.prototype.getPlayerList = function () {
  * gib Anzahl der angemeldeten user zurueck als dictionary zurueck
  * */
 exports.GameHoster.prototype.getUserAmount = function () {
-    return {
-        playCounter: this.playCounter,
-        hostCounter: this.hostCounter
-    };
+    return this.playerList.length;
 };

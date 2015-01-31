@@ -20,8 +20,8 @@ exports.initGame = function (sio, socket, gamesManager) {
     // Host Events
     gamersSocket.on('createNewRandomGame', createNewRandomGame);
     gamersSocket.on('createNewPrivateGame', createNewPrivateGame);
-    gamersSocket.on('hostRoomFull', hostPrepareGame);
-    gamersSocket.on('playerJoinGame', playerJoinGame);
+    gamersSocket.on('setUsername', setUsernameSocket);
+    gamersSocket.on('setMobileSocket', setMobileSocket);
     gamersSocket.on('playerJoinGame', playerJoinGame);
 
     // Game Events
@@ -37,74 +37,78 @@ exports.initGame = function (sio, socket, gamesManager) {
  *           HOST EVENTS           *
  * ****************************** **/
 
- /**
- * The 'random game' button was clicked and 'createNewRandomGame' event occurred.
- */
-function createNewRandomGame(data) {
-    // Create a unique Socket.IO Room
-    var thisGameId = Math.floor( Math.random() * 90000) + 10000;
+function createNewRandomGame() {
+    var playerSocket = this;
+    var freeGameId = gm.checkForFreeRooms();
+    if(freeGameId == null){
+        var freeGameId = Math.floor( Math.random() * 90000) + 10000;
+        gm.addGame(freeGameId, serverSocket, gamersSocket, false);
+    }
+    var playerNumber = gm.addUser(freeGameId, playerSocket.id);
 
-    //TODO gameId 5 stellig machen. 6 stellig mit 1 oder 2 dahinter um device zum jeweiligen user hinzuzufuegen!
-    var playerSocketId = this.id;
-    gm.addGame(thisGameId, serverSocket, gamersSocket);
-    var playerNumber = gm.addUser(thisGameId, playerSocketId, data.username);
-
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('initUser', {
-        gameId: thisGameId,
-        mySocketId: playerSocketId,
-        role: data.role,
-        username: data.username,
+    //joint den User in den Loooom!
+    playerSocket.join(freeGameId.toString());
+    playerSocket.emit('initUser', {
+        gameId: freeGameId,
+        mySocketId: playerSocket.id,
         playernumber: playerNumber
     });
 
-    //joint den User in den Loooom!
-    this.join(thisGameId.toString());
-
-    serverSocket.sockets.in(thisGameId).emit('updatePlayerInfos', {playerList: gm.getAllUsers(thisGameId)});
 }
 
 function createNewPrivateGame() {
+    var playerSocket = this;
+    var thisGameId = Math.floor( Math.random() * 90000) + 10000;
+    gm.addGame(thisGameId, serverSocket, gamersSocket, true);
+    var playerNumber = gm.addUser(thisGameId, playerSocket.id);
 
+    //joint den User in den Loooom!
+    playerSocket.join(thisGameId.toString());
+    playerSocket.emit('initUser', {
+        gameId: thisGameId,
+        mySocketId: playerSocket.id,
+        playernumber: playerNumber
+    });
 }
 
-/**
- * A player clicked the 'START GAME' button.
- * Attempt to connect them to the room that matches
- * the gameId entered by the player.
- * @param data Contains data entered via player's input - playerName and gameId.
- */
 function playerJoinGame(data) {
-    var playerSocketId = this.id;
-    var gameId = data.gameId;
+    var playerSocket = this;
+    var thisGameId = data.gameId;
 
-    // Look up the room ID in the Socket.IO manager object.
-    // If the room exists...
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
-        winston.log('info', 'user joined dem room : ' + data.gameId);
-        // attach the socket id to the data object.
-        data.mySocketId = playerSocketId;
-
-        var playerNumber = gm.addUser(gameId, playerSocketId, data.username);
-
-        // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-        this.emit('initUser', {
-            gameId: gameId,
-            mySocketId: playerSocketId,
-            role: data.role,
-            username: data.username,
+        var playerNumber = gm.addUser(thisGameId, playerSocket.id);
+        gm.setUserInHost(data.gameId, data.username, playerNumber);
+        //teile dem wartenden mit, das ein user dazugekommen ist
+        serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom',{username: data.username, playerNumber: data.playerNumber});
+        //fuege nun den neuen nutzer zum room
+        playerSocket.join(thisGameId);
+        //schicke dem client vom user alle noetigen infomationen von sich slebst
+        playerSocket.emit('initUser', {
+            gameId: thisGameId,
+            mySocketId: playerSocket.id,
             playernumber: playerNumber
         });
 
-        // Join the room
-        this.join(data.gameId.toString());
-        // Emit an event notifying the clients that the player has joined the room.
-        serverSocket.sockets.in(data.gameId).emit('updatePlayerInfos', {playerList: gm.getAllUsers(gameId)});
     } else {
         winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
-        // Otherwise, send an error m.essage back to the player.
         //this.emit('error',{message: "This room does not exist."} );
     }
+}
+
+
+function setUsernameSocket(data) {
+    var playerNumber = data.playerNumber;
+    gm.setUserInHost(data.gameId, data.username, playerNumber);
+
+    if(playerNumber == 2){
+        var sendToThisSocket = gm.getUserSocket(data.gameId, 0);
+        serverSocket.sockets.to(sendToThisSocket).emit('playerJoinedRoom',{username: data.username, playerNumber: data.playerNumber});
+    }
+}
+
+function setMobileSocket(data) {
+    var playerNumber = gm.setMobileSocketId(data.gameId, this.id);
+    serverSocket.sockets.in(data.gameId).emit('mobiledeviceConnected',{playerNumber: playerNumber});
 }
 
 /*

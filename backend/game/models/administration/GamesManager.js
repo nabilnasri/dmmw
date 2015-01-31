@@ -11,35 +11,53 @@ exports.Gamemanager = function Gamemanager() {
  *         INIT GAME ACTIONS       *
  * ****************************** **/
 /**
+ * sucht nach freier random spielInstanz
+ * */
+exports.Gamemanager.prototype.checkForFreeRooms = function () {
+    for (var key in this.gamelist) {
+        if (!this.gamelist[key].getIsPrivate()) {
+            if (!this.gamelist[key].getUserAmount() < 2) {
+                return key;
+            }
+        }
+    }
+    return null;
+};
+
+ /**
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
-exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSocket) {
-    //TODO schauen ob ein freier room vorhanden ist, falls randomGame geklickt wurde!
-    this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, gamerSocket);
+exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSocket, isPrivate) {
+    this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, gamerSocket, isPrivate);
 };
 
 /**
  * setzt neuen user im jeweiligen GamehHost und gibt die Spielernummer zurueck um auf der Client Seite
  * Punktezahl etc. richtig zu setzen
  * */
-exports.Gamemanager.prototype.addUser = function (gameId, gamersSocket, username) {
-    return this.gamelist[gameId].setUser(gamersSocket, username);
+exports.Gamemanager.prototype.addUser = function (gameId, gamersSocket) {
+    return this.gamelist[gameId].setUser(gamersSocket);
 };
 
 /**
- * checke wie viele user im game sind
+ * setzt weitere daten im user
  * */
-exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
-    var userAmount = this.gamelist[gameId].getUserAmount();
-    //echte abfrage
-    /*if (getUserAmount['playerCounter'] == 2  && getUserAmount['hostCounter']){
-     return true;
-     }else{
-     return false;
-     }*/
+exports.Gamemanager.prototype.setUserInHost = function (gameId, username, playerNumber) {
+    return this.gamelist[gameId].setUserData(username, playerNumber);
+};
 
-    //test abfrage ohnne playerCounter(fuer mobile devices)
-    return userAmount['hostCounter'] == 2;
+/**
+ * setzt socket von Mobiledevice im usrer
+ * */
+exports.Gamemanager.prototype.setMobileSocketId = function (gameId, mobileSocketId) {
+    return this.gamelist[gameId].setMobileSocketInUser(mobileSocketId);
+};
+
+/**
+ * gib socket eines spielers zurueck
+ * */
+exports.Gamemanager.prototype.getUserSocket = function (gameId, playernumber) {
+    return this.gamelist[gameId].getUserSocketId(playernumber);
 };
 
 /**

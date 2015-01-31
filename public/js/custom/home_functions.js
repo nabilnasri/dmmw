@@ -17,11 +17,19 @@ $(document).ready(function () {
         });
     }
 
+    /** ********************************
+     *           RANDOM GAME           *
+     * ****************************** **/
     $(document).on('click', '.random-game', function () {
+        IO.socket.emit('createNewRandomGame');
         refresh_site('enterName');
     });
 
+    /** ********************************
+     *          PRIVATE GAME           *
+     * ****************************** **/
     $(document).on('click', '.private-game', function () {
+        IO.socket.emit('createNewPrivateGame');
         refresh_site('enterName');
     });
 });
