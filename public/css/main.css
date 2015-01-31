@@ -97,7 +97,8 @@ body {
 }
 
 #gameId{
-    background-color: #110dfe;
+    background-color: #2f241e;
+    color: #ffd32d;
 }
 
 #dmmw-headline, #dmmw-footer {
@@ -118,6 +119,26 @@ body {
   color: #e90100;
 }
 
+.phone-game-id{
+    color: #000000;
+    font-size: 1.5em;
+}
+
+.registrate-phone-block{
+    background-color: #ffd32d;
+}
+
+.game-id-field{
+    background-color: #2f241e;
+    color: #ffd32d;
+    font-size: 2.5em;
+}
+
+.mobile-phone-waiting-screen{
+    color: #ffd32d;
+    opacity: 0.4;
+}
+
 .btn{
   border-radius: 0px;
   border-color: transparent;
@@ -132,4 +153,20 @@ body {
 
 .btn-danger {
   background-color: #e90100;
+}
+
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <% include ../main/global_css_sheets.ejs %>
+</head>
+
+<body>
+<div class="container">
+    <% include ../main/navbar.ejs %>
+    <div id="content">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="share-id-container" style="display: block;">
+                    <div class="row">
+                        <div class="col-md-12 player text-center" id="gameId">
+                            <span id="gameIdValue">GameID teilen: 12345</span>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 player text-center" id="player-one">
+                            <span id="name1">Spieler1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 player text-center" id="player-one">
+                            <span id="device1"><span class="glyphicon glyphicon-phone mobile-phone-waiting-screen"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 player text-center" id="player-two">
+                            <span id="name2">Spieler2</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 player text-center" id="player-two">
+                            <span id="device2"><span class="glyphicon glyphicon-phone mobile-phone-waiting-screen"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="button" class="btn btn-danger" id="ready" value="READY">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../main/footer.ejs %>
+    <% include ../main/global_js_scripts.ejs %>
+    <div id="content-scripts">
+    </div>
+</div>
+</body>

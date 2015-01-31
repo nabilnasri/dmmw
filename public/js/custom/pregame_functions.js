@@ -25,7 +25,12 @@ $(document).ready(function () {
         refresh_site('enterName');
     });
 
+    $(document).on('click', '#username-enter', function () {
+        refresh_site('registratephone');
+    });
+
     $(document).on('click', '#start-random-game', function () {
+        console.log("RAAANDOM");
         var username = $('#username').val();
         var data = {
             username: $('#username').val()

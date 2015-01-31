@@ -16,23 +16,27 @@ router.get('/game', function (req, res) {
 });
 
 router.get('/enterName', function (req, res) {
-    res.render('enter_name', {title: "DMMW"});
+    res.render('pregame/enter_name', {title: "DMMW"});
+});
+
+router.get('/registratephone', function (req, res) {
+    res.render('pregame/phone_registration', {title: "DMMW"});
 });
 
 router.get('/controller', function (req, res) {
-    res.render('controller', {title: "DMMW"});
+    res.render('controller/controller', {title: "DMMW"});
 });
 
 router.get('/private', function (req, res) {
-    res.render('private_game', {title: "DMMW"});
+    res.render('pregame/private_game', {title: "DMMW"});
 });
 
 router.get('/enterInfos', function (req, res) {
-    res.render('enter_infos', {title: "DMMW"});
+    res.render('pregame/enter_infos', {title: "DMMW"});
 });
 
 router.get('/waitingScreen', function (req, res) {
-    res.render('waitingscreen', {title: "DMMW"});
+    res.render('pregame/waitingscreen', {title: "DMMW"});
 });
 
 module.exports = router;

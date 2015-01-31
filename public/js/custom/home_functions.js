@@ -22,6 +22,6 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.private-game', function () {
-        refresh_site('private');
+        refresh_site('enterName');
     });
 });
