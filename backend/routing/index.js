@@ -28,6 +28,7 @@ router.get('/controller', function (req, res) {
 });
 
 router.get('/gamescreen', function (req, res) {
+    winston.log("info", "controller");
     res.render('controller/controller', {title: "DMMW"});
 });
 

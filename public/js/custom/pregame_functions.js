@@ -31,12 +31,13 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#mobile-id-enter', function () {
+        console.log("YOOO");
         var gameId = $('#gameid-mobile').val();
         IO.user.setGameId(gameId);
         var data = {
             gameID: gameId
         };
-        refresh_site('gamescreen', data);
+        refresh_site('gamescreen');
     });
 
     $(document).on('click', '#start-random-game', function () {
