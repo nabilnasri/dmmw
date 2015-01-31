@@ -1,9 +1,10 @@
 var winston = require('winston');
 
-exports.Server_User = function Server_User(role, playerSocketId, username) {
+exports.Server_User = function Server_User(playerSocketId, username) {
     this.username = username;
-    this.playerSockerId = playerSocketId;
-    this.role = role;
+    this.playerSocketId = playerSocketId;
+    this.mobileSocketId = null;
+    //this.role = role;
     this.lives = 3;
     this.currentPoints = 0;
 };
@@ -16,25 +17,34 @@ exports.Server_User.prototype.getUsername = function () {
     return this.username;
 };
 
+exports.Server_User.prototype.setMobilerSocketId = function (mobileSocketId) {
+    this.mobileSocketId = mobileSocketId;
+};
+
+exports.Server_User.prototype.getMobileSocketId = function () {
+    return this.mobileSocketId;
+};
+
 exports.Server_User.prototype.setPlayerSocketId = function (playerSocketId) {
-    this.playerSockerId = playerSocketId;
+    this.playerSocketId = playerSocketId;
 };
 
 exports.Server_User.prototype.getPlayerSocketId = function () {
-    return this.playerSockerId;
+    return this.playerSocketId;
 };
 
 exports.Server_User.prototype.setRole = function (role) {
     this.role = role;
 };
 
+/* role getter und setter
 exports.Server_User.prototype.getRole = function () {
     return this.role;
 };
 
 exports.Server_User.prototype.setLives = function (lives) {
     this.lives = lives;
-};
+};*/
 
 exports.Server_User.prototype.getLives = function () {
     return this.lives;

@@ -7,6 +7,9 @@ exports.Gamemanager = function Gamemanager() {
     this.gamelist = {};
 };
 
+/** ********************************
+ *         INIT GAME ACTIONS       *
+ * ****************************** **/
 /**
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
@@ -19,17 +22,17 @@ exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSoc
  * setzt neuen user im jeweiligen GamehHost und gibt die Spielernummer zurueck um auf der Client Seite
  * Punktezahl etc. richtig zu setzen
  * */
-exports.Gamemanager.prototype.addUser = function (role, gamersSocket, gameId, username) {
-    return this.gamelist[gameId].setUser(role, gamersSocket, username);
+exports.Gamemanager.prototype.addUser = function (gameId, gamersSocket, username) {
+    return this.gamelist[gameId].setUser(gamersSocket, username);
 };
 
 /**
  * checke wie viele user im game sind
  * */
 exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
-    var userAmount = this.gamelist[gameId].userAmount();
+    var userAmount = this.gamelist[gameId].getUserAmount();
     //echte abfrage
-    /*if (userAmount['playerCounter'] == 2  && userAmount['hostCounter']){
+    /*if (getUserAmount['playerCounter'] == 2  && getUserAmount['hostCounter']){
      return true;
      }else{
      return false;
@@ -39,6 +42,17 @@ exports.Gamemanager.prototype.checkUserAmount = function (gameId) {
     return userAmount['hostCounter'] == 2;
 };
 
+/**
+ * gib alle spieler dieses Gamehosters zurueck
+ * */
+exports.Gamemanager.prototype.getAllUsers = function (gameId) {
+    return this.gamelist[gameId].getPlayerList();
+};
+
+
+/** ********************************
+ *           PLAY ACTIONS          *
+ * ****************************** **/
 /**
  * fuer die Steuerung mit dem mobile Device
  * */

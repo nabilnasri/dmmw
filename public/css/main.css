@@ -96,6 +96,10 @@ body {
   background-color: #fe5332;
 }
 
+#gameId{
+    background-color: #110dfe;
+}
+
 #dmmw-headline, #dmmw-footer {
   color: #ffd32d;
   background-color: #2f241e;

@@ -7,9 +7,22 @@
 <div class="container">
     <% include main/navbar.ejs %>
     <div id="content">
-        <h1 class="number-of-players">0</h1>
+        <div class="col-md-3 player text-center" id="player-one">
+            <span id="name1">...</span>
+        </div>
+        <div class="col-md-3 player text-center" id="player-one">
+            <span id="device1">device: no</span>
+        </div>
+        <div class="col-md-3 player text-center" id="player-two">
+            <span id="name2">...</span>
+        </div>
+        <div class="col-md-3 player text-center" id="player-two">
+            <span id="device2">device: no</span>
+        </div>
 
-        <h1 class="name-of-players">-</h1>
+        <div class="col-md-3 player text-center" id="gameId">
+            <span id="gameIdValue">12345</span>
+        </div>
     </div>
     <% include main/footer.ejs %>
     <% include main/global_js_scripts.ejs %>

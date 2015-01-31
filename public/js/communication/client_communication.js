@@ -22,7 +22,7 @@ var IO = {
         IO.socket.on('initUser', IO.initUser);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('setUserData', IO.setUserData);
-        IO.socket.on('playerInfo', IO.playerInfo);
+        IO.socket.on('updatePlayerInfos', IO.updatePlayerInfos);
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
         IO.socket.on('error', IO.error);
@@ -62,7 +62,7 @@ var IO = {
      * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     playerJoinedRoom: function (data) {
-        IO.user.updateWaitingScreen(data);
+        //IO.user.updateWaitingScreen(data);
     },
 
     /**
@@ -80,8 +80,8 @@ var IO = {
         IO.user.gameCountdown(data);
     },
 
-    playerInfo: function (data) {
-        IO.user.updateUsernames(data);
+    updatePlayerInfos: function (data) {
+        IO.user.updateUserList(data);
     },
 
     /**

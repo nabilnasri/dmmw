@@ -26,6 +26,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#start-random-game', function () {
+        var username = $('#username').val();
         var data = {
             username: $('#username').val()
         };
@@ -34,9 +35,10 @@ $(document).ready(function () {
         } else {
             data.role = 'host';
         }
+        IO.user.setUsername(username);
         IO.socket.emit('createNewRandomGame', data);
 
-        refresh_site('game');
+        refresh_site('waitingScreen');
     });
 
     $(document).on('click', '#connect-to-room', function () {
@@ -51,7 +53,7 @@ $(document).ready(function () {
         }
         IO.socket.emit('playerJoinGame', data);
 
-        refresh_site('game');
+        refresh_site('waitingScreen');
     });
 
 });

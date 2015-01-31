@@ -1,12 +1,8 @@
 function Client_User() {
     this.mySocketId = null;
-    this.myLives = 3;
-    this.myCurrentPoints = 0;
-    this.myUsername = null;
     this.myGameId = null;
     this.myRole = null;
     this.playerNumber = null;
-    this.player = [];
 }
 
 /**
@@ -26,45 +22,23 @@ Client_User.prototype.displayScreen = function () {
 };
 
 /**
- * Update the Host screen when the first player joins
+ * Update the Usernames on the screen if player joins
  */
-Client_User.prototype.updateWaitingScreen = function (data) {
+Client_User.prototype.updateUserList = function (data) {
+    console.log('updateUserList Data : ' + JSON.stringify(data));
     var info = this.player;
-    for(var i=1; i<=info.length; i++) {
+    for(var i=1; i<=data['userList'].length; i++) {
         document.getElementById('name' + i).innerHTML = info[i-1]["username"];
     }
     //TODO hier unseren warteScreen einbauen
     // If this is a restarted game, show the screen.
-};
-
-
-/**
- * Update the Usernames on the screen if player joins
- */
-Client_User.prototype.updateUsernames = function (data) {
-    this.player = data["user"];
+    this.player = data;
 };
 
 /**
  * Show the countdown screen
  */
 Client_User.prototype.gameCountdown = function () {
-
-    // Display the players' names on screen
-    $('#player1Score')
-        .find('.playerName')
-        //.html(data.player1.name);
-        .html();
-
-    $('#player2Score')
-        .find('.playerName')
-        //.html(data.player2.name);
-        .html();
-
-    // Set the Score section on screen to 0 for each player.
-    $('#player1Score').find('.score').attr('id', Client_User.Host.players[0].mySocketId);
-    $('#player2Score').find('.score').attr('id', Client_User.Host.players[1].mySocketId);
-
     // TODO empfangenen Timerstand einsetzen
 };
 
@@ -92,17 +66,10 @@ Client_User.prototype.restartGame = function () {
     $('#spanNewGameCode').text(Client_User.gameId);
 };
 
-Client_User.prototype.onJoinClick = function () {
-    // console.log('Clicked "Join A Game"');
-
-    // Display the Join Game HTML on the player's screen.
-    this.$gameArea.html(Client_User.$templateJoinGame);
-};
-
 /**
  * The player entered their name and gameId (hopefully)
  * and clicked Start.
- */
+
 Client_User.prototype.onPlayerStartClick = function () {
     // collect data to send to the server
     var data = {
@@ -116,12 +83,12 @@ Client_User.prototype.onPlayerStartClick = function () {
     // Set the appropriate properties for the current player.
     this.myRole = 'Player';
     this.myUsername = data.playerName;
-};
+};*/
 
 /**
  *  Click handler for the "Start Again" button that appears
  *  when a game is over.
- */
+
 Client_User.prototype.onPlayerRestart = function () {
     var data = {
         gameId: Client_User.gameId,
@@ -129,7 +96,7 @@ Client_User.prototype.onPlayerRestart = function () {
     };
     IO.socket.emit('playerRestart', data);
     $('#gameArea').html("<h3>Waiting on host to start new game.</h3>");
-};
+};*/
 
 /**
  * Display the waiting screen for player 1
@@ -202,7 +169,7 @@ Client_User.prototype.setRole = function (role) {
     this.myRole = role;
 };
 
-Client_User.prototype.getPlayerNumner = function () {
+Client_User.prototype.getPlayerNumber = function () {
     return this.playerNumber;
 };
 

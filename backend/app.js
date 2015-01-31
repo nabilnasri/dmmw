@@ -30,6 +30,7 @@ app.use('/enterName', routes);
 
 app.use('/private', routes);
 app.use('/enterInfos', routes);
+app.use('/waitingScreen', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

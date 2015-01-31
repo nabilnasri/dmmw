@@ -21,8 +21,7 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('createNewRandomGame', createNewRandomGame);
     gamersSocket.on('createNewPrivateGame', createNewPrivateGame);
     gamersSocket.on('hostRoomFull', hostPrepareGame);
-
-    // Player Events
+    gamersSocket.on('playerJoinGame', playerJoinGame);
     gamersSocket.on('playerJoinGame', playerJoinGame);
 
     // Game Events
@@ -34,21 +33,26 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('brickColor', brickColorSocket);
 };
 
-/**
+/** ********************************
+ *           HOST EVENTS           *
+ * ****************************** **/
+
+ /**
  * The 'random game' button was clicked and 'createNewRandomGame' event occurred.
  */
 function createNewRandomGame(data) {
     // Create a unique Socket.IO Room
-    var thisGameId = ( Math.random() * 100000 ) | 0;
+    var thisGameId = Math.floor( Math.random() * 90000) + 10000;
+
+    //TODO gameId 5 stellig machen. 6 stellig mit 1 oder 2 dahinter um device zum jeweiligen user hinzuzufuegen!
     var playerSocketId = this.id;
     gm.addGame(thisGameId, serverSocket, gamersSocket);
-    var playerNumber = gm.addUser(data.role, playerSocketId, thisGameId, data.username);
+    var playerNumber = gm.addUser(thisGameId, playerSocketId, data.username);
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
     this.emit('initUser', {
         gameId: thisGameId,
         mySocketId: playerSocketId,
-        //playerNumber: playerNumber,
         role: data.role,
         username: data.username,
         playernumber: playerNumber
@@ -57,13 +61,12 @@ function createNewRandomGame(data) {
     //joint den User in den Loooom!
     this.join(thisGameId.toString());
 
-    serverSocket.sockets.in(thisGameId).emit('playerInfo', {user:gm.gamelist[thisGameId].playerList});
+    serverSocket.sockets.in(thisGameId).emit('updatePlayerInfos', {playerList: gm.getAllUsers(thisGameId)});
 }
 
 function createNewPrivateGame() {
 
 }
-
 
 /**
  * A player clicked the 'START GAME' button.
@@ -82,13 +85,12 @@ function playerJoinGame(data) {
         // attach the socket id to the data object.
         data.mySocketId = playerSocketId;
 
-        var playerNumber = gm.addUser(data.role, playerSocketId, gameId, data.username);
+        var playerNumber = gm.addUser(gameId, playerSocketId, data.username);
 
         // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
         this.emit('initUser', {
             gameId: gameId,
             mySocketId: playerSocketId,
-            //playerNumber: playerNumber,
             role: data.role,
             username: data.username,
             playernumber: playerNumber
@@ -97,10 +99,9 @@ function playerJoinGame(data) {
         // Join the room
         this.join(data.gameId.toString());
         // Emit an event notifying the clients that the player has joined the room.
-        serverSocket.sockets.in(data.gameId).emit('playerInfo', {user:gm.gamelist[data.gameId].playerList});
-        serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', data);
+        serverSocket.sockets.in(data.gameId).emit('updatePlayerInfos', {playerList: gm.getAllUsers(gameId)});
     } else {
-        winston.log('info', 'error : ');
+        winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
         // Otherwise, send an error m.essage back to the player.
         //this.emit('error',{message: "This room does not exist."} );
     }
@@ -120,6 +121,10 @@ function hostPrepareGame(gameId) {
     //TODO stoesst beim host(s) die methode zum spielstart aus
     serverSocket.sockets.in(data.gameId).emit('beginNewGame', data);
 }
+
+/** ********************************
+ *           GAME EVENTS           *
+ * ****************************** **/
 
 function motionSocket(data) {
     gm.motionGame(data);

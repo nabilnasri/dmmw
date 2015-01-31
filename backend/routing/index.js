@@ -31,4 +31,8 @@ router.get('/enterInfos', function (req, res) {
     res.render('enter_infos', {title: "DMMW"});
 });
 
+router.get('/waitingScreen', function (req, res) {
+    res.render('waitingscreen', {title: "DMMW"});
+});
+
 module.exports = router;

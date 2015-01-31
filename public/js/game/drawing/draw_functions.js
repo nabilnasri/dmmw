@@ -70,12 +70,12 @@ Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
  Funktion zeichnet Bricks ins Feld.
  */
 Drawing.prototype.drawBricks = function () {
-    var i, j;
+    var i, j, current_brick;
     for (i = 0; i < this.gameInfo.playingField.nRows; i++) {
         this.canvas.Context().lineWidth = 2;
         for (j = 0; j < this.gameInfo.playingField.nCols; j++) {
             if (this.gameInfo.playingField.bricks[i][j] != 0) {
-                var current_brick = this.gameInfo.playingField.bricks[i][j];
+                current_brick = this.gameInfo.playingField.bricks[i][j];
                 current_brick.currentColor = this.gameInfo.colorpicker[j];
                 IO.sendBrickColor(i, j, current_brick.currentColor);
                 this.rect(
