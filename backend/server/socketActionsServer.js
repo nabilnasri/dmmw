@@ -108,7 +108,15 @@ function setUsernameSocket(data) {
 
 function setMobileSocket(data) {
     var playerNumber = gm.setMobileSocketId(data.gameId, this.id);
-    serverSocket.sockets.in(data.gameId).emit('mobiledeviceConnected',{playerNumber: playerNumber});
+    if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
+        //fuege nun den neuen nutzer zum room
+        this.join(data.gameId);
+        //teile dem wartenden mit, das ein user dazugekommen ist
+        serverSocket.sockets.in(data.gameId).emit('mobiledeviceConnected',{playerNumber: playerNumber});
+    } else {
+        winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
+        //this.emit('error',{message: "This room does not exist."} );
+    }
 }
 
 /*

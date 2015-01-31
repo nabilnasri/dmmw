@@ -30,6 +30,15 @@ $(document).ready(function () {
         refresh_site('registratephone');
     });
 
+    $(document).on('click', '#mobile-id-enter', function () {
+        var gameId = $('#gameid-mobile').val();
+        IO.user.setGameId(gameId);
+        var data = {
+            gameID: gameId
+        };
+        refresh_site('gamescreen', data);
+    });
+
     $(document).on('click', '#start-random-game', function () {
         console.log("RAAANDOM");
         var username = $('#username').val();
