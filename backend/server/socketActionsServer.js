@@ -85,7 +85,7 @@ function playerJoinGame(data) {
         //teile dem wartenden mit, das ein user dazugekommen ist
         serverSocket.sockets.in(data.gameId).emit('playerJoinedRoom', {
             username: data.username,
-            playerNumber: data.playerNumber
+            playerNumber: playerNumber
         });
         //fuege nun den neuen nutzer zum room
         playerSocket.join(thisGameId);
@@ -95,7 +95,6 @@ function playerJoinGame(data) {
             mySocketId: playerSocket.id,
             playernumber: playerNumber
         });
-
     } else {
         winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
         //this.emit('error',{message: "This room does not exist."} );
@@ -124,11 +123,7 @@ function setMobileSocket(data) {
         var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         //fuege nun den neuen nutzer zum room
         this.join(data.gameId);
-        /*
-        todo: Hier schickt man es zum Handy. Es muss eine neue socketAnfrage geschickt werden zum Handy
-        die einfach nur die User Infos settet.
-        passiertz hier schon, oder wolltest du was anderes?
-         */
+        //schicke userdaten an das mobile device
         this.emit('mobiledeviceConnected', {
             playerNumber: playerdata.playerNumber,
             username: playerdata.username

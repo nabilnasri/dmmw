@@ -37,21 +37,21 @@ exports.GameHoster.prototype.setUserDataInUser = function (username, playerNumbe
  * setzt mobileSocketId Daten eines Users
  * */
 exports.GameHoster.prototype.setMobileSocketInUser = function (mobileSocketId) {
-    if(this.playerList[0].getMobileSocketId() == null){
+    if (this.playerList[0].getMobileSocketId() == null) {
         winston.log('info', ['Setze mobileSocket bei Player 1 mit mobileSocketId: ', mobileSocketId].join(' '));
         this.playerList[0].setMobilerSocketId(mobileSocketId);
         return {
             playerNumber: 0,
             username: this.playerList[0].getUsername()
         };
-    }else if(this.playerList[1].getMobileSocketId() == null){
+    } else if (this.playerList[1].getMobileSocketId() == null) {
         winston.log('info', ['Setze mobileSocket bei Player 2 mit mobileSocketId: ', mobileSocketId].join(' '));
         this.playerList[1].setMobilerSocketId(mobileSocketId);
         return {
             playerNumber: 1,
             username: this.playerList[1].getUsername()
         };
-    }else{
+    } else {
         winston.log('error', 'FEHLER BEIM SETZEN DER MOBILESOCKETID');
         return null;
     }
@@ -68,6 +68,46 @@ exports.GameHoster.prototype.getUserSocketId = function (playerNumber) {
     return null;
 };
 
+/**
+ * gib zurueck obs ein private oder random game ist * */
+exports.GameHoster.prototype.getIsPrivate = function () {
+    return this.isPrivate;
+};
+
+/**
+ * gib zurueck obs ein private oder random game ist * */
+exports.GameHoster.prototype.getIsReady = function (playerNumber) {
+
+    if(this.playerList[0].getIsReady && this.playerList[1].getIsReady){
+        return true;
+    }
+};
+
+/**
+ * gib game id zurueck
+ * */
+exports.GameHoster.prototype.getGameId = function () {
+    return this.gameId;
+};
+
+/**
+ * gib userList zurueck
+ * */
+exports.GameHoster.prototype.getPlayerList = function () {
+    return this.playerList;
+};
+
+/**
+ * gib Anzahl der angemeldeten user zurueck als dictionary zurueck
+ * */
+exports.GameHoster.prototype.getUserAmount = function () {
+    return this.playerList.length;
+};
+
+
+/** ********************************
+ *           GAME ACTIONS          *
+ * ****************************** **/
 exports.GameHoster.prototype.playGame = function () {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
@@ -79,8 +119,7 @@ exports.GameHoster.prototype.motion = function (data) {
     }
 };
 
-//MUSS SPÄTER AN DEN RAUM GESCHICKT WERDEN - Einmalig
-exports.GameHoster.prototype.gameData = function () {
+ exports.GameHoster.prototype.gameData = function () {
     if (!game.Dmmw.getInstance(this.gameId).running) {
         handler.sendComplete(this.serverSocket, this.gameId);
         game.Dmmw.getInstance(this.gameId).running = true;
@@ -125,37 +164,4 @@ exports.GameHoster.prototype.brickColor = function (data) {
     var col = data.col;
     var brickColor = data.brickColor;
     game.Dmmw.getInstance(this.gameId).playingField.bricks[row][col].currentColor = brickColor;
-};
-
-/**
- * gib zurueck obs ein private oder random game ist * */
-exports.GameHoster.prototype.getIsPrivate = function () {
-    return this.isPrivate;
-};
-
-/**
- * gib zurueck obs ein private oder random game ist * */
-exports.GameHoster.prototype.setIsPrivate = function (isPrivate) {
-    this.isPrivate = isPrivate;
-};
-
-/**
- * gib game id zurueck
- * */
-exports.GameHoster.prototype.getGameId = function () {
-    return this.gameId;
-};
-
-/**
- * gib userList zurueck
- * */
-exports.GameHoster.prototype.getPlayerList = function () {
-    return this.playerList;
-};
-
-/**
- * gib Anzahl der angemeldeten user zurueck als dictionary zurueck
- * */
-exports.GameHoster.prototype.getUserAmount = function () {
-    return this.playerList.length;
 };

@@ -65,7 +65,7 @@ $(document).ready(function () {
 
         IO.socket.emit('playerJoinGame', data);
 
-        refresh_site('waitingScreen');
+        refresh_site('registratephone');
     });
 
 });
