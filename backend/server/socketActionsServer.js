@@ -143,7 +143,7 @@ function setMobileSocket(data) {
         }
     } else {
         winston.log('error', 'error in setMobileSocket(data) in socketActionsServer.js');
-        this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
+        //this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
     }
 }
 
