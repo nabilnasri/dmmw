@@ -49,7 +49,6 @@ function createNewRandomGame() {
     var playerNumber = gm.addUser(freeGameId, playerSocket.id);
 
     //joint den User in den Loooom!
-    winston.log("info", freeGameId + " FREEGAMEID");
     playerSocket.join(freeGameId.toString());
     playerSocket.emit('initUser', {
         gameId: freeGameId,
@@ -102,11 +101,13 @@ function playerJoinGame(data) {
 
 
 function setUsernameSocket(data) {
+    winston.log('info', 'setUsernameSocket: ' + JSON.stringify(data));
     var playerNumber = data.playerNumber;
     gm.setUserInHost(data.gameId, data.username, playerNumber);
 
     //aktuealisiere den wartescreen des ersten spielers
     if (playerNumber == 1) {
+        winston.log('info', 'setUsernameSocket IF: ' + JSON.stringify(data));
         var sendToThisSocket = gm.getUserSocket(data.gameId, 0);
         serverSocket.sockets.to(sendToThisSocket).emit('playerJoinedRoom', {
             username: data.username,
@@ -120,33 +121,36 @@ function setMobileSocket(data) {
         var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         //fuege nun den neuen nutzer zum room
         this.join(data.gameId);
+        /*
+        todo: Hier schickt man es zum Handy. Es muss eine neue socketAnfrage geschickt werden zum Handy
+        die einfach nur die User Infos settet.
+        passiertz hier schon, oder wolltest du was anderes?
+         */
         this.emit('mobiledeviceConnected', {
             playerNumber: playerdata.playerNumber,
             username: playerdata.username
         });
+        //sende an der dazugehoerigen Desktop, das er weiter gehen kann!
         var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata.playerNumber);
         if (sendToThisSocket != null) {
-            /*
-            todo: Hier schickt man es zum Handy. Es muss eine neue socketAnfrage geschickt werden zum Handy
-            die einfach nur die User Infos settet.
-             */
-            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
         }
         if (gm.getAllUsers(data.gameId).length == 2){
             sendToThisSocket = gm.getUserSocket(data.gameId, 0);
             /*
             Todo: Updatemobilestate fragt auf der Client-Seite nach der Userlist - kein passender Name. Anfrage auch hier ändern
              */
-            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
         }
     } else {
-        winston.log('info', 'error in setMobileSocket(data) in socketActionsServer.js');
+        winston.log('error', 'error in setMobileSocket(data) in socketActionsServer.js');
         //this.emit('error',{message: "This room does not exist."} );
     }
 }
 
 function getAllUsers(data){
-    this.emit('setAllUserData', {users: gm.getAllUsers(data.gameId)});
+    winston.log('info', 'getAllUsers ' + JSON.stringify(gm.getAllUsers(data.gameId)));
+    this.emit('setAllUserData', {users: JSON.stringify(gm.getAllUsers(data.gameId))});
 }
 
 /*

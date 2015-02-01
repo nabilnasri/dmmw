@@ -22,7 +22,6 @@ var IO = {
         IO.socket.on('initUser', IO.initUser);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('setUserData', IO.setUserData);
-        IO.socket.on('updatePlayerInfos', IO.updatePlayerInfos);
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
         IO.socket.on('updateMobileState', IO.updateMobileState);
         IO.socket.on('setAllUserData', IO.setAllUserData);
@@ -86,20 +85,19 @@ var IO = {
 
     /**
      */
-    updateMobileState: function (data) {
+    updateMobileState: function () {
         console.log('updateMobileState');
         refresh_site("waitingScreen");
-        IO.socket.emit('getAllUsers', data);
     },
 
-    setGameIdTag: function (){
-        console.log('setGameIdTag');
-        document.getElementById('game-id-field').innerHTML = IO.user.getGameId();
-    },
-
-    setAllUserData: function (data){
-        var userList = data.user;
-        console.log("HALLOO USER " + JSON.stringify((userList)));
+    setAllUserData: function (data) {
+        var userList = JSON.parse(data.users);
+        for (var i = 0; i < userList.length; i++) {
+            document.getElementById('name' + i).innerHTML = userList[i].username;
+            if (userList[i].mobileSocketId != null) {
+                document.getElementById('device' + i).style.opacity = 1.0;
+            }
+        }
     },
 
     /**
@@ -125,6 +123,11 @@ var IO = {
     error: function (data) {
         alert(data.message);
     },
+
+
+    /** ********************************
+     *           GAME EVENTS           *
+     * ****************************** **/
 
     gameInfo: function (data) {
         initGame(data);

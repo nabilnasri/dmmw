@@ -1,17 +1,11 @@
 //TODO 'use strict'; ueberall einbauen
 window.onload = function () {
-    setPlayerNames();
     setCanvasProperties();
 };
 
 initCanvasProperties();
 
 $(document).keyup(onKeyUp);
-
-
-function setPlayerNames(){
-    IO.user.updateUserList();
-}
 
 
 function initCanvasProperties() {

@@ -17,7 +17,6 @@ exports.GameHoster = function GameHost(gameId, serverSocket, isPrivate) {
  * setzt neuen user im GameHoster und gibt die Spielernummer zurueck um auf client seite zuordnungen zu machen
  * */
 exports.GameHoster.prototype.setUser = function (playerSocketId) {
-    winston.log("info", ['playerSocketId: ', playerSocketId].join(' '));
     var playListLength = this.playerList.length;
     if (playListLength <= 1) {
         var u = new user.Server_User(playerSocketId);

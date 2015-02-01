@@ -22,20 +22,6 @@ Client_User.prototype.displayScreen = function () {
 };
 
 /**
- * Update the Usernames on the screen if player joins
- */
-Client_User.prototype.updateUserList = function (data) {
-    console.log('updateUserList Data : ' + JSON.stringify(data));
-    var info = this.player;
-    for(var i=1; i<=data['userList'].length; i++) {
-        document.getElementById('name' + i).innerHTML = info[i-1]["username"];
-    }
-    //TODO hier unseren warteScreen einbauen
-    // If this is a restarted game, show the screen.
-    this.player = data;
-};
-
-/**
  * Show the countdown screen
  */
 Client_User.prototype.gameCountdown = function () {
