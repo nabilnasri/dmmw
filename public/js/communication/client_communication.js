@@ -62,7 +62,6 @@ var IO = {
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setPlayerNumber(data.playernumber);
-        IO.user.gameInit(data);
     },
 
     /**
@@ -71,7 +70,7 @@ var IO = {
      */
     playerJoinedRoom: function (data) {
         console.log('playerJoinedRoom');
-        //TODO waitingscreen aktuallisieren
+        document.getElementById('name' + data.playerNumber).innerHTML = data.username;
     },
 
     /**

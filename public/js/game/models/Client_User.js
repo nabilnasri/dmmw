@@ -6,22 +6,6 @@ function Client_User() {
 }
 
 /**
- * The Host screen is displayed for the first time.
- * @param data{{ gameId: String, mySocketId: String, playerNumber: int, role: String }}
- */
-Client_User.prototype.gameInit = function () {
-    this.displayScreen();
-};
-
-/**
- * Show the Host screen containing the game URL and unique game ID
- */
-Client_User.prototype.displayScreen = function () {
-    // TODO screen mit einzugebender gameId anzeigen
-    // TODO passenden Wartescreen laden
-};
-
-/**
  * Show the countdown screen
  */
 Client_User.prototype.gameCountdown = function () {

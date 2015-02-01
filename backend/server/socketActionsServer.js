@@ -42,8 +42,10 @@ exports.initGame = function (sio, socket, gamesManager) {
 function createNewRandomGame() {
     var playerSocket = this;
     var freeGameId = gm.checkForFreeRooms();
+    winston.log('info','free room ' + freeGameId);
     if (freeGameId == null) {
-        var freeGameId = Math.floor(Math.random() * 90000) + 10000;
+        //var freeGameId = Math.floor(Math.random() * 90000) + 10000;
+        var freeGameId = Math.floor(Math.random() * 90) + 10;
         gm.addGame(freeGameId, serverSocket, gamersSocket, false);
     }
     var playerNumber = gm.addUser(freeGameId, playerSocket.id);

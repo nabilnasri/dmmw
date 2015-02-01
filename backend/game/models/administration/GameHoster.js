@@ -7,10 +7,8 @@ exports.GameHoster = function GameHost(gameId, serverSocket, isPrivate) {
     winston.log('info', 'GameHoster mit gameId ' + gameId + ' erstellt');
     this.gameId = gameId;
     this.serverSocket = serverSocket;
-    //this.userList = {};
     this.playerList = [];
     this.isPrivate = isPrivate;
-    //this.playerCounter = 0;
 };
 
 /**

@@ -15,8 +15,10 @@ exports.Gamemanager = function Gamemanager() {
  * */
 exports.Gamemanager.prototype.checkForFreeRooms = function () {
     for (var key in this.gamelist) {
+        winston.log('info', 'getIsPrivate ' + this.gamelist[key].getIsPrivate());
         if (!this.gamelist[key].getIsPrivate()) {
-            if (!this.gamelist[key].getUserAmount() < 2) {
+            winston.log('info', 'checkForFreeRooms key ' + key);
+            if (this.gamelist[key].getUserAmount() < 2) {
                 return key;
             }
         }
@@ -28,7 +30,7 @@ exports.Gamemanager.prototype.checkForFreeRooms = function () {
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
 exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSocket, isPrivate) {
-    this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, gamerSocket, isPrivate);
+    this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, isPrivate);
 };
 
 /**
