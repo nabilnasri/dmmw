@@ -22,6 +22,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.create-private', function () {
+        IO.socket.emit('createNewPrivateGame');
         refresh_site('enterName');
     });
 
@@ -58,7 +59,8 @@ $(document).ready(function () {
     $(document).on('click', '#connect-to-room', function () {
         var data = {
             gameId: $('#gameId').val(),
-            username: $('#username').val()
+            username: $('#username').val(),
+            playerNumber: IO.user.playerNumber
         };
 
         IO.socket.emit('playerJoinGame', data);

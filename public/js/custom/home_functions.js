@@ -29,7 +29,6 @@ $(document).ready(function () {
      *          PRIVATE GAME           *
      * ****************************** **/
     $(document).on('click', '.private-game', function () {
-        IO.socket.emit('createNewPrivateGame');
         refresh_site('private');
     });
 
