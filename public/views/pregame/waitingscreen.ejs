@@ -63,7 +63,7 @@
             </div>
             <script>
                 document.getElementById('gameIdValue').innerHTML = IO.user.getGameId();
-                IO.socket.emit('getAllUsers', {gameId: IO.user.getGameId()});
+                IO.socket.emit('getAllUsers', {gameId: IO.user.getGameId(), destination: 'setAllUserWaitingscreen'});
             </script>
         </div>
     </div>

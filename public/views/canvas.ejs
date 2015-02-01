@@ -8,18 +8,18 @@
     <div id="content">
         <div class="row">
             <div class="col-md-3 player text-center" id="player-one">
-                <h1 id="score-add2" style="display: none;"></h1>
-                <span id="name1"></span>
-                <span id="score1">0</span>
+                <h1 id="score-add2" style="display: none;">...</h1>
+                <span id="name0"></span>
+                <span id="score0">0</span>
             </div>
             <div class="col-md-6 playground-container" id="playground-container">
                 <canvas id="playground"></canvas>
             </div>
             <div class="col-md-3 player text-center" id="player-two">
-                <span id="name2"></span>
-                <span id="score2">0</span>
+                <span id="name1"></span>
+                <span id="score1">0</span>
 
-                <h1 id="score-add2" style="display: none;"></h1>
+                <h1 id="score-add2" style="display: none;">...</h1>
             </div>
         </div>
         <audio id="nyan" loop="loop">
@@ -30,6 +30,11 @@
     <% include main/footer.ejs %>
     <% include main/global_js_scripts.ejs %>
     <div id="content-scripts">
+        <script>IO.socket.emit('getAllUsers', {
+                gameId: IO.user.getGameId(),
+                destination: 'setAllUserGamingscreen'
+            });</script>
+        <script src="../js/custom/canvas_functions.js"></script>
         <script src="../js/game/drawing/draw_functions.js"></script>
         <script src="../js/game/controller/controller.js"></script>
     </div>

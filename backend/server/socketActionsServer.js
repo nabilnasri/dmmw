@@ -149,7 +149,7 @@ function setMobileSocket(data) {
 
 function getAllUsers(data){
     winston.log('info', 'getAllUsers ' + JSON.stringify(gm.getAllUsers(data.gameId)));
-    this.emit('setAllUserData', {users: JSON.stringify(gm.getAllUsers(data.gameId))});
+    this.emit(data.destination, {users: JSON.stringify(gm.getAllUsers(data.gameId))});
 }
 
 function playerIsReady(data){

@@ -24,7 +24,7 @@ var IO = {
         IO.socket.on('setUserData', IO.setUserData);
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
         IO.socket.on('updateMobileState', IO.updateMobileState);
-        IO.socket.on('setAllUserData', IO.setAllUserData);
+        IO.socket.on('setAllUserWaitingscreen', IO.setAllUserWaitingscreen);
         IO.socket.on('playerPressedReady', IO.playerPressedReady);
         IO.socket.on('allPlayersAreReady', IO.allPlayersAreReady);
 
@@ -88,7 +88,7 @@ var IO = {
         refresh_site('waitingScreen');
     },
 
-    setAllUserData: function (data) {
+    setAllUserWaitingscreen: function (data) {
         var userList = JSON.parse(data.users);
         for (var i = 0; i < userList.length; i++) {
             document.getElementById('name' + i).innerHTML = userList[i].username;
@@ -106,6 +106,13 @@ var IO = {
         }
     },
 
+    setAllUserGamingscreen: function (data) {
+        var userList = JSON.parse(data.users);
+        for (var i = 0; i < userList.length; i++) {
+            document.getElementById('name' + i).innerHTML = userList[i].username;
+        }
+    },
+
     playerPressedReady: function (data) {
         var playerNumber = data.playerNumber;
         if (IO.user.getPlayerNumber() == playerNumber) {
@@ -118,6 +125,7 @@ var IO = {
 
     allPlayersAreReady: function () {
         refresh_site('game');
+
     },
 
     /**
