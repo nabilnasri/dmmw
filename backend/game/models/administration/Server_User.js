@@ -6,6 +6,7 @@ exports.Server_User = function Server_User(playerSocketId) {
     this.mobileSocketId = null;
     this.lives = 3;
     this.currentPoints = 0;
+    this.isReady = false;
 };
 
 exports.Server_User.prototype.setUsername = function (username) {
@@ -46,4 +47,12 @@ exports.Server_User.prototype.setCurrentPoints = function (currentPoints) {
 
 exports.Server_User.prototype.getCurrentPoints = function () {
     return this.currentPoints;
+};
+
+exports.Server_User.prototype.setIsReady = function (isReady) {
+    this.isReady = isReady;
+};
+
+exports.Server_User.prototype.getIsReady = function () {
+    return this.isReady;
 };

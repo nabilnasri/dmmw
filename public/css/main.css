@@ -134,9 +134,19 @@ body {
     font-size: 2.5em;
 }
 
-.mobile-phone-waiting-screen{
+.inactive-icon {
     color: #ffd32d;
     opacity: 0.4;
+    vertical-align: middle;
+    width: 3%;
+}
+
+.status{
+    padding: 5% 10% 5% 10%;
+}
+
+.name{
+    padding-top: 5%;
 }
 
 .btn{

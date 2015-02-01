@@ -76,11 +76,14 @@ exports.GameHoster.prototype.getIsPrivate = function () {
 
 /**
  * gib zurueck obs ein private oder random game ist * */
-exports.GameHoster.prototype.getIsReady = function (playerNumber) {
-
-    if(this.playerList[0].getIsReady && this.playerList[1].getIsReady){
-        return true;
+exports.GameHoster.prototype.arePlayersReady = function (playerNumber) {
+    this.playerList[playerNumber].setIsReady(true);
+    if (this.playerList.length == 2) {
+        if (this.playerList[0].getIsReady && this.playerList[1].getIsReady) {
+            return true;
+        }
     }
+    return false;
 };
 
 /**
@@ -119,7 +122,7 @@ exports.GameHoster.prototype.motion = function (data) {
     }
 };
 
- exports.GameHoster.prototype.gameData = function () {
+exports.GameHoster.prototype.gameData = function () {
     if (!game.Dmmw.getInstance(this.gameId).running) {
         handler.sendComplete(this.serverSocket, this.gameId);
         game.Dmmw.getInstance(this.gameId).running = true;

@@ -23,6 +23,7 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('setUsername', setUsernameSocket);
     gamersSocket.on('setMobileSocket', setMobileSocket);
     gamersSocket.on('playerJoinGame', playerJoinGame);
+    gamersSocket.on('playerIsReady', playerIsReady);
 
     gamersSocket.on('getAllUsers', getAllUsers);
 
@@ -97,7 +98,7 @@ function playerJoinGame(data) {
         });
     } else {
         winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
-        //this.emit('error',{message: "This room does not exist."} );
+        this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
     }
 }
 
@@ -142,13 +143,25 @@ function setMobileSocket(data) {
         }
     } else {
         winston.log('error', 'error in setMobileSocket(data) in socketActionsServer.js');
-        //this.emit('error',{message: "This room does not exist."} );
+        this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
     }
 }
 
 function getAllUsers(data){
     winston.log('info', 'getAllUsers ' + JSON.stringify(gm.getAllUsers(data.gameId)));
     this.emit('setAllUserData', {users: JSON.stringify(gm.getAllUsers(data.gameId))});
+}
+
+function playerIsReady(data){
+    var gameId = data.gameId;
+    winston.log('info', 'playerIsReady ' + JSON.stringify((data)));
+    serverSocket.sockets.in(gameId).emit('playerPressedReady', {
+        playerNumber: data.playerNumber
+    });
+    if(gm.checkIfPlayersReady(gameId, data.playerNumber)){
+        winston.log('info', 'playerIsReady alle sind ready');
+        serverSocket.sockets.in(gameId).emit('allPlayersAreReady');
+    }
 }
 
 /*

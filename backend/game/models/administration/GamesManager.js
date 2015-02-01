@@ -69,6 +69,10 @@ exports.Gamemanager.prototype.getAllUsers = function (gameId) {
     return this.gamelist[gameId].getPlayerList();
 };
 
+exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumber){
+    return this.gamelist[gameId].arePlayersReady(playerNumber);
+}
+
 
 /** ********************************
  *           PLAY ACTIONS          *

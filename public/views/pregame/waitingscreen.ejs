@@ -19,15 +19,18 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-12 player text-center" id="player-one">
+                        <div class="col-md-12 player text-center name" id="player-one">
                             <span id="name0">Spieler1</span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-12 player text-center" id="player-one">
-                            <span id="device0" class="glyphicon glyphicon-phone mobile-phone-waiting-screen" ></span>
+                        <div class="col-md-12 player text-center status" id="player-one">
+                            <span class="pull-left">MOBILE: </span>
+                            <span id="device0" class="glyphicon glyphicon-phone inactive-icon pull-left"></span>
+                            <span id="isReady0" class="glyphicon glyphicon-remove inactive-icon pull-right"></span>
+                            <span class="pull-right">READY: </span>
                         </div>
                     </div>
                 </div>
@@ -36,22 +39,25 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-12 player text-center" id="player-two">
+                        <div class="col-md-12 player text-center name" id="player-two">
                             <span id="name1">Spieler2</span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-12 player text-center" id="player-two">
-                            <span id="device1" class="glyphicon glyphicon-phone mobile-phone-waiting-screen" ></span>
+                        <div class="col-md-12 player text-center status" id="player-two">
+                            <span class="pull-left">MOBILE: </span>
+                            <span id="device1" class="glyphicon glyphicon-phone inactive-icon pull-left"></span>
+                            <span id="isReady1" class="glyphicon glyphicon-remove inactive-icon pull-right"></span>
+                            <span class="pull-right">READY: </span>
                         </div>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <input type="button" class="btn btn-danger" id="ready" value="READY">
+                        <input type="button" class="btn btn-danger" id="ready" value="I'M READY!">
                     </div>
                 </div>
             </div>

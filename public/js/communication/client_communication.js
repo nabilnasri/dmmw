@@ -25,6 +25,8 @@ var IO = {
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
         IO.socket.on('updateMobileState', IO.updateMobileState);
         IO.socket.on('setAllUserData', IO.setAllUserData);
+        IO.socket.on('playerPressedReady', IO.playerPressedReady);
+        IO.socket.on('allPlayersAreReady', IO.allPlayersAreReady);
 
 
         IO.socket.on('beginNewGame', IO.beginNewGame);
@@ -58,7 +60,7 @@ var IO = {
      * @param data {{ gameId: int, mySocketId: * }}
      */
     initUser: function (data) {
-        console.log('dataataa INIT USER ' + JSON.stringify(data));
+        console.log('INIT USER ' + JSON.stringify(data));
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setPlayerNumber(data.playernumber);
@@ -69,14 +71,12 @@ var IO = {
      * @param data {{playerName: string, gameId: int, mySocketId: int}}
      */
     playerJoinedRoom: function (data) {
-        console.log('playerJoinedRoom');
         document.getElementById('name' + data.playerNumber).innerHTML = data.username;
     },
 
     /**
      */
     mobiledeviceConnected: function (data) {
-        console.log('mobiledeviceConnected');
         IO.user.setUsername(data.username);
         IO.user.setPlayerNumber((data.playerNumber));
         //TODO waitingscreen aktuallisieren
@@ -85,8 +85,7 @@ var IO = {
     /**
      */
     updateMobileState: function () {
-        console.log('updateMobileState');
-        refresh_site("waitingScreen");
+        refresh_site('waitingScreen');
     },
 
     setAllUserData: function (data) {
@@ -96,7 +95,29 @@ var IO = {
             if (userList[i].mobileSocketId != null) {
                 document.getElementById('device' + i).style.opacity = 1.0;
             }
+            if (userList[i].isReady == true) {
+                document.getElementById('isReady' + i).classList.remove('glyphicon-remove');
+                document.getElementById('isReady' + i).classList.add('glyphicon-ok');
+                document.getElementById('isReady' + i).style.opacity = 1.0;
+                if (userList[i].playerSocketId == IO.user.mySocketId) {
+                    document.getElementById('ready').disabled = true;
+                }
+            }
         }
+    },
+
+    playerPressedReady: function (data) {
+        var playerNumber = data.playerNumber;
+        if (IO.user.getPlayerNumber() == playerNumber) {
+            document.getElementById('isReady' + playerNumber).classList.remove('glyphicon-remove');
+            document.getElementById('isReady' + playerNumber).classList.add('glyphicon-ok');
+            document.getElementById('isReady' + playerNumber).style.opacity = 1.0;
+            document.getElementById('ready').disabled = true;
+        }
+    },
+
+    allPlayersAreReady: function () {
+        refresh_site('game');
     },
 
     /**
