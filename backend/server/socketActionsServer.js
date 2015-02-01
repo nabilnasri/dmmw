@@ -126,10 +126,17 @@ function setMobileSocket(data) {
         });
         var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata.playerNumber);
         if (sendToThisSocket != null) {
+            /*
+            todo: Hier schickt man es zum Handy. Es muss eine neue socketAnfrage geschickt werden zum Handy
+            die einfach nur die User Infos settet.
+             */
             serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
         }
         if (gm.getAllUsers(data.gameId).length == 2){
             sendToThisSocket = gm.getUserSocket(data.gameId, 0);
+            /*
+            Todo: Updatemobilestate fragt auf der Client-Seite nach der Userlist - kein passender Name. Anfrage auch hier ändern
+             */
             serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
         }
     } else {
