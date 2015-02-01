@@ -62,7 +62,8 @@ function createNewRandomGame() {
 
 function createNewPrivateGame() {
     var playerSocket = this;
-    var thisGameId = Math.floor(Math.random() * 90000) + 10000;
+    //var thisGameId = Math.floor(Math.random() * 90000) + 10000;
+    var thisGameId = Math.floor(Math.random() * 90) + 10;
     gm.addGame(thisGameId, serverSocket, gamersSocket, true);
     var playerNumber = gm.addUser(thisGameId, playerSocket.id);
 
@@ -197,17 +198,3 @@ function keyReleaseSocket(data) {
 function brickColorSocket(data) {
     gm.brickColorGame(data);
 }
-
-
-/**
- * The game is over, and a player has clicked a button to restart the game.
- * @param data
-
- function playerRestart(data) {
-    // console.log('Player: ' + data.playerName + ' ready for new game.');
-
-    // Emit the player's data back to the clients in the game room.
-    data.playerId = this.id;
-    gamersSocket.sockets.in(data.gameId).emit('playerJoinedRoom',data);
-}
- */
