@@ -126,11 +126,11 @@ function setMobileSocket(data) {
         });
         var sendToThisSocket = gm.getUserSocket(data.gameId, playerdata.playerNumber);
         if (sendToThisSocket != null) {
-            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
         }
         if (gm.getAllUsers(data.gameId).length == 2){
             sendToThisSocket = gm.getUserSocket(data.gameId, 0);
-            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
+            serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState', {gameId: data.gameId});
         }
     } else {
         winston.log('info', 'error in setMobileSocket(data) in socketActionsServer.js');
@@ -138,8 +138,8 @@ function setMobileSocket(data) {
     }
 }
 
-function getAllUsers(){
-    this.emit('setAllUserData', {users: gm.getAllUsers()});
+function getAllUsers(data){
+    this.emit('setAllUserData', {users: gm.getAllUsers(data.gameId)});
 }
 
 /*

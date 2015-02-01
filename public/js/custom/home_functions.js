@@ -32,4 +32,8 @@ $(document).ready(function () {
         IO.socket.emit('createNewPrivateGame');
         refresh_site('private');
     });
+
+    function redirecttowaiting(site){
+        refresh_site(site);
+    }
 });

@@ -24,14 +24,8 @@ router.get('/registratephone', function (req, res) {
 });
 
 router.get('/controller', function (req, res) {
-    res.render('controller/enter_room', {title: "DMMW"});
-});
-
-router.get('/gamescreen', function (req, res) {
-    winston.log("info", "controller");
     res.render('controller/controller', {title: "DMMW"});
 });
-
 
 router.get('/private', function (req, res) {
     res.render('pregame/private_game', {title: "DMMW"});

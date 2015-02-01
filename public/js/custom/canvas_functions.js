@@ -45,10 +45,10 @@ function setCanvasProperties() {
 /*
  * Ajax Request (zurück zu Home)
  */
-function refresh_site() {
+function refresh_site(page) {
     NProgress.start();
     $.ajax({
-        url: "/",
+        url: '/' + page,
         type: 'GET',
         dataType: "html",
         data: {}
@@ -57,8 +57,9 @@ function refresh_site() {
         $("#content").html(content);
         var scripts = $(data).find('#content-scripts').html();
         $('#content-scripts').html(scripts);
-        history.pushState(null, null, "/");
+        history.pushState(null, null, '/' + page);
         NProgress.done();
+        jQuery(window).trigger('load');
     });
 }
 

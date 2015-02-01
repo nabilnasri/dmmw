@@ -38,7 +38,8 @@ $(document).ready(function () {
             gameId: gameId
         };
         IO.socket.emit('setMobileSocket', data);
-        refresh_site('gamescreen');
+        $("#enter-room-container").hide();
+        $("#con_canvas").show();
     });
 
     $(document).on('click', '#start-random-game', function () {

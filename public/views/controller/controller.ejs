@@ -4,14 +4,33 @@
 </head>
 
 <body>
+    <div id="enter-room-container" class="container">
+        <% include ../main/navbar.ejs %>
+        <div id="content">
+            <div class="row center-block">
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <div class="col-sm-12">
+                            <input name="gameid-mobile" class="form-control" type="text" id="gameid-mobile"
+                                   placeholder="Game ID">
+                        </div>
+                    </div>
+                    <input type="button" id="mobile-id-enter" class="btn btn-danger" value="Register">
+                </form>
+            </div>
+        </div>
+        <% include ../main/footer.ejs %>
+    </div>
+    <% include ../main/global_js_scripts.ejs %>
 
-<canvas id="con_canvas"/>
+    <canvas id="con_canvas" style="display: none;"/>
 
-<% include ../main/global_js_scripts.ejs %>
-
-<div id="content-scripts">
-    <script src="../../js/game/controller/powerUps.js"></script>
-    <script src="../../js/game/controller/controller.js"></script>
-</div>
+    <div id="content-scripts">
+        <script src="../../js/game/models/Client_User.js"></script>
+        <script src="../../js/custom/pregame_functions.js"></script>
+        <script src="../../js/communication/client_communication.js"></script>
+        <script src="../../js/game/controller/powerUps.js"></script>
+        <script src="../../js/game/controller/controller.js"></script>
+    </div>
 
 </body>

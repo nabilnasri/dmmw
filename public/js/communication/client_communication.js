@@ -88,8 +88,8 @@ var IO = {
      */
     updateMobileState: function (data) {
         console.log('updateMobileState');
-        refresh_site('gamescreen');
-        IO.socket.emit('getAllUsers');
+        refresh_site("waitingScreen");
+        IO.socket.emit('getAllUsers', data);
     },
 
     setGameIdTag: function (){

@@ -5,6 +5,18 @@
 /*
  Orientation des Devices
  */
+
+//Eventlistner wenn man das Gerät bewegt.
+//window.addEventListener('devicemotion', sendMotion, false);
+
+window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener('keyup', onKeyUp, false);
+
+var px;
+var py;
+var deletePowerUp = false;
+var displayCanvas = document.getElementById("con_canvas");
+
 function moveIt(ev) {
     //Aktuelle Orientation
     var orientation = window.orientation;
@@ -34,7 +46,6 @@ function landscape_primary(ev) {
     }
 
 }
-
 /*
  Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
  */
@@ -43,14 +54,13 @@ function landscape_secondary(ev) {
 
     if (acc.y > 1) {
         return "left";
-    } else if (acc.y < -1) {
+    } else if(acc.y < -1) {
         return "right";
     } else {
         return "stop";
     }
 
 }
-
 /*
  Wenn sich das Handy im Potrait(normal)[0grad] befindet
  */
@@ -66,33 +76,24 @@ function portrait_primary(ev) {
     }
 
 }
-
-//Eventlistner wenn man das Gerät bewegt.
-window.addEventListener('devicemotion', IO.sendMotion, false);
-
-window.addEventListener('keydown', onKeyDown, false);
-window.addEventListener('keyup', onKeyUp, false);
-
-
 /*
  Static Funktion (ohne prototype)
  */
 function onKeyUp(evt) {
     if (evt.keyCode === 39) {
-        IO.sendKeyRelease("right");
+        sendKeyRelease("right");
     } else if (evt.keyCode === 37) {
-        IO.sendKeyRelease("left");
+        sendKeyRelease("left");
     }
 }
 
 function onKeyDown(evt) {
     if (evt.keyCode === 39) {
-        IO.sendKeyMove("right");
+        sendKeyMove("right");
     } else if (evt.keyCode === 37) {
-        IO.sendKeyMove("left");
+        sendKeyMove("left");
     }
 }
-
 
 window.onload = function(){
     initialise();
