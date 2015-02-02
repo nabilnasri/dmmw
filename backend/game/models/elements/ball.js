@@ -49,9 +49,9 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId) {
         handler.sendBrickCoordinates(sio, row, col, gameId);
         //Ab hier muss anders gelöst werden!!
         if (this.player === "one") {
-            handler.sendPoints(sio, points, "one");
+            handler.sendPoints(sio, points, "one", gameId);
         } else if (this.player === "two") {
-            handler.sendPoints(sio, points, "two");
+            handler.sendPoints(sio, points, "two", gameId);
         }
     }
 };

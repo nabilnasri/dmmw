@@ -197,6 +197,7 @@ var IO = {
      * ****************************** **/
 
     sendReady: function () {
+        console.log("GAME DATA  " + IO.user.getGameId());
         IO.socket.emit("gameData", {gameId: IO.user.getGameId()});
     },
 

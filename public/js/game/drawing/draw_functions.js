@@ -27,21 +27,17 @@ function Drawing() {
 
 
 Drawing.prototype.setScale = function () {
-    console.log('playfield width ' + this.gameInfo.playingField.FieldWidth);
-    console.log('canvas width ' + this.canvas.FieldWidth());
     if (this.canvas.FieldWidth() >= this.gameInfo.playingField.FieldWidth) {
-        this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth / 2;
+        this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
     } else {
-        this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth() / 2;
+        this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth();
     }
 
     if (this.canvas.FieldHeight() >= this.gameInfo.playingField.FieldHeight) {
-        this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight / 2;
+        this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
     } else {
-        this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight() / 2;
+        this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight();
     }
-    console.log('playfield width ' + this.gameInfo.playingField.FieldWidth);
-    console.log('canvas width ' + this.canvas.FieldWidth());
 };
 
 /*

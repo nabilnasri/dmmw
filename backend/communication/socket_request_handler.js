@@ -5,7 +5,7 @@ var gameInfo = {};
 module.exports =
 {
     sendComplete: function sendComplete(sio, gameId) {
-        winston.log('info', ['spiel mit gameid ', gameId, ' wurde gestartet'].join(' '))
+        winston.log('info', ['spiel mit gameid ', gameId, ' wurde gestartet'].join(' '));
         game.Dmmw.getInstance(gameId).init(); //Spiel initialisieren
         gameInfo["game"] = game.Dmmw.getInstance(gameId); //Spiel ins dictionary packen
         sio.sockets.in(gameId).emit('gameInfo', {game: gameInfo["game"]});
