@@ -1,11 +1,11 @@
 var gameInfo = GameInfo.getInstance();
 
 function initGame(data) {
-    gameInfo.playingField = data["game"]["playingField"];
-    gameInfo.balls = data["game"]["playingField"]["balls"];
-    gameInfo.paddles = data["game"]["playingField"]["paddles"];
-    gameInfo.bricks = data["game"]["playingField"]["bricks"];
-    gameInfo.colorpicker = data["game"]["colorpicker"];
+    gameInfo.playingField = data.game.playingField;
+    gameInfo.balls = data.game.playingField.balls;
+    gameInfo.paddles = data.game.playingField.paddles;
+    gameInfo.bricks = data.game.playingField.bricks;
+    gameInfo.colorpicker = data.game.colorpicker;
 }
 
 function updateBalls(balls) {
@@ -35,32 +35,32 @@ function updatePoints(points, player) {
     var currentPoints = 0;
     var newPoints = 0;
     if (player === "one") {
-        var scoreOne = $("#score-one");
+        var scoreOne = $("#score0");
         currentPoints = parseInt(scoreOne.text());
         if (typeof(points) === "number") {
             newPoints = currentPoints + points;
         }
         scoreOne.text(newPoints);
-        var scoreOneAdd = $("#score-add-one");
+        var scoreOneAdd = $("#score-add0");
         scoreOneAdd.text("+" + points);
         scoreOneAdd.show();
         setPlayerOneHeight();
         setTimeout(function () {
-            $('#score-add-one').hide();
+            $('#score-add0').hide();
             setPlayerOneHeight();
         }, 1000);
     } else if (player === "two") {
-        var scoreTwo = $("#score-two");
+        var scoreTwo = $("#score1");
         currentPoints = parseInt(scoreTwo.text());
         if (typeof(points) === "number") {
             newPoints = currentPoints + points;
         }
         scoreTwo.text(newPoints);
-        var scoreTwoAdd = $("#score-add-two");
+        var scoreTwoAdd = $("#score-add1");
         scoreTwoAdd.text("+" + points);
         scoreTwoAdd.show();
         setTimeout(function () {
-            $('#score-add-two').hide();
+            $('#score-add1').hide();
         }, 1000);
     }
 }

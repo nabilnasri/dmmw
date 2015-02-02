@@ -79,7 +79,7 @@ exports.GameHoster.prototype.getIsPrivate = function () {
 exports.GameHoster.prototype.arePlayersReady = function (playerNumber) {
     this.playerList[playerNumber].setIsReady(true);
     if (this.playerList.length == 2) {
-        if (this.playerList[0].getIsReady && this.playerList[1].getIsReady) {
+        if (this.playerList[0].getIsReady() && this.playerList[1].getIsReady()) {
             return true;
         }
     }

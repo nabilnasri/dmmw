@@ -115,10 +115,10 @@ var IO = {
 
     playerPressedReady: function (data) {
         var playerNumber = data.playerNumber;
+        document.getElementById('isReady' + playerNumber).classList.remove('glyphicon-remove');
+        document.getElementById('isReady' + playerNumber).classList.add('glyphicon-ok');
+        document.getElementById('isReady' + playerNumber).style.opacity = 1.0;
         if (IO.user.getPlayerNumber() == playerNumber) {
-            document.getElementById('isReady' + playerNumber).classList.remove('glyphicon-remove');
-            document.getElementById('isReady' + playerNumber).classList.add('glyphicon-ok');
-            document.getElementById('isReady' + playerNumber).style.opacity = 1.0;
             document.getElementById('ready').disabled = true;
         }
     },

@@ -306,7 +306,3 @@ function portrait_primary(ev) {
         return "stop";
     }
 }
-
-
-
-

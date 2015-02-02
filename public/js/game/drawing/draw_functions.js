@@ -27,17 +27,21 @@ function Drawing() {
 
 
 Drawing.prototype.setScale = function () {
+    console.log('playfield width ' + this.gameInfo.playingField.FieldWidth);
+    console.log('canvas width ' + this.canvas.FieldWidth());
     if (this.canvas.FieldWidth() >= this.gameInfo.playingField.FieldWidth) {
-        this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth;
+        this.scaleX = this.canvas.FieldWidth() / this.gameInfo.playingField.FieldWidth / 2;
     } else {
-        this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth();
+        this.scaleX = this.gameInfo.playingField.FieldWidth / this.canvas.FieldWidth() / 2;
     }
 
     if (this.canvas.FieldHeight() >= this.gameInfo.playingField.FieldHeight) {
-        this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight;
+        this.scaleY = this.canvas.FieldHeight() / this.gameInfo.playingField.FieldHeight / 2;
     } else {
-        this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight();
+        this.scaleY = this.gameInfo.playingField.FieldHeight / this.canvas.FieldHeight() / 2;
     }
+    console.log('playfield width ' + this.gameInfo.playingField.FieldWidth);
+    console.log('canvas width ' + this.canvas.FieldWidth());
 };
 
 /*
@@ -225,6 +229,7 @@ Drawing.prototype.fadingOut = function (brick) {
     var rgb = hexToRgb(brick.currentColor);
 
     var r = rgb["r"];
+    var g = rgb["g"];
     var g = rgb["g"];
     var b = rgb["b"];
     var steps = 10;

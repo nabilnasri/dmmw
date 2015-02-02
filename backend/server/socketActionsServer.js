@@ -158,8 +158,8 @@ function playerIsReady(data){
     serverSocket.sockets.in(gameId).emit('playerPressedReady', {
         playerNumber: data.playerNumber
     });
-    if(gm.checkIfPlayersReady(gameId, data.playerNumber)){
-        winston.log('info', 'playerIsReady alle sind ready');
+    if(gm.checkIfPlayersReady(gameId, data.playerNumber) == true){
+        winston.log('info', 'playerIsReady(data) sagt -> alle sind ready');
         serverSocket.sockets.in(gameId).emit('allPlayersAreReady');
     }
 }

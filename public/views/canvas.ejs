@@ -8,7 +8,7 @@
     <div id="content">
         <div class="row">
             <div class="col-md-3 player text-center" id="player-one">
-                <h1 id="score-add2" style="display: none;">...</h1>
+                <h1 id="score-add0" style="display: none;">...</h1>
                 <span id="name0"></span>
                 <span id="score0">0</span>
             </div>
@@ -19,7 +19,7 @@
                 <span id="name1"></span>
                 <span id="score1">0</span>
 
-                <h1 id="score-add2" style="display: none;">...</h1>
+                <h1 id="score-add1" style="display: none;">...</h1>
             </div>
         </div>
         <audio id="nyan" loop="loop">
@@ -34,8 +34,10 @@
                 gameId: IO.user.getGameId(),
                 destination: 'setAllUserGamingscreen'
             });</script>
-        <script src="../js/custom/canvas_functions.js"></script>
+        <script src="../js/game/game_info.js"></script>
+        <script src="../js/communication/socket_handler.js"></script>
         <script src="../js/game/drawing/draw_functions.js"></script>
+        <script src="../js/custom/canvas_functions.js"></script>
         <script src="../js/game/controller/controller.js"></script>
     </div>
 </div>
