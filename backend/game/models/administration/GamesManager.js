@@ -71,7 +71,12 @@ exports.Gamemanager.prototype.getAllUsers = function (gameId) {
 
 exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumber){
     return this.gamelist[gameId].arePlayersReady(playerNumber);
-}
+};
+
+
+/*exports.GameHoster.prototype.checkThisId = function(gameId){
+    return gameId in this.gamelist;
+};*/
 
 
 /** ********************************

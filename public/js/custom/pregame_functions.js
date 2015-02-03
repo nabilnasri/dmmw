@@ -42,8 +42,6 @@ $(document).ready(function () {
             gameId: gameId
         };
         IO.socket.emit('setMobileSocket', data);
-        $("#enter-room-container").hide();
-        $("#con_canvas").show();
     });
 
     $(document).on('click', '#start-random-game', function () {
@@ -66,8 +64,6 @@ $(document).ready(function () {
         };
 
         IO.socket.emit('playerJoinGame', data);
-
-        refresh_site('registratephone');
     });
 
     $(document).on('click', '#ready', function () {

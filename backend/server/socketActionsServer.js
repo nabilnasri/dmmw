@@ -26,9 +26,10 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('playerIsReady', playerIsReady);
 
     gamersSocket.on('getAllUsers', getAllUsers);
+    //gamersSocket.on('checkId', checkId);
 
     // Game Events
-    //gamersSocket.on('motion', motionSocket);
+    gamersSocket.on('motion', motionSocket);
     gamersSocket.on('gameData', gameDataSocket);
     gamersSocket.on('gamePause', gamePauseSocket);
     gamersSocket.on('keyMove', keyMoveSocket);
@@ -94,11 +95,12 @@ function playerJoinGame(data) {
         playerSocket.emit('initUser', {
             gameId: thisGameId,
             mySocketId: playerSocket.id,
-            playernumber: playerNumber
+            playernumber: playerNumber,
+            goToGame: 'yesPlease'
         });
     } else {
-        winston.log('info', 'error in playerJoinGame(data) in socketActionsServer.js');
-        this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
+        winston.log('info', 'ups in playerJoinGame(data) in socketActionsServer.js');
+        this.emit('ups',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
     }
 }
 
@@ -110,7 +112,6 @@ function setUsernameSocket(data) {
 
     //aktuealisiere den wartescreen des ersten spielers
     if (playerNumber == 1) {
-        winston.log('info', 'setUsernameSocket IF: ' + JSON.stringify(data));
         var sendToThisSocket = gm.getUserSocket(data.gameId, 0);
         serverSocket.sockets.to(sendToThisSocket).emit('playerJoinedRoom', {
             username: data.username,
@@ -142,8 +143,8 @@ function setMobileSocket(data) {
             serverSocket.sockets.to(sendToThisSocket).emit('updateMobileState');
         }
     } else {
-        winston.log('error', 'error in setMobileSocket(data) in socketActionsServer.js');
-        //this.emit('error',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
+        winston.log('ups', 'ups in setMobileSocket(data) in socketActionsServer.js');
+        this.emit('ups',{message: "Falsche Game ID eingegeben. Versuchs nochmal :)"} );
     }
 }
 
@@ -163,6 +164,11 @@ function playerIsReady(data){
         serverSocket.sockets.in(gameId).emit('allPlayersAreReady');
     }
 }
+
+/*function checkId(data){
+    winston.log('info', 'cheeeckid ' + gm.checkThisId(data.id));
+    this.emit('answerForIdCheck', {answer:gm.checkThisId(data.id)});
+}*/
 
 /*
  * Two players have joined!
@@ -184,6 +190,7 @@ function hostPrepareGame(gameId) {
  * ****************************** **/
 
 function motionSocket(data) {
+    winston.log('info', 'dataa motionSocket ' + JSON.stringify(data));
     gm.motionGame(data);
 }
 

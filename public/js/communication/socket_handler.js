@@ -1,14 +1,11 @@
 var gameInfo = GameInfo.getInstance();
 
 function initGame(data) {
-    console.log("ASJDKSADKSADKSA");
-    console.log(data);
     gameInfo.playingField = data.game.playingField;
     gameInfo.balls = data.game.playingField.balls;
     gameInfo.paddles = data.game.playingField.paddles;
     gameInfo.bricks = data.game.playingField.bricks;
     gameInfo.colorpicker = data.game.colorpicker;
-    console.log(gameInfo);
 }
 
 function updateBalls(balls) {

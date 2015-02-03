@@ -25,13 +25,14 @@ var IO = {
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
         IO.socket.on('updateMobileState', IO.updateMobileState);
         IO.socket.on('setAllUserWaitingscreen', IO.setAllUserWaitingscreen);
+        IO.socket.on('setAllUserGamingscreen', IO.setAllUserGamingscreen);
         IO.socket.on('playerPressedReady', IO.playerPressedReady);
         IO.socket.on('allPlayersAreReady', IO.allPlayersAreReady);
 
 
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('gameOver', IO.gameOver);
-        IO.socket.on('error', IO.error);
+        IO.socket.on('ups', IO.error);
 
         IO.socket.on('gameInfo', IO.gameInfo);
         IO.socket.on('gameBalls', IO.gameBalls);
@@ -64,6 +65,9 @@ var IO = {
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setPlayerNumber(data.playernumber);
+        if('goToGame' in data){
+            refresh_site('registratephone');
+        }
     },
 
     /**
@@ -77,9 +81,10 @@ var IO = {
     /**
      */
     mobiledeviceConnected: function (data) {
+        $("#enter-room-container").hide();
+        $("#con_canvas").show();
         IO.user.setUsername(data.username);
         IO.user.setPlayerNumber((data.playerNumber));
-        //TODO waitingscreen aktuallisieren
     },
 
     /**
@@ -205,16 +210,9 @@ var IO = {
         IO.socket.emit("gamePause", {gameId: IO.user.getGameId()});
     },
 
-    sendKeyMove: function (direction) {
-        IO.socket.emit("keyMove", {direction: direction, gameId: IO.user.getGameId()});
-    },
-
-    sendKeyRelease: function (direction) {
-        IO.socket.emit("keyRelease", {direction: direction, gameId: IO.user.getGameId()});
-    },
-
-    sendMotion: function (ev) {
-        IO.socket.emit('motion', {text: moveIt(ev), gameId: IO.user.getGameId()});
+    sendMotion: function (orientationtext) {
+        alert('aaa');
+        IO.socket.emit('motion', {text: orientationtext, gameId: IO.user.getGameId()});
     },
 
     sendBrickColor: function (row, col, color) {

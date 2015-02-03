@@ -1,20 +1,20 @@
 var canvas;
 var ctx;
 
-window.onload = function(){
+window.onload = function () {
     canvas = document.getElementById("con_canvas");
-    canvas.addEventListener("touchstart",doTouchStart,false);
+    canvas.addEventListener("touchstart", doTouchStart, false);
     ctx = canvas.getContext("2d");
 
     initialise();
 };
 
-//window.addEventListener('devicemotion', sendMotion, false);
+window.addEventListener('devicemotion', moveIt, false);
 window.addEventListener("resize", adaptToResize, false);
 //window.addEventListener('keydown', onKeyDown, false);
 //window.addEventListener('keyup', onKeyUp, false);
 
-function initialise(){
+function initialise() {
     $("body").css("overflow", "hidden");
     setControllerCanvasSize();
     customArea();
@@ -23,26 +23,23 @@ function initialise(){
 }
 
 
-
-function customArea(){
+function customArea() {
     var height = window.innerHeight;
     var width = window.innerWidth;
     var xCA = 0;
     var yCA = 0;
     var color = "#F27935";
-    rect(ctx, xCA , yCA , width, height*0.10, color);
+    rect(ctx, xCA, yCA, width, height * 0.10, color);
     ctx.fillStyle = "black";
     ctx.font = "bold 20px Calibri";
-    ctx.fillText("USERNAME", width*0.1, height*0.065);
+    ctx.fillText("USERNAME", width * 0.1, height * 0.065);
     ctx.fillStyle = "black";
     ctx.font = "bold 20px Calibri";
-    ctx.fillText("O Points", width*0.5, height*0.065);
+    ctx.fillText("O Points", width * 0.5, height * 0.065);
     ctx.fillStyle = "black";
     ctx.font = "bold 20px Calibri";
-    ctx.fillText("3", width*0.8, height*0.065);
+    ctx.fillText("3", width * 0.8, height * 0.065);
 }
-
-
 
 var deletePowerUp = false;
 var displayWidth;
@@ -78,7 +75,7 @@ function canvasApp() {
         createParticles();
 
         ctx.fillStyle = "#000000";  // muss unser window sein
-        ctx.fillRect(displayHeight*0.1, displayHeight, displayWidth, displayHeight*0.9); // unsere window daten //poweruparea
+        ctx.fillRect(displayHeight * 0.1, displayHeight, displayWidth, displayHeight * 0.9); // unsere window daten //poweruparea
         timer = setInterval(onTimer, 1000 / 40); // aktualisierungZeit
     }
 
@@ -118,7 +115,7 @@ function canvasApp() {
 
         //fading. This won't work very well in Chrome, IE, and Firefox - gray trails will be left behind.
         ctx.fillStyle = "rgba(0,0,0,0.04)";
-        ctx.fillRect(0, displayHeight*0.1, displayWidth, displayHeight*0.9); //
+        ctx.fillRect(0, displayHeight * 0.1, displayWidth, displayHeight * 0.9); //
 
         //update and draw particles
         p = particleList.first;
@@ -154,13 +151,13 @@ function canvasApp() {
                 p.x = p.rad;
                 p.velX *= -1;
             }
-            if (p.y > displayHeight - p.rad ) {
+            if (p.y > displayHeight - p.rad) {
                 p.y = displayHeight - p.rad;
                 p.velY *= -1;
             }
 
-            if (p.y < displayHeight*0.1 + p.rad ) {
-                p.y = displayHeight*0.1 + p.rad;
+            if (p.y < displayHeight * 0.1 + p.rad) {
+                p.y = displayHeight * 0.1 + p.rad;
                 p.velY *= -1;
             }
             if (p.y < p.rad) {
@@ -168,14 +165,14 @@ function canvasApp() {
                 p.velY *= -1;
             }
 
-            if (deletePowerUp){
+            if (deletePowerUp) {
 
                 particleList = {};
                 deletePowerUp = false;
                 ctx.clear();
 
 
-            }else {
+            } else {
                 ctx.fillStyle = p.color;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.rad, 0, 2 * Math.PI, false);
@@ -207,18 +204,17 @@ function rect(ctx, x, y, w, h, color) {
 }
 
 
-function setControllerCanvasSize(){
-    canvas.width  = window.innerWidth;
+function setControllerCanvasSize() {
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     displayWidth = canvas.width;
     displayHeight = canvas.height;
 }
 
 
+function randomPUps() {
 
-function randomPUps(){
-
-    var r =Math.floor(Math.random() * 7);
+    var r = Math.floor(Math.random() * 7);
     var randomUp = new selectPowerUp();
 
     randomUp.powerUpArray[r];
@@ -230,26 +226,26 @@ function doTouchStart(eve) {
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
 
-    hitPowerUp(px, py,concan_x,concan_y);
+    hitPowerUp(px, py, concan_x, concan_y);
 }
 
-function hitPowerUp(px,py,concan_x,concan_y) {
+function hitPowerUp(px, py, concan_x, concan_y) {
 
     px = Math.ceil(px);
     py = Math.ceil(py);
     concan_x = Math.ceil(concan_x);
     concan_y = Math.ceil(concan_y);
 
-    if(( concan_x <= px+50 && concan_x>= px-50 ) && ( concan_y <= py+50 && concan_y>= py-50 )){
+    if (( concan_x <= px + 50 && concan_x >= px - 50 ) && ( concan_y <= py + 50 && concan_y >= py - 50 )) {
         //randomPUps();
         deletePowerUp = true;
     }
 }
 
-
-
+/** ********************************
+ *          MOTION FUNCS           *
+ * ****************************** **/
 function moveIt(ev) {
-    //Aktuelle Orientation
     var orientation = window.orientation;
     if (orientation === 90) {
         return landscape_primary(ev);
@@ -267,28 +263,25 @@ function moveIt(ev) {
  */
 function landscape_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
-
     if (acc.y < -1) {
-        return "left";
+        IO.user.sendMotion('left');
     } else if (acc.y > 1) {
-        return "right";
+        IO.user.sendMotion('right');
     } else {
-        return "stop";
+        IO.user.sendMotion('stop');
     }
-
 }
 /*
  Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
  */
 function landscape_secondary(ev) {
     var acc = ev.accelerationIncludingGravity;
-
     if (acc.y > 1) {
-        return "left";
-    } else if(acc.y < -1) {
-        return "right";
+        IO.user.sendMotion('left');
+    } else if (acc.y < -1) {
+        IO.user.sendMotion('right');
     } else {
-        return "stop";
+        IO.user.sendMotion('stop');
     }
 
 }
@@ -297,12 +290,11 @@ function landscape_secondary(ev) {
  */
 function portrait_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
-
     if (acc.x > 1) {
-        return "left";
+        IO.user.sendMotion('left');
     } else if (acc.x < -1) {
-        return "right";
+        IO.user.sendMotion('right');
     } else {
-        return "stop";
+        IO.user.sendMotion('stop');
     }
 }

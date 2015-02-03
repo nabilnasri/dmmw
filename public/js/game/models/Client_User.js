@@ -3,6 +3,7 @@ function Client_User() {
     this.myGameId = null;
     this.myRole = null;
     this.playerNumber = null;
+    this.isInGame = false;
 }
 
 /**
@@ -129,4 +130,12 @@ Client_User.prototype.getPlayerNumber = function () {
 
 Client_User.prototype.setPlayerNumber = function (playerNumber) {
     this.playerNumber = playerNumber;
+};
+
+Client_User.prototype.getIsInGame = function () {
+    return this.isInGame;
+};
+
+Client_User.prototype.setIsInGame = function (isInGame) {
+    this.isInGame = isInGame;
 };

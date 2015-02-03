@@ -107,7 +107,6 @@ exports.GameHoster.prototype.getUserAmount = function () {
     return this.playerList.length;
 };
 
-
 /** ********************************
  *           GAME ACTIONS          *
  * ****************************** **/
