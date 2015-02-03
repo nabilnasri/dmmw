@@ -23,8 +23,11 @@
 
                 <div class="form-group form-group-lg">
                     <div class="col-sm-4">
-                        <input name="gameId" onkeyup="checkId()" class="form-control" type="text" id="gameId" placeholder="Game ID" maxlength="5" pattern="[0-9]" oninvalid="setCustomValidity('Plz enter on Alphabets ')">
-                        <span style="color:red;">Die Game ID muss 5 Zeichen lang sein!</span>
+                        <div class="right-inner-addon">
+                            <i id ="boxIcon"  class="glyphicon"></i>
+                            <input onkeyup="checkId()" class="form-control" type="text" id="gameId" placeholder="Game ID" maxlength="5">
+                        </div>
+                        <span id="errormessage">...</span>
                     </div>
                 </div>
 
@@ -37,7 +40,36 @@
     <div id="content-scripts">
         <script>
             function checkId(){
-                console.log(document.getElementById('gameId').value);
+                var inputVal = document.getElementById('gameId').value;
+                var allIds = IO.user.getAllGameIds();
+                var errormessage = document.getElementById('errormessage');
+                var icon = document.getElementById('boxIcon');
+                if(inputVal.length == 2 ){
+                    for(var i = 0; i<allIds.length; i++){
+                        if(inputVal != allIds[i]){
+                            errormessage.innerHTML = 'die eingegebene Game ID existiert nicht!';
+                            errormessage.style.display = 'block';
+                            icon.classList.remove('glyphicon-ok');
+                            icon.classList.add('glyphicon-remove');
+                            icon.style.color='red';
+                        }else{
+                            errormessage.style.display = 'none';
+                            icon.classList.remove('glyphicon-remove');
+                            icon.classList.add('glyphicon-ok');
+                            icon.style.color='green';
+                        }
+                    }
+                }else if (inputVal==0){
+                    errormessage.style.display = 'none';
+                    icon.classList.remove('glyphicon-remove');
+                    icon.classList.remove('glyphicon-ok');
+                }else{
+                    errormessage.innerHTML = 'GameID besteht aus 5 Zahlen!';
+                    errormessage.style.display = 'block';
+                    icon.classList.remove('glyphicon-ok');
+                    icon.classList.add('glyphicon-remove');
+                    icon.style.color='red';
+                }
             }
         </script>
     </div>

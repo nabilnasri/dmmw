@@ -69,6 +69,21 @@ exports.Gamemanager.prototype.getAllUsers = function (gameId) {
     return this.gamelist[gameId].getPlayerList();
 };
 
+/**
+ * gib alle privaten gameIds zurück die noch frei sind
+ * */
+exports.Gamemanager.prototype.getAllPrivateGameIds = function () {
+    var list = [];
+    for (var key in this.gamelist) {
+        if (this.gamelist[key].getIsPrivate()) {
+            if (this.gamelist[key].getUserAmount() < 2) {
+                list.push(key);
+            }
+        }
+    }
+    return list;
+};
+
 exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumber){
     return this.gamelist[gameId].arePlayersReady(playerNumber);
 };

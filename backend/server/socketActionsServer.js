@@ -26,7 +26,7 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('playerIsReady', playerIsReady);
 
     gamersSocket.on('getAllUsers', getAllUsers);
-    //gamersSocket.on('checkId', checkId);
+    gamersSocket.on('getAllGameIDs', getAllGameIDs);
 
     // Game Events
     gamersSocket.on('motion', motionSocket);
@@ -165,10 +165,9 @@ function playerIsReady(data){
     }
 }
 
-/*function checkId(data){
-    winston.log('info', 'cheeeckid ' + gm.checkThisId(data.id));
-    this.emit('answerForIdCheck', {answer:gm.checkThisId(data.id)});
-}*/
+function getAllGameIDs(){
+    this.emit('allGameIds', {allIds: gm.getAllPrivateGameIds()});
+}
 
 /*
  * Two players have joined!

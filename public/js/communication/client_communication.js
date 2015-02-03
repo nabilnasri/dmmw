@@ -20,6 +20,7 @@ var IO = {
         IO.socket.on('connected', IO.onConnected);
 
         IO.socket.on('initUser', IO.initUser);
+        IO.socket.on('allGameIds', IO.allGameIds);
         IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom);
         IO.socket.on('setUserData', IO.setUserData);
         IO.socket.on('mobiledeviceConnected', IO.mobiledeviceConnected);
@@ -28,11 +29,11 @@ var IO = {
         IO.socket.on('setAllUserGamingscreen', IO.setAllUserGamingscreen);
         IO.socket.on('playerPressedReady', IO.playerPressedReady);
         IO.socket.on('allPlayersAreReady', IO.allPlayersAreReady);
-
-
         IO.socket.on('beginNewGame', IO.beginNewGame);
-        IO.socket.on('gameOver', IO.gameOver);
         IO.socket.on('ups', IO.error);
+
+
+        IO.socket.on('gameOver', IO.gameOver);
 
         IO.socket.on('gameInfo', IO.gameInfo);
         IO.socket.on('gameBalls', IO.gameBalls);
@@ -65,7 +66,7 @@ var IO = {
         IO.user.setGameId(data.gameId);
         IO.user.setSocketId(data.mySocketId);
         IO.user.setPlayerNumber(data.playernumber);
-        if('goToGame' in data){
+        if ('goToGame' in data) {
             refresh_site('registratephone');
         }
     },
@@ -76,6 +77,14 @@ var IO = {
      */
     playerJoinedRoom: function (data) {
         document.getElementById('name' + data.playerNumber).innerHTML = data.username;
+    },
+
+    /**
+     * A player has successfully joined the game.
+     * @param data {{playerName: string, gameId: int, mySocketId: int}}
+     */
+    allGameIds: function (data) {
+        IO.user.setAllGameIds(data.allIds);
     },
 
     /**
@@ -130,7 +139,6 @@ var IO = {
 
     allPlayersAreReady: function () {
         refresh_site('game');
-
     },
 
     /**

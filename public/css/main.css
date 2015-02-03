@@ -211,6 +211,11 @@ body {
     padding: 5% 10% 5% 10%;
 }
 
+#errormessage{
+    color: #ffd32d;
+    display: none;
+}
+
 .name {
     padding-top: 5%;
 }
@@ -252,4 +257,17 @@ body {
     to {
         transform: scale(1) rotate(360deg);
     }
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0;
+    padding: 10px 12px;
+    pointer-events: none;
 }

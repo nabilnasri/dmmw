@@ -18,6 +18,7 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '.join-private', function () {
+        IO.socket.emit('getAllGameIDs');
         refresh_site('enterInfos');
     });
 
