@@ -30,7 +30,9 @@ exports.Gamemanager.prototype.checkForFreeRooms = function () {
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
 exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSocket, isPrivate) {
-    this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, isPrivate);
+    if(gameId != null && serverSocket != undefined && gamerSocket != undefined  && isPrivate != undefined) {
+        this.gamelist[gameId] = new gamehost.GameHoster(gameId, serverSocket, isPrivate);
+    }
 };
 
 /**
@@ -38,35 +40,50 @@ exports.Gamemanager.prototype.addGame = function (gameId, serverSocket, gamerSoc
  * Punktezahl etc. richtig zu setzen
  * */
 exports.Gamemanager.prototype.addUser = function (gameId, gamersSocket) {
-    return this.gamelist[gameId].setUser(gamersSocket);
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].setUser(gamersSocket);
+    }
+    return null;
 };
 
 /**
  * setzt weitere daten im user
  * */
 exports.Gamemanager.prototype.setUserInHost = function (gameId, username, playerNumber) {
-    return this.gamelist[gameId].setUserDataInUser(username, playerNumber);
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].setUserDataInUser(username, playerNumber);
+    }
+    return null;
 };
 
 /**
  * setzt socket von Mobiledevice im usrer
  * */
 exports.Gamemanager.prototype.setMobileSocketId = function (gameId, mobileSocketId) {
-    return this.gamelist[gameId].setMobileSocketInUser(mobileSocketId);
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].setMobileSocketInUser(mobileSocketId);
+    }
+    return null;
 };
 
 /**
  * gib socket eines spielers zurueck
  * */
 exports.Gamemanager.prototype.getUserSocket = function (gameId, playernumber) {
-    return this.gamelist[gameId].getUserSocketId(playernumber);
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].getUserSocketId(playernumber);
+    }
+    return null;
 };
 
 /**
  * gib alle spieler dieses Gamehosters zurueck
  * */
 exports.Gamemanager.prototype.getAllUsers = function (gameId) {
-    return this.gamelist[gameId].getPlayerList();
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].getPlayerList();
+    }
+    return null;
 };
 
 /**
@@ -85,7 +102,10 @@ exports.Gamemanager.prototype.getAllPrivateGameIds = function () {
 };
 
 exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumber){
-    return this.gamelist[gameId].arePlayersReady(playerNumber);
+    if(this.gamelist[gameId] != undefined) {
+        return this.gamelist[gameId].arePlayersReady(playerNumber);
+    }
+    return null;
 };
 
 
@@ -108,41 +128,35 @@ exports.Gamemanager.prototype.motionGame = function (data) {
 
 
 exports.Gamemanager.prototype.changeCurrentBallState = function (gameId, playerNumber) {
-    this.gamelist[gameId].changeBallState(playerNumber);
+    winston.log('info', ['changeCurrentBallState', gameId, playerNumber].join(' '));
+    if(this.gamelist[gameId] != undefined){
+        this.gamelist[gameId].changeBallState(playerNumber);
+    }
 };
 
 /**
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */
 exports.Gamemanager.prototype.startGame = function (gameId) {
-    //TODO schauen ob ein freier room vorhanden ist, falls randomGame geklickt wurde!
-    this.gamelist[gameId].gameData();
+    if(this.gamelist[gameId] != undefined) {
+        this.gamelist[gameId].gameData();
+    }
 };
 
 /**
  * pausiere Spielinstanz
  * */
 exports.Gamemanager.prototype.pauseGame = function (data) {
-    this.gamelist[data.gameId].gamePause();
-};
-
-/**
- * beim druecken der Pfeiltaste auf der Tastatur
- * */
-exports.Gamemanager.prototype.keyMoveGame = function (data) {
-    this.gamelist[data.gameId].keyMove(data);
-};
-
-/**
- * beim loslassen der Pfeiltaste auf der Tastatur
- * */
-exports.Gamemanager.prototype.keyReleaseGame = function (data) {
-    this.gamelist[data.gameId].keyRelease(data);
+    if(this.gamelist[data.gameId] != undefined) {
+        this.gamelist[data.gameId].gamePause();
+    }
 };
 
 /**
  * sendet Farbe der Bricks
  * */
 exports.Gamemanager.prototype.brickColorGame = function (data) {
-    this.gamelist[data.gameId].brickColor(data);
+    if(this.gamelist[data.gameId] != undefined) {
+        this.gamelist[data.gameId].brickColor(data);
+    }
 };

@@ -99,14 +99,14 @@ exports.Ball.prototype.checkOutside = function (canvas, player, sio, mobilesocke
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
             //BALL IST DRAUßEN / UNTERER RAND / PLAYER 0
             this.xCoor = canvas.getPaddle(0).xCoor + 10;
-            this.yCoor = 300;
+            this.yCoor = 350;
             sio.sockets.to(mobilesocket).emit('ballWasOutside', {ballstate: ballstate, playerNumber: 0});
         }
     } else {
         if (this.yCoor + this.dy - this.getRadius() < 0) {
             //BALL IST DRAUßEN / UNTERER RAND / PLAYER 1
             this.xCoor = canvas.getPaddle(1).xCoor + 10;
-            this.yCoor = 200;
+            this.yCoor = 150;
             sio.sockets.to(mobilesocket).emit('ballWasOutside', {ballstate: ballstate, playerNumber: 1});
         }
     }
