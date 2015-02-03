@@ -64,7 +64,10 @@ exports.Ball.prototype.checkHitBrick = function (playingField, sio) {
             playingField.masterBrick != null &&
             !playingField.bricksAvailable()
             &&
-            (brickX<=ballX && ballX<= brickX+briwidth)
+            (brickX<=ballX && ballX<= brickX+briwidth && ballY <= brickY && brickY<=ballY+briHeight )
+            ||
+            (brickY+briHeight<=ballX && ballX<=(brickX+briwidth+briHeight)  && ballY <= brickY && brickY<=ballY+briHeight )
+
         )
     ){
         if(!playingField.bricksAvailable()){
