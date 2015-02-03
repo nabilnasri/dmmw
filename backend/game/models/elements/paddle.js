@@ -11,35 +11,15 @@ exports.Paddle = function Paddle(x, color) {
     this.PaddleColor = color;
 
     this.currentMotion = "stop";
-    this.rightDown = false;
-    this.leftDown = false;
 };
 
-/*
- Tastatur Pfeil Rechts
- */
-exports.Paddle.prototype.checkRightDown = function () {
-    if (this.rightDown) {
-        this.calculateMovementRight(10);
-    }
-};
-/*
- Tastatur Pfeil Links
- */
-exports.Paddle.prototype.checkLeftDown = function () {
-    if (this.leftDown) {
-        this.calculateMovementLeft(10);
-    }
-};
-
-exports.Paddle.prototype.motionMove = function (direction, sio) {
-    this.currentMotion = direction;
+exports.Paddle.prototype.motionMove = function (sio, gameId) {
     if (this.currentMotion == "right") {
-        this.calculateMovementRight(20);
-        handler.sendPaddles(sio);
+        this.calculateMovementRight(10);
+        handler.sendPaddles(sio, gameId);
     } else if (this.currentMotion == "left") {
-        this.calculateMovementLeft(20);
-        handler.sendPaddles(sio);
+        this.calculateMovementLeft(10);
+        handler.sendPaddles(sio, gameId);
     }
 };
 

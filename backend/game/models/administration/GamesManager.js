@@ -101,7 +101,9 @@ exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumb
  * fuer die Steuerung mit dem mobile Device
  * */
 exports.Gamemanager.prototype.motionGame = function (data) {
-    this.gamelist[data.gameId].motion(data);
+    if(data.gameId && this.gamelist[data.gameId] != undefined){
+        this.gamelist[data.gameId].motion(data);
+    }
 };
 
 /**

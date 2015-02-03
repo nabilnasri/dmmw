@@ -124,7 +124,7 @@ function setMobileSocket(data) {
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
         var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         //fuege nun den neuen nutzer zum room
-        this.join(data.gameId);
+        //this.join(data.gameId);
         //schicke userdaten an das mobile device
         this.emit('mobiledeviceConnected', {
             playerNumber: playerdata.playerNumber,
@@ -189,7 +189,6 @@ function hostPrepareGame(gameId) {
  * ****************************** **/
 
 function motionSocket(data) {
-    winston.log('info', 'dataa motionSocket ' + JSON.stringify(data));
     gm.motionGame(data);
 }
 

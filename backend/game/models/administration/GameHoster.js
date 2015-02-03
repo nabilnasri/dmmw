@@ -110,6 +110,7 @@ exports.GameHoster.prototype.getUserAmount = function () {
 /** ********************************
  *           GAME ACTIONS          *
  * ****************************** **/
+
 exports.GameHoster.prototype.playGame = function () {
     game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
@@ -117,7 +118,8 @@ exports.GameHoster.prototype.playGame = function () {
 
 exports.GameHoster.prototype.motion = function (data) {
     if (game.Dmmw.getInstance(this.gameId).playingField !== null) {
-        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(0).motionMove(data.text, this.serverSocket, this.gameId);
+        winston.log("info", data.playerNumber + " " + data.text);
+        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(data.playerNumber).currentMotion = data.text;
     }
 };
 
@@ -137,28 +139,6 @@ exports.GameHoster.prototype.gamePause = function () {
         game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
 
     }
-};
-
-exports.GameHoster.prototype.keyMove = function (data) {
-    if (data.direction === "right") {
-        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = true;
-    }
-    if (data.direction === "left") {
-        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).leftDown = true;
-    }
-
-    handler.sendPaddles(this.serverSocket, this.gameId);
-};
-
-
-exports.GameHoster.prototype.keyRelease = function (data) {
-    if (data.direction === "right") {
-        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).rightDown = false;
-    }
-    if (data.direction === "left") {
-        game.Dmmw.getInstance(this.gameId).playingField.getPaddle(1).leftDown = false;
-    }
-    handler.sendPaddles(this.serverSocket, this.gameId);
 };
 
 exports.GameHoster.prototype.brickColor = function (data) {

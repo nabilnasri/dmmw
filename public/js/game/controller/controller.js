@@ -247,15 +247,16 @@ function hitPowerUp(px, py, concan_x, concan_y) {
  * ****************************** **/
 function moveIt(ev) {
     var orientation = window.orientation;
-    if (orientation === 90) {
-        return landscape_primary(ev);
-
-    } else if (orientation === -90) {
-        return landscape_secondary(ev);
-
-    } else if (orientation === 0) {
-        return portrait_primary(ev);
+    if(IO.user.getGameId()){
+        if (orientation === 90) {
+            return landscape_primary(ev);
+        } else if (orientation === -90) {
+            return landscape_secondary(ev);
+        } else if (orientation === 0) {
+            return portrait_primary(ev);
+        }
     }
+
 }
 
 /*
@@ -264,11 +265,11 @@ function moveIt(ev) {
 function landscape_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
     if (acc.y < -1) {
-        IO.user.sendMotion('left');
+        IO.sendMotion('left');
     } else if (acc.y > 1) {
-        IO.user.sendMotion('right');
+        IO.sendMotion('right');
     } else {
-        IO.user.sendMotion('stop');
+        IO.sendMotion('stop');
     }
 }
 /*
@@ -277,11 +278,11 @@ function landscape_primary(ev) {
 function landscape_secondary(ev) {
     var acc = ev.accelerationIncludingGravity;
     if (acc.y > 1) {
-        IO.user.sendMotion('left');
+        IO.sendMotion('left');
     } else if (acc.y < -1) {
-        IO.user.sendMotion('right');
+        IO.sendMotion('right');
     } else {
-        IO.user.sendMotion('stop');
+        IO.sendMotion('stop');
     }
 
 }
@@ -291,10 +292,10 @@ function landscape_secondary(ev) {
 function portrait_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
     if (acc.x > 1) {
-        IO.user.sendMotion('left');
+        IO.sendMotion('left');
     } else if (acc.x < -1) {
-        IO.user.sendMotion('right');
+        IO.sendMotion('right');
     } else {
-        IO.user.sendMotion('stop');
+        IO.sendMotion('stop');
     }
 }

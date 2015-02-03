@@ -4,6 +4,8 @@ function Client_User() {
     this.myRole = null;
     this.playerNumber = null;
     this.allGameIds = null;
+    this.isInGame = false;
+    this.lastMotion = "stop";
 }
 
 /**
@@ -36,6 +38,49 @@ Client_User.prototype.restartGame = function () {
     Client_User.$gameArea.html(Client_User.$templateNewGame);
     $('#spanNewGameCode').text(Client_User.gameId);
 };
+
+/**
+ * The player entered their name and gameId (hopefully)
+ * and clicked Start.
+
+Client_User.prototype.onPlayerStartClick = function () {
+    // collect data to send to the server
+    var data = {
+        gameId: +($('#inputGameId').val()),
+        playerName: $('#inputPlayerName').val() || 'anon'
+    };
+
+    // Send the gameId and playerName to the server
+    IO.socket.emit('playerJoinGame', data);
+
+    // Set the appropriate properties for the current player.
+    this.myRole = 'Player';
+    this.myUsername = data.playerName;
+};*/
+
+/**
+ *  Click handler for the "Start Again" button that appears
+ *  when a game is over.
+
+Client_User.prototype.onPlayerRestart = function () {
+    var data = {
+        gameId: Client_User.gameId,
+        playerName: Client_User.Player.myName
+    };
+    IO.socket.emit('playerRestart', data);
+    $('#gameArea').html("<h3>Waiting on host to start new game.</h3>");
+};*/
+
+/**
+ * Display the waiting screen for player 1
+ * @param data
+
+ Client_User.prototype.updateWaitingScreen = function (data) {
+    if (IO.socket.socket.sessionid === data.mySocketId) {
+        Client_User.myRole = 'Player';
+        Client_User.gameId = data.gameId;
+    }
+};*/
 
 /**
  * Show the "Game Over" screen.

@@ -189,11 +189,15 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     ballArray[0] = player_one_ball;
     ballArray[1] = player_two_ball;
 
+    /*
     player_one_paddle.checkRightDown();
     player_one_paddle.checkLeftDown();
 
     player_two_paddle.checkRightDown();
     player_two_paddle.checkLeftDown();
+    */
+    player_one_paddle.motionMove(sio, gameId);
+    player_two_paddle.motionMove(sio, gameId);
 
     player_one_ball.checkHitBrick(this, sio, gameId);
     player_one_ball.checkHitRightBorder(this);

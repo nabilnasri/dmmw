@@ -210,7 +210,6 @@ var IO = {
      * ****************************** **/
 
     sendReady: function () {
-        console.log("GAME DATA  " + IO.user.getGameId());
         IO.socket.emit("gameData", {gameId: IO.user.getGameId()});
     },
 
@@ -219,8 +218,12 @@ var IO = {
     },
 
     sendMotion: function (orientationtext) {
-        alert('aaa');
-        IO.socket.emit('motion', {text: orientationtext, gameId: IO.user.getGameId()});
+        if(IO.user.getGameId()){
+            if(IO.user.lastMotion != orientationtext){
+                IO.user.lastMotion = orientationtext;
+                IO.socket.emit('motion', {text: orientationtext, gameId: IO.user.getGameId(), playerNumber: IO.user.playerNumber});
+            }
+        }
     },
 
     sendBrickColor: function (row, col, color) {
