@@ -112,13 +112,12 @@ exports.GameHoster.prototype.getUserAmount = function () {
  * ****************************** **/
 
 exports.GameHoster.prototype.playGame = function () {
-    game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId);
+    game.Dmmw.getInstance(this.gameId).playingField.simulateGame(this.serverSocket, this.gameId, this.playerList);
     game.Dmmw.getInstance(this.gameId).redraw(); //SHIFT ARRAY
 };
 
 exports.GameHoster.prototype.motion = function (data) {
     if (game.Dmmw.getInstance(this.gameId).playingField !== null) {
-        winston.log("info", data.playerNumber + " " + data.text);
         game.Dmmw.getInstance(this.gameId).playingField.getPaddle(data.playerNumber).currentMotion = data.text;
     }
 };
@@ -132,12 +131,10 @@ exports.GameHoster.prototype.gameData = function () {
 };
 exports.GameHoster.prototype.gamePause = function () {
     game.Dmmw.getInstance(this.gameId).pause = !game.Dmmw.getInstance(this.gameId).pause;
-
     if (game.Dmmw.getInstance(this.gameId).pause) {
         clearInterval(game.Dmmw.getInstance(this.gameId).intervallId);
     } else {
         game.Dmmw.getInstance(this.gameId).intervallId = setInterval(this.playGame.bind(this), 25);
-
     }
 };
 

@@ -21,8 +21,11 @@ module.exports =
         sio.sockets.in(gameId).emit('gamePaddles', {paddles: gameInfo["paddles"]});
     },
 
-    sendBrickCoordinates: function sendBrickCoordinates(sio, row, col, gameId) {
+    sendBrickCoordinates: function sendBrickCoordinates(sio, row, col, gameId, hasPowerUp, mobileSocketId) {
         sio.sockets.in(gameId).emit('gameBricks', {row: row, col: col});
+        if (hasPowerUp){
+            sio.sockets.to(mobileSocketId).emit('unlockedPowerUp');
+        }
     },
 
     sendMasterBrick: function sendMasterBrick(sio, masterBrick, gameId) {

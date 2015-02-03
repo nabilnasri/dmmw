@@ -26,7 +26,7 @@ exports.Ball.prototype.createParticles = function() {
 /*
  BALL LOGIC --START--
  */
-exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId) {
+exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSocketId) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
@@ -45,8 +45,9 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId) {
         this.dy = -this.dy; //Ball dotzt zurueck
         var points = canvas.getBricks()[row][col].getPoints();
         canvas.countDestroyedBricks += 1;
+        var hasPowerUp = canvas.getBricks()[row][col].getHasPowerUp();
         canvas.getBricks()[row][col] = 0; //destroy Brick
-        handler.sendBrickCoordinates(sio, row, col, gameId);
+        handler.sendBrickCoordinates(sio, row, col, gameId, hasPowerUp, mobileSocketId);
         //Ab hier muss anders gelöst werden!!
         if (this.player === "one") {
             handler.sendPoints(sio, points, "one", gameId);

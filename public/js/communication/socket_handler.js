@@ -64,3 +64,7 @@ function updatePoints(points, player) {
         }, 1000);
     }
 }
+
+function drawPowerUp(data) {
+    canvasApp();
+}

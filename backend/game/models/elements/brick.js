@@ -12,6 +12,7 @@ exports.Brick = function Brick(width, height, padding) {
     this.currentColor = null;
     this.xCoor = 0;
     this.yCoor = 0;
+    this.hasPowerUp = false;
 };
 
 exports.Brick.prototype.getPoints = function () {
@@ -40,4 +41,8 @@ exports.Brick.prototype.getYCoor = function () {
 
 exports.Brick.prototype.getCurrentColor = function () {
     return this.currentColor;
+};
+
+exports.Brick.prototype.getHasPowerUp= function () {
+    return this.hasPowerUp;
 };

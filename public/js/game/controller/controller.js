@@ -19,7 +19,6 @@ function initialise() {
     setControllerCanvasSize();
     customArea();
     randomPUps();
-    canvasApp();
 }
 
 

@@ -42,6 +42,7 @@ var IO = {
         IO.socket.on('gameColorPicker', IO.gameColorPicker);
         IO.socket.on('gamePaddles', IO.gamePaddles);
         IO.socket.on('playerPoints', IO.playerPoints);
+        IO.socket.on('unlockedPowerUp', IO.unlockPowerUp);
     },
 
     /**
@@ -202,6 +203,10 @@ var IO = {
 
     playerPoints: function (data) {
         updatePoints(data.points, data.player);
+    },
+
+    unlockPowerUp: function () {
+        drawPowerUp();
     },
 
 

@@ -41,6 +41,7 @@ exports.PlayingField.prototype.setBricks = function () {
     for (i = 0; i < this.getRows(); i++) {
         b[i] = new Array(this.getCols());
         for (j = 0; j < this.getCols(); j++) {
+            var randomNumber = Math.floor(Math.random() * this.getCols());
             var new_brick = new Brick.Brick(brickWidth, brickHeight, brickPadding);
             var xCoor = j * (new_brick.getWidth() + new_brick.getPadding());
             var offset = (this.getFieldHeight() - (this.getRows() * (new_brick.getHeight() + new_brick.getPadding()))) / 2;
@@ -53,6 +54,8 @@ exports.PlayingField.prototype.setBricks = function () {
             }
             new_brick.xCoor = xCoor;
             new_brick.yCoor = yCoor;
+
+            new_brick.hasPowerUp = j == randomNumber;
             b[i][j] = new_brick;
         }
     }
@@ -178,7 +181,7 @@ exports.PlayingField.prototype.getColWidth = function () {
 };
 
 
-exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
+exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList) {
     var player_one_ball = this.getBall(0);
     var player_one_paddle = this.getPaddle(0);
 
@@ -199,7 +202,7 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     player_one_paddle.motionMove(sio, gameId);
     player_two_paddle.motionMove(sio, gameId);
 
-    player_one_ball.checkHitBrick(this, sio, gameId);
+    player_one_ball.checkHitBrick(this, sio, gameId, playerList[0].getMobileSocketId());
     player_one_ball.checkHitRightBorder(this);
     player_one_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
@@ -207,7 +210,7 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId) {
     player_one_ball.checkOutside(this, 1);
     player_one_ball.checkHitPaddle(this, player_one_paddle, 1);
     ////////////////////////////////////////////////////////////////////////
-    player_two_ball.checkHitBrick(this, sio, gameId);
+    player_two_ball.checkHitBrick(this, sio, gameId, playerList[1].getMobileSocketId());
     player_two_ball.checkHitRightBorder(this);
     player_two_ball.checkHitLeftBorder(this);
     //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
