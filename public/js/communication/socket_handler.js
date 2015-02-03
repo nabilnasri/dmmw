@@ -49,6 +49,7 @@ function updatePoints(points, player) {
             $('#score-add0').hide();
             setPlayerOneHeight();
         }, 1000);
+        IO.user.setCurrentPoints(newPoints);
     } else if (player === "two") {
         var scoreTwo = $("#score1");
         currentPoints = parseInt(scoreTwo.text());
@@ -62,6 +63,7 @@ function updatePoints(points, player) {
         setTimeout(function () {
             $('#score-add1').hide();
         }, 1000);
+        IO.user.setCurrentPoints(newPoints);
     }
 }
 

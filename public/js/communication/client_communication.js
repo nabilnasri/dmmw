@@ -91,10 +91,10 @@ var IO = {
     /**
      */
     mobiledeviceConnected: function (data) {
-        $("#enter-room-container").hide();
-        $("#con_canvas").show();
         IO.user.setUsername(data.username);
         IO.user.setPlayerNumber((data.playerNumber));
+        $("#enter-room-container").hide();
+        $("#con_canvas").show();
     },
 
     /**

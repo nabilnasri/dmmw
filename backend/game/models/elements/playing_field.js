@@ -40,8 +40,8 @@ exports.PlayingField.prototype.setBricks = function () {
     b = new Array(this.getRows());
     for (i = 0; i < this.getRows(); i++) {
         b[i] = new Array(this.getCols());
+        var randomNumber = Math.floor(Math.random() * this.getCols());
         for (j = 0; j < this.getCols(); j++) {
-            var randomNumber = Math.floor(Math.random() * this.getCols());
             var new_brick = new Brick.Brick(brickWidth, brickHeight, brickPadding);
             var xCoor = j * (new_brick.getWidth() + new_brick.getPadding());
             var offset = (this.getFieldHeight() - (this.getRows() * (new_brick.getHeight() + new_brick.getPadding()))) / 2;
@@ -226,8 +226,8 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList)
     player_one_ball.xCoor += player_one_ball.dx;
     player_one_ball.yCoor += player_one_ball.dy;
 
-    player_two_ball.xCoor += player_two_ball.dx;
-    player_two_ball.yCoor += player_two_ball.dy;
+    //player_two_ball.xCoor += player_two_ball.dx;
+    //player_two_ball.yCoor += player_two_ball.dy;
 
     for (var i = 0;i < ballArray.length;i++) {
         for (var ball = ballArray[i], j = 0;j < ball.particles.length;j++) {

@@ -5,6 +5,7 @@ function Client_User() {
     this.playerNumber = null;
     this.allGameIds = null;
     this.isInGame = false;
+    this.currentPoints = 0;
     this.lastMotion = "stop";
 }
 
@@ -140,4 +141,12 @@ Client_User.prototype.getAllGameIds = function () {
 
 Client_User.prototype.setAllGameIds = function (allGameIds) {
     this.allGameIds = allGameIds;
+};
+
+Client_User.prototype.getCurrentPoints = function () {
+    return this.currentPoints;
+};
+
+Client_User.prototype.setCurrentPoints = function (points) {
+    this.currentPoints = points;
 };

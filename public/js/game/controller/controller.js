@@ -3,6 +3,7 @@ var ctx;
 
 window.onload = function () {
     canvas = document.getElementById("con_canvas");
+    alert(canvas);
     canvas.addEventListener("touchstart", doTouchStart, false);
     ctx = canvas.getContext("2d");
 
@@ -31,21 +32,20 @@ function customArea() {
     rect(ctx, xCA, yCA, width, height * 0.10, color);
     ctx.fillStyle = "black";
     ctx.font = "bold 20px Calibri";
-    ctx.fillText("USERNAME", width * 0.1, height * 0.065);
+    ctx.fillText(IO.user.username, width * 0.1, height * 0.065);
     ctx.fillStyle = "black";
     ctx.font = "bold 20px Calibri";
-    ctx.fillText("O Points", width * 0.5, height * 0.065);
-    ctx.fillStyle = "black";
-    ctx.font = "bold 20px Calibri";
-    ctx.fillText("3", width * 0.8, height * 0.065);
+    ctx.fillText(IO.user.getCurrentPoints() + " Points", width * 0.5, height * 0.065);
 }
 
 var deletePowerUp = false;
 var displayWidth;
 var displayHeight;
+var numParticles;
+var particleList = {};
+var px;
+var py;
 function canvasApp() {
-    var particleList;
-    var numParticles;
     var timer;
     var p;
     var initVelMax;
@@ -54,8 +54,6 @@ function canvasApp() {
     var particleRad;
     var maxParticleRad;
     var minParticleRad;
-    var px;
-    var py;
 
     init();
 
@@ -66,13 +64,11 @@ function canvasApp() {
         minParticleRad = 28;
         particleRad = 15; // größe der PowerUps
 
-        initVelMax = 10.5;
-        maxVelComp = 20.5;
-        randAccel = 2.5; //bescheunigungsfaktor
+        initVelMax = 5;
+        maxVelComp = 10.5;
+        randAccel = 0.5; //bescheunigungsfaktor
 
-        particleList = {}; // powerUpListe
         createParticles();
-
         ctx.fillStyle = "#000000";  // muss unser window sein
         ctx.fillRect(displayHeight * 0.1, displayHeight, displayWidth, displayHeight * 0.9); // unsere window daten //poweruparea
         timer = setInterval(onTimer, 1000 / 40); // aktualisierungZeit
@@ -103,10 +99,7 @@ function canvasApp() {
                 rad: minParticleRad + Math.random() * (maxParticleRad - minParticleRad),
                 color: color
             };
-            if (i > 0) {
-                newParticle.next = particleList.first;
-            }
-            particleList.first = newParticle;
+            particleList[getNextId()] = newParticle;
         }
     }
 
@@ -117,7 +110,8 @@ function canvasApp() {
         ctx.fillRect(0, displayHeight * 0.1, displayWidth, displayHeight * 0.9); //
 
         //update and draw particles
-        p = particleList.first;
+        var c = 0;
+        p = particleList[c];
         while (p != null) {
 
             //random accleration
@@ -165,12 +159,10 @@ function canvasApp() {
             }
 
             if (deletePowerUp) {
-
-                particleList = {};
                 deletePowerUp = false;
                 ctx.clear();
-
-
+                c = 0;
+                p = particleList[0];
             } else {
                 ctx.fillStyle = p.color;
                 ctx.beginPath();
@@ -179,14 +171,29 @@ function canvasApp() {
                 ctx.fill();
                 px = p.x;
                 py = p.y;
+                c+=1;
+                p = particleList[c];
                 //advance
-                p = p.next;
             }
+
 
         }
     }
 }
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
 
+function getNextId(){
+    if (isEmpty(particleList)){
+        return 0;
+    }
+    var particle_ids = Object.keys(particleList);
+    return Math.max.apply( Math, particle_ids) + 1;
+}
+Array.max = function( array ){
+    return Math.max.apply( Math, array );
+};
 
 function adaptToResize() {
     setControllerCanvasSize();
@@ -225,6 +232,7 @@ function doTouchStart(eve) {
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
 
+
     hitPowerUp(px, py, concan_x, concan_y);
 }
 
@@ -237,6 +245,12 @@ function hitPowerUp(px, py, concan_x, concan_y) {
 
     if (( concan_x <= px + 50 && concan_x >= px - 50 ) && ( concan_y <= py + 50 && concan_y >= py - 50 )) {
         //randomPUps();
+        for(var i=0; i<Object.keys(particleList).length; i++){
+            if(Math.ceil(particleList[i].x) == px && Math.ceil(particleList[i].y) == py){
+                delete particleList[i];
+                break;
+            }
+        }
         deletePowerUp = true;
     }
 }
