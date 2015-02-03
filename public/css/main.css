@@ -1,137 +1,203 @@
 @font-face {
-  font-family: Silkscreen; src: url('fonts/Silkscreen/slkscr.ttf');
+    font-family: Silkscreen;
+    src: url('fonts/Silkscreen/slkscr.ttf');
 }
 
 body {
-  font-family: 'Silkscreen', 'Helvetica Neue', Helvetica, Arial, sans-serif ;
-  background-color: #64696f;
+    font-family: 'Silkscreen', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-animation: body 15s infinite;
+    animation: body 15s infinite;
+    -moz-box-shadow: 0 100px 0.3em #636363;
+    -webkit-box-shadow: 0 100px 0.3em #636363;
 }
 
-#push{
-  height: 20px;
+@keyframes body{
+    0% {background:#75e7f0;}
+    20%{background: #f062b3;}
+    40%{background:#F06E29;}
+    60%{background: #f0dd54;}
+    80%{background:#63f071;}
+    100%{background:#29ADF0;}
 }
 
-#footer{
-  height: 60px;
-  text-align: center;
+@-webkit-keyframes body{
+    0% {background: #75e7f0;}
+    20%{background:#f062b3;}
+    40%{background: #ff9843;}
+    60%{background:#f0dd54;}
+    80%{background: #63f071;}
+    100%{background:#29ADF0;}
 }
 
-#playground{
-  width: 100%;
-  height: 100%;
-  background-color: #bfbfbf;
-  background:url(../img/galaxy.jpg);
-  border: solid 10px;
-  border-color: #ffd32d;
-}
-
-:-moz-full-screen canvas{
-  width: 100%;
-  height: 100%;
-}
-
-:-webkit-full-screen canvas{
-  width: 100%;
-  height: 100%;
-}
-
-.option{
-  text-align: center;
-  padding: 5%;
-  margin: 5%;
-  background-color: rgba(255,255,255,0.2);
-  border: solid 10px;
-  position: relative;
-}
-
-.option:hover{
-  background-color: rgba(255,255,255,0.4);
-}
-
-#searchGame{
-  border-color: #102cd6;
-}
-
-#createGame{
-  border-color: #e90100;
-}
-
-#createGame:hover #privateText{
-  display: block;
-}
-
-#searchGame:hover #randomText{
-  display: block;
-}
-
-#randomText{
-  color: #102cd6;
-  font-size: 1.5em;
-  display: none;
-  margin-bottom: -100%;
-}
-
-#privateText{
-  color: #e90100;
-  font-size: 1.5em;
-  display: none;
-  margin-bottom: -100%;
-}
-
-#nyanImg{
-  width: 100%;
-  height: 100%;
-}
-
-.player{
-  color:#ffffff;
-  font-size: 2.0em;
-}
-
-#player-one{
-  background-color: #009a80;
-}
-
-#player-two{
-  background-color: #fe5332;
-}
-
-#gameId{
-    background-color: #2f241e;
-    color: #ffd32d;
+.container {
+    background-color: #424549;
+    margin-bottom: 5%;
+    border-radius: 0 0 5px 5px;
 }
 
 #dmmw-headline, #dmmw-footer {
-  color: #ffd32d;
-  background-color: #2f241e;
-  text-align: center;
+    color: #ffd32d;
+    text-align: center;
+    margin-bottom: 4%;
 }
 
-.glyphicon{
-  font-size: 1.5em;
+#dmmw-headline:hover {
+    color: #ffd32d;
+    text-shadow:
+        /* Color 1 */
+    1px 1px #61b4de,
+        /* Color 2 */
+    2px 2px #91c467,
+        /* Color 3 */
+    3px 3px #f3a14b,
+        /* Color 4 */
+    4px 4px #e84c50,
+        /* Color 5 */
+    5px 5px #4e5965;
+}
+#dmmw-headline {
+    color: #ededed;
+    font-size: 4em;
+    transition: 0.5s all ease;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-shadow:
+        /* Color 1 */
+    1px 1px #61b4de, 2px 2px #61b4de, 3px 3px #61b4de, 4px 4px #61b4de, 5px 5px #61b4de,
+        /* Color 2 */
+    6px 6px #009a80, 7px 7px #009a80, 8px 8px #009a80, 9px 9px #009a80, 10px 10px #009a80,
+        /* Color 3 */
+    11px 11px #fe5332, 12px 12px #fe5332, 13px 13px #fe5332, 14px 14px #fe5332, 15px 15px #fe5332,
+        /* Color 4 */
+    16px 16px #ffd32d, 17px 17px #ffd32d, 18px 18px #ffd32d, 19px 19px #ffd32d, 20px 20px #ffd32d,
+        /* Color 5 */
+    21px 21px #91a6bc, 22px 22px #91a6bc, 23px 23px #91a6bc, 24px 24px #91a6bc, 25px 25px #91a6bc;
 }
 
-.glyphicon-random{
-  color: #102cd6;
+#push {
+    height: 20px;
 }
 
-.glyphicon-lock{
-  color: #e90100;
+#footer {
+    text-align: center;
 }
 
-.phone-game-id{
+#playground {
+    width: 100%;
+    height: 100%;
+    background-color: #bfbfbf;
+    background: url(../img/galaxy.jpg);
+    border: solid 10px;
+    border-color: #ffd32d;
+}
+
+.option {
+    text-align: center;
+    padding: 5%;
+    margin: 5%;
+    opacity: 0.8;
+    background-color: #FFFFFF;
+    position: relative;
+    transition: opacity .4s ease-in-out;
+    -moz-transition: opacity .4s ease-in-out;
+    -webkit-transition: opacity .4s ease-in-out;
+}
+
+.option:hover {
+    opacity: 1;
+}
+
+#searchGame {
+    border: 10px solid;
+    border-color: #009a80;
+}
+
+#createGame {
+    box-shadow: 10px 10px 0 0 #fe5332;
+}
+
+#searchgame:hover {
+    box-shadow: 0 0 0 0 ;
+    transition: 0.5s all ease;
+}
+
+#randomText {
+    opacity: 0;
+    color: #009a80;
+    font-size: 1.4em;
+    margin-bottom: -100%;
+    transition: opacity .4s ease-in-out;
+    -moz-transition: opacity .4s ease-in-out;
+    -webkit-transition: opacity .4s ease-in-out;
+}
+
+#privateText {
+    opacity: 0;
+    color: #fe5332;
+    font-size: 1.4em;
+    margin-bottom: -100%;
+    transition: opacity .4s ease-in-out;
+    -moz-transition: opacity .4s ease-in-out;
+    -webkit-transition: opacity .4s ease-in-out;
+}
+
+#createGame:hover #privateText {
+    opacity: 1;
+}
+
+#searchGame:hover #randomText {
+    opacity: 1;
+}
+
+
+#nyanImg {
+    width: 100%;
+    height: 100%;
+}
+
+.player {
+    color: #ffffff;
+    font-size: 2.0em;
+}
+
+#player-one {
+    background-color: #009a80;
+}
+
+#player-two {
+    background-color: #fe5332;
+}
+
+#gameId {
+    background-color: #2f241e;
+    color: #ffd32d;
+}
+
+.glyphicon {
+    font-size: 1.4em;
+}
+
+.glyphicon-random {
+    color: #009a80;
+}
+
+.glyphicon-lock {
+    color: #fe5332;
+}
+
+.phone-game-id {
     color: #000000;
-    font-size: 1.5em;
+    font-size: 1.4em;
 }
 
-.registrate-phone-block{
+.registrate-phone-block {
     background-color: #ffd32d;
 }
 
-.game-id-field{
+.game-id-field {
     background-color: #2f241e;
     color: #ffd32d;
-    font-size: 2.5em;
+    font-size: 2.4em;
 }
 
 .inactive-icon {
@@ -141,30 +207,29 @@ body {
     width: 3%;
 }
 
-.status{
+.status {
     padding: 5% 10% 5% 10%;
 }
 
-.name{
+.name {
     padding-top: 5%;
 }
 
-.btn{
-  border-radius: 0px;
-  border-color: transparent;
-  margin: 0 1% 1% 0;
-  color: #ffffff;
-  font-size: 1.5em;
+.btn {
+    border-radius: 0;
+    border-color: transparent;
+    margin: 0 1% 1% 0;
+    color: #ffffff;
+    font-size: 1.4em;
 }
 
-.btn-info{
-  background-color: #102cd6;
+.btn-info {
+    background-color: #102cd6;
 }
 
 .btn-danger {
-  background-color: #e90100;
+    background-color: #e90100;
 }
-
 
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
@@ -172,11 +237,19 @@ body {
 }
 
 @-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
 }
