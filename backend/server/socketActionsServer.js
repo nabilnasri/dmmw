@@ -30,6 +30,7 @@ exports.initGame = function (sio, socket, gamesManager) {
 
     // Game Events
     gamersSocket.on('motion', motionSocket);
+    gamersSocket.on('iAmAlive', iAmAlive);
     gamersSocket.on('gameData', gameDataSocket);
     gamersSocket.on('gamePause', gamePauseSocket);
     gamersSocket.on('keyMove', keyMoveSocket);
@@ -124,7 +125,7 @@ function setMobileSocket(data) {
     if (serverSocket.sockets.adapter.rooms[data.gameId] != undefined) {
         var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         //fuege nun den neuen nutzer zum room
-        //this.join(data.gameId);
+        this.join(data.gameId);
         //schicke userdaten an das mobile device
         this.emit('mobiledeviceConnected', {
             playerNumber: playerdata.playerNumber,
@@ -187,6 +188,9 @@ function hostPrepareGame(gameId) {
 /** ********************************
  *           GAME EVENTS           *
  * ****************************** **/
+function iAmAlive (data){
+    gm.changeCurrentBallState(data.gameId, data.playerNumber);
+}
 
 function motionSocket(data) {
     gm.motionGame(data);

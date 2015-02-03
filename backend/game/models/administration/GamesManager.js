@@ -106,6 +106,11 @@ exports.Gamemanager.prototype.motionGame = function (data) {
     }
 };
 
+
+exports.Gamemanager.prototype.changeCurrentBallState = function (gameId, playerNumber) {
+    this.gamelist[gameId].changeBallState(playerNumber);
+};
+
 /**
  * fuegt neue Spieleinstanz in den Gamemanager ein
  * */

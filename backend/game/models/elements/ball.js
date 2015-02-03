@@ -94,23 +94,20 @@ exports.Ball.prototype.afterHittingPaddle = function (player_paddle) {
         this.dy = -this.dy; //SOLL zurück dotzen
     }
 };
-exports.Ball.prototype.checkOutside = function (canvas, player) {
+exports.Ball.prototype.checkOutside = function (canvas, player, sio, mobilesocket, ballstate) {
     if (player === 1) {
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
-            //BALL IST DRAUßEn / UNTERER RAND
+            //BALL IST DRAUßEN / UNTERER RAND / PLAYER 0
             this.xCoor = canvas.getPaddle(0).xCoor + 10;
             this.yCoor = 300;
-            // canvas.getContext().fillStyle = "#ddd";
-            // canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+            sio.sockets.to(mobilesocket).emit('ballWasOutside', {ballstate: ballstate, playerNumber: 0});
         }
     } else {
         if (this.yCoor + this.dy - this.getRadius() < 0) {
-            //BALL IST DRAUßEn / OBERER RAND
-            //window.clearInterval(intervalId);
+            //BALL IST DRAUßEN / UNTERER RAND / PLAYER 1
             this.xCoor = canvas.getPaddle(1).xCoor + 10;
             this.yCoor = 200;
-            //canvas.getContext().fillStyle = "#ddd";
-            //canvas.getContext().fillText("FAIL", canvas.FieldWidth / 2, 505);
+            sio.sockets.to(mobilesocket).emit('ballWasOutside', {ballstate: ballstate, playerNumber: 1});
         }
     }
 };

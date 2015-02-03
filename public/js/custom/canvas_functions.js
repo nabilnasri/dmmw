@@ -1,6 +1,7 @@
 //TODO 'use strict'; ueberall einbauen
 window.onload = function () {
     setCanvasProperties();
+    IO.sendReady();
 };
 
 initCanvasProperties();
@@ -18,11 +19,7 @@ function setPlayerOneHeight() {
 }
 
 function onKeyUp(evt) {
-    if (evt.keyCode === 13) {
-        IO.sendReady();
-    }
     if (evt.keyCode === 80) {
-        //$('#playground').css('background-image', 'url(http://p1.pichost.me/640/63/1874845.jpg)');
         IO.sendPause();
     }
 }

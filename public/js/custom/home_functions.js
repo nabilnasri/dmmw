@@ -31,8 +31,4 @@ $(document).ready(function () {
     $(document).on('click', '.private-game', function () {
         refresh_site('private');
     });
-
-    function redirecttowaiting(site){
-        refresh_site(site);
-    }
 });

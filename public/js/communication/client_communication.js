@@ -32,9 +32,8 @@ var IO = {
         IO.socket.on('beginNewGame', IO.beginNewGame);
         IO.socket.on('ups', IO.error);
 
-
         IO.socket.on('gameOver', IO.gameOver);
-
+        IO.socket.on('ballWasOutside', IO.ballWasOutside);
         IO.socket.on('gameInfo', IO.gameInfo);
         IO.socket.on('gameBalls', IO.gameBalls);
         IO.socket.on('gameBricks', IO.gameBricks);
@@ -94,7 +93,18 @@ var IO = {
         IO.user.setUsername(data.username);
         IO.user.setPlayerNumber((data.playerNumber));
         $("#enter-room-container").hide();
-        $("#con_canvas").show();
+        $("#back-to-life-container").show();
+    },
+
+    ballWasOutside: function (data){
+        IO.socket.emit('iAmAlive', {gameId: IO.user.getGameId(), playerNumber: IO.user.getPlayerNumber()});
+        if(data.ballstate){
+            $("#con_canvas").hide();
+            $("#back-to-life-container").show();
+        }else{
+            $("#back-to-life-container").hide();
+            $("#con_canvas").show();
+        }
     },
 
     /**

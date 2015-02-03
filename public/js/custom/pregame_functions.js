@@ -76,4 +76,9 @@ $(document).ready(function () {
         IO.socket.emit('playerIsReady', data);
     });
 
+    $(document).on('click', '#back-to-life', function () {
+        IO.socket.emit('iAmAlive', {gameId: IO.user.getGameId(), playerNumber: IO.user.getPlayerNumber()});
+        $("#back-to-life-container").hide();
+        $("#con_canvas").show();
+    });
 });

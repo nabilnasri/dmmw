@@ -144,3 +144,7 @@ exports.GameHoster.prototype.brickColor = function (data) {
     var brickColor = data.brickColor;
     game.Dmmw.getInstance(this.gameId).playingField.bricks[row][col].currentColor = brickColor;
 };
+
+exports.GameHoster.prototype.changeBallState = function (playerNumber) {
+    game.Dmmw.getInstance(this.gameId).playingField.ballStates[playerNumber] = !game.Dmmw.getInstance(this.gameId).playingField.ballStates[playerNumber];
+};

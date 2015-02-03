@@ -21,6 +21,7 @@ exports.PlayingField = function PlayingField(rows, cols) {
     this.paddles = this.initPaddles();
     this.balls = this.initBalls();
     this.countDestroyedBricks = 0;
+    this.ballStates = [false, false];
 };
 
 
@@ -143,6 +144,80 @@ exports.PlayingField.prototype.initBalls = function () {
     return b;
 };
 
+exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList) {
+    var player_one_ball = this.getBall(0);
+    var player_one_paddle = this.getPaddle(0);
+
+    var player_two_ball = this.getBall(1);
+    var player_two_paddle = this.getPaddle(1);
+
+    var mobilesocket_one = playerList[0].getMobileSocketId();
+    var mobilesocket_two = playerList[1].getMobileSocketId();
+
+    var ballArray = [];
+    ballArray[0] = player_one_ball;
+    ballArray[1] = player_two_ball;
+
+    /*
+     player_one_paddle.checkRightDown();
+     player_one_paddle.checkLeftDown();
+
+     player_two_paddle.checkRightDown();
+     player_two_paddle.checkLeftDown();
+     */
+    player_one_paddle.motionMove(sio, gameId);
+    player_two_paddle.motionMove(sio, gameId);
+
+    if (this.ballStates[0]) {
+        player_one_ball.checkHitBrick(this, sio, gameId,  mobilesocket_one);
+        player_one_ball.checkHitRightBorder(this);
+        player_one_ball.checkHitLeftBorder(this);
+        //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
+        player_one_ball.checkHitTopBorder();
+        player_one_ball.checkOutside(this, 1, sio, mobilesocket_one, this.ballStates[0]);
+        player_one_ball.checkHitPaddle(this, player_one_paddle, 1);
+    }
+    ////////////////////////////////////////////////////////////////////////
+    if (this.ballStates[1]) {
+        player_two_ball.checkHitBrick(this, sio, gameId,  mobilesocket_two);
+        player_two_ball.checkHitRightBorder(this);
+        player_two_ball.checkHitLeftBorder(this);
+        //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
+        player_two_ball.checkHitBottomBorder(this);
+        player_two_ball.checkOutside(this, 2, sio, mobilesocket_two, this.ballStates[1]);
+        player_two_ball.checkHitPaddle(this, player_two_paddle, 2);
+    }
+
+    if (!this.bricksAvailable()) {
+        this.moveMasterBrick();
+        handler.sendMasterBrick(sio, this.masterBrick, gameId);
+    }
+
+    if (this.ballStates[0]) {
+        player_one_ball.xCoor += player_one_ball.dx;
+        player_one_ball.yCoor += player_one_ball.dy;
+    }
+
+    if (this.ballStates[1]) {
+        player_two_ball.xCoor += player_two_ball.dx;
+        player_two_ball.yCoor += player_two_ball.dy;
+    }
+
+    for (var i = 0;i < ballArray.length;i++) {
+        for (var ball = ballArray[i], j = 0;j < ball.particles.length;j++) {
+            var p = ball.particles[j];
+            p.remainingLife--;
+            p.radius--;
+            if (0 > p.remainingLife || 0 > p.radius) {
+                ball.particles[j] = new Ball.Particle(ball);
+            }
+        }
+    }
+
+    handler.sendBalls(sio, gameId);
+    handler.sendColorpicker(sio, gameId);
+};
+
 exports.PlayingField.prototype.getRows = function () {
 
     return this.nRows;
@@ -178,68 +253,4 @@ exports.PlayingField.prototype.getRowHeight = function () {
 
 exports.PlayingField.prototype.getColWidth = function () {
     return this.colWidth;
-};
-
-
-exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList) {
-    var player_one_ball = this.getBall(0);
-    var player_one_paddle = this.getPaddle(0);
-
-    var player_two_ball = this.getBall(1);
-    var player_two_paddle = this.getPaddle(1);
-
-    var ballArray = [];
-    ballArray[0] = player_one_ball;
-    ballArray[1] = player_two_ball;
-
-    /*
-    player_one_paddle.checkRightDown();
-    player_one_paddle.checkLeftDown();
-
-    player_two_paddle.checkRightDown();
-    player_two_paddle.checkLeftDown();
-    */
-    player_one_paddle.motionMove(sio, gameId);
-    player_two_paddle.motionMove(sio, gameId);
-
-    player_one_ball.checkHitBrick(this, sio, gameId, playerList[0].getMobileSocketId());
-    player_one_ball.checkHitRightBorder(this);
-    player_one_ball.checkHitLeftBorder(this);
-    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
-    player_one_ball.checkHitTopBorder();
-    player_one_ball.checkOutside(this, 1);
-    player_one_ball.checkHitPaddle(this, player_one_paddle, 1);
-    ////////////////////////////////////////////////////////////////////////
-    player_two_ball.checkHitBrick(this, sio, gameId, playerList[1].getMobileSocketId());
-    player_two_ball.checkHitRightBorder(this);
-    player_two_ball.checkHitLeftBorder(this);
-    //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
-    player_two_ball.checkHitBottomBorder(this);
-    player_two_ball.checkOutside(this, 2);
-    player_two_ball.checkHitPaddle(this, player_two_paddle, 2);
-
-    if (!this.bricksAvailable()) {
-        this.moveMasterBrick();
-        handler.sendMasterBrick(sio, this.masterBrick, gameId);
-    }
-
-    player_one_ball.xCoor += player_one_ball.dx;
-    player_one_ball.yCoor += player_one_ball.dy;
-
-    //player_two_ball.xCoor += player_two_ball.dx;
-    //player_two_ball.yCoor += player_two_ball.dy;
-
-    for (var i = 0;i < ballArray.length;i++) {
-        for (var ball = ballArray[i], j = 0;j < ball.particles.length;j++) {
-            var p = ball.particles[j];
-            p.remainingLife--;
-            p.radius--;
-            if (0 > p.remainingLife || 0 > p.radius) {
-                ball.particles[j] = new Ball.Particle(ball);
-            }
-        }
-    }
-
-    handler.sendBalls(sio, gameId);
-    handler.sendColorpicker(sio, gameId);
 };

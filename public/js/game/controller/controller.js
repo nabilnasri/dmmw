@@ -3,7 +3,6 @@ var ctx;
 
 window.onload = function () {
     canvas = document.getElementById("con_canvas");
-    alert(canvas);
     canvas.addEventListener("touchstart", doTouchStart, false);
     ctx = canvas.getContext("2d");
 
@@ -175,8 +174,6 @@ function canvasApp() {
                 p = particleList[c];
                 //advance
             }
-
-
         }
     }
 }

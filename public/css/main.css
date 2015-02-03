@@ -105,6 +105,7 @@ body {
 
 .option:hover {
     opacity: 1;
+    cursor: pointer;
 }
 
 #searchGame {

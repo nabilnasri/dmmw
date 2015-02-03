@@ -4,7 +4,6 @@ exports.Server_User = function Server_User(playerSocketId) {
     this.username = null;
     this.playerSocketId = playerSocketId;
     this.mobileSocketId = null;
-    this.lives = 3;
     this.currentPoints = 0;
     this.isReady = false;
 };
@@ -35,10 +34,6 @@ exports.Server_User.prototype.getPlayerSocketId = function () {
 
 exports.Server_User.prototype.setRole = function (role) {
     this.role = role;
-};
-
-exports.Server_User.prototype.getLives = function () {
-    return this.lives;
 };
 
 exports.Server_User.prototype.setCurrentPoints = function (currentPoints) {
