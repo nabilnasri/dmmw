@@ -1,6 +1,8 @@
 var winston = require('winston');
 var handler = require('../../../communication/socket_request_handler');
 
+var game = require('../../game');
+
 /*
 "Ball-Klasse" - Hier wird die Bewegung festgelegt. Und die Logik, wo auch immer der Ball hin dotzt.
  */
@@ -26,7 +28,27 @@ exports.Ball.prototype.checkHitBrick = function (playingField, sio) {
     var col = Math.floor(this.xCoor / playingField.getColWidth());
     var wallHeight = playingField.getRows() * playingField.getRowHeight();
 
+    var b1 = false,
+        b2 = false,
+        b3 = false,
+        b4 = false;
+
     if(!playingField.bricksAvailable()){
+        var ballX = this.xCoor;
+        //var ballY = this.getYCoor(playingField) * -1;
+        var ballY = this.yCoor;
+        var brickX = playingField.masterBrick.xCoor;
+        var brickY = playingField.masterBrick.yCoor;
+        var briHeight = playingField.masterBrick.brickHeight;
+        var briwidth = playingField.masterBrick.brickWidth;
+        winston.log("info", "#######################################");
+        //b1 = brickX<=ballX && ballX<=(brickX+briwidth) && ballY >= brickY;
+        //b2 = (brickY<=ballY && ballY <=(brickY+briHeight) && ballX >= brickX);
+        //b3 = ((brickY+briHeight)<=ballX && ballX<=(brickY+briHeight+briwidth) && ballY <= (brickY+briHeight));
+        //b4 = ((brickX+briwidth)<=ballY && ballY<=(brickX+briwidth+briHeight) && ballX<=(brickX+briwidth));
+        //winston.log("info", "b1: " + b1 + " b2: " + b2+ " b3 " + b3 + " b4 "+ b4);
+        winston.log("info", "ballX: " + ballX + " ballY: " + ballY);
+        winston.log("info", "posx" + brickX + "posy" + brickY );
     }
 
     if (
@@ -39,12 +61,21 @@ exports.Ball.prototype.checkHitBrick = function (playingField, sio) {
         )
         ||
         (
-        !playingField.bricksAvailable()
-        && this.xCoor >= playingField.masterBrick.getXCoor()
-        && this.xCoor <= playingField.masterBrick.getXCoor() + playingField.masterBrick.getWidth()
+            playingField.masterBrick != null &&
+            !playingField.bricksAvailable()
+            &&
+            (brickX<=ballX && ballX<= brickX+briwidth)
         )
     ){
         if(!playingField.bricksAvailable()){
+            game.Dmmw.getInstance().pause = !game.Dmmw.getInstance().pause;
+
+            if(game.Dmmw.getInstance().pause){
+                clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
+            }else{
+                game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 100);
+            }
+            winston.log("info", "BRICK GETROFFEN");
             return;
         }else{
             var points = playingField.getBricks()[row][col].getPoints();

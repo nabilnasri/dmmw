@@ -3,7 +3,7 @@ Controller Klasse.
  */
 
 /*
-Orientation des Devices
+OrientatinnerWidthion des Devices
  */
 
 //Eventlistner wenn man das Gerät bewegt.
@@ -96,8 +96,8 @@ function onKeyDown(evt) {
 }
 
 window.onload = function(){
-    initialise();
-    canvasApp();
+    //initialise();
+    //canvasApp();
 
 };
 

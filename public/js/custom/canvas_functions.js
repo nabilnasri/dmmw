@@ -5,8 +5,6 @@ window.onload = function () {
 
 initCanvasProperties();
 
-$(document).keyup(onKeyUp);
-
 
 function initCanvasProperties(){
     $("#playground-container").height(window.innerHeight - $("#navbar").height());
@@ -16,17 +14,6 @@ function initCanvasProperties(){
 function setPlayerOneHeight(){
     $("#player-one").css("margin-top", ($("#playground-container").height() - $("#player-one").height()));
 }
-
-function onKeyUp(evt) {
-    if (evt.keyCode === 13) {
-        sendReady();
-    }
-    if (evt.keyCode === 80) {
-        //$('#playground').css('background-image', 'url(http://p1.pichost.me/640/63/1874845.jpg)');
-        sendPause();
-    }
-}
-
 
 
 function setCanvasProperties(){
@@ -62,3 +49,29 @@ $("#backtohome").click(function(){
     refresh_site();
 });
 
+
+function onKeyUp(evt) {
+    if (evt.keyCode === 13) {
+        sendReady();
+    }
+    if (evt.keyCode === 80) {
+        //$('#playground').css('background-image', 'url(http://p1.pichost.me/640/63/1874845.jpg)');
+        sendPause();
+    }
+    if (evt.keyCode === 39) {
+        sendKeyRelease("right");
+    } else if (evt.keyCode === 37) {
+        sendKeyRelease("left");
+    }
+}
+
+function onKeyDown(evt) {
+    if (evt.keyCode === 39) {
+        sendKeyMove("right");
+    } else if (evt.keyCode === 37) {
+        sendKeyMove("left");
+    }
+}
+
+window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener('keyup', onKeyUp, false);

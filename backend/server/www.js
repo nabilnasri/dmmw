@@ -32,7 +32,7 @@ sio.sockets.on('connection', function (socket) {
         if(!game.Dmmw.getInstance().running){
             handler.sendComplete(sio);
             game.Dmmw.getInstance().running = true;
-            game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+            game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 20);
         }
     });
 
@@ -42,7 +42,7 @@ sio.sockets.on('connection', function (socket) {
         if(game.Dmmw.getInstance().pause){
             clearInterval(game.Dmmw.getInstance().intervallIdsetInterval);
         }else{
-            game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 25);
+            game.Dmmw.getInstance().intervallIdsetInterval = setInterval(playGame, 20);
         }
     });
     //////////////////////////////////
