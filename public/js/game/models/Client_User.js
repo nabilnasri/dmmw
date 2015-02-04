@@ -9,45 +9,6 @@ function Client_User() {
     this.lastMotion = "stop";
 }
 
-/**
- * Show the countdown screen
- */
-Client_User.prototype.gameCountdown = function () {
-    // TODO empfangenen Timerstand einsetzen
-};
-
-/**
- * Update playingfield
- */
-Client_User.prototype.updateGame = function (data) {
-    //TODO postionsdaten auswerten und ggf. brick entfernen (Punkte hochzaehlen...)
-};
-
-
-/**
- * All bricks are killed. End the game.
- * @param data
- */
-Client_User.prototype.endGame = function (data) {
-    //TODO gewinner ermitteln
-};
-
-/**
- * A player hit the 'Start Again' button after the end of a game.
- */
-Client_User.prototype.restartGame = function () {
-    Client_User.$gameArea.html(Client_User.$templateNewGame);
-    $('#spanNewGameCode').text(Client_User.gameId);
-};
-
-/**
- * Show the "Game Over" screen.
- */
-Client_User.prototype.endGame = function () {
-    //TODO gewinner und verlierer anzeigen.
-};
-
-
 /** *********************
  *    GETTER / SETTER   *
  * ******************* **/

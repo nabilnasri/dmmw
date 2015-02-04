@@ -27,10 +27,23 @@
                 <h1 id="score-add1" style="display: none;"></h1>
             </div>
         </div>
-        <audio id="nyan" loop="loop">
-            <source src="https://ia700608.us.archive.org/26/items/nyannyannyan/NyanCatoriginal.mp3" type="audio/mp3">
-        </audio>
-        <img id="nyanImg" class="img-cat" src="../img/dmmwplay.jpg" alt="nyan" style="display: none">
+
+
+        <div class="modal fade" id="game-end-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Game ended!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>The winner is: <span id="winner-name"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="restart-button" data-dismiss="modal">RESTART</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <% include main/footer.ejs %>
     <% include main/global_js_scripts.ejs %>
@@ -42,10 +55,11 @@
             });
         </script>
         <script src="../js/game/game_info.js"></script>
-        <script src="../js/communication/socket_handler.js"></script>
+        <script src="../js/communication/gameUpdater.js"></script>
         <script src="../js/game/drawing/draw_functions.js"></script>
         <script src="../js/custom/canvas_functions.js"></script>
     </div>
+
 </div>
 </body>
 </html>

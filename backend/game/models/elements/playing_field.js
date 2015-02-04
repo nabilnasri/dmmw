@@ -71,8 +71,9 @@ exports.PlayingField.prototype.setMasterBrick = function () {
     var brickPadding = brickWidthNoPadding / 6;
     var brickWidth = brickWidthNoPadding - brickPadding;
     var brickHeight = brickWidth / 3;
-
-    return new Brick.Brick(brickWidth, brickHeight, brickPadding);
+    var masterBrick = new Brick.Brick(brickWidth,brickHeight,brickPadding);
+    masterBrick.yCoor = this.getFieldHeight() / 2;
+    return masterBrick
 };
 
 
@@ -197,8 +198,10 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList)
     }
 
     if (!this.bricksAvailable()) {
-        this.moveMasterBrick();
-        handler.sendMasterBrick(sio, this.masterBrick, gameId);
+        if(this.masterBrick){
+            this.moveMasterBrick();
+            handler.sendMasterBrick(sio, this.masterBrick, gameId);
+        }
     }
 
     if (this.ballStates[0]) {

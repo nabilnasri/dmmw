@@ -85,3 +85,19 @@ function updatePoints(points, player) {
         IO.user.setCurrentPoints(newPoints);
     }
 }
+
+function endGame(data) {
+    var playerList = data.playerList;
+    var p1 = playerList[0];
+    var p2 = playerList[1];
+    var winner_name = $("#winner-name");
+    if (p1.currentPoints > p2.currentPoints){
+        winner_name.text(p1.username);
+    }else if(p1.currentPoints < p2.currentPoints){
+        winner_name.text(p2.username);
+    }else{
+        winner_name.text("NOBODY");
+    }
+    $("#game-end-modal").modal('show');
+
+}

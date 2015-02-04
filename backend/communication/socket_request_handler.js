@@ -38,8 +38,19 @@ module.exports =
         sio.sockets.in(gameId).emit('gameColorPicker', {colorpicker: gameInfo["colorpicker"]});
     },
 
-    sendPoints: function sendPoints(sio, points, player, gameId) {
+    sendPoints: function sendPoints(sio, points, player, gameId, playerList) {
+        if(player == "one"){
+            playerList[0].currentPoints += points;
+        }else{
+            playerList[1].currentPoints += points;
+        }
         sio.sockets.in(gameId).emit('playerPoints', {points: points, player: player});
+    },
+
+    sendGameEnded: function sendGameEnded(sio, gameId, playerList) {
+        game.Dmmw.getInstance(gameId).isEnded = true;
+        clearInterval(game.Dmmw.getInstance(gameId).intervallId);
+        sio.sockets.in(gameId).emit('gameEnd', {playerList: playerList});
     }
 
 };
