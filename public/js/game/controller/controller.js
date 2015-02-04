@@ -319,11 +319,23 @@ function landscape_secondary(ev) {
  */
 function portrait_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
-    if (acc.x > 1) {
-        IO.sendMotion('left');
-    } else if (acc.x < -1) {
-        IO.sendMotion('right');
-    } else {
-        IO.sendMotion('stop');
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
+    if (isAndroid) {
+        if (acc.x > 1) {
+            IO.sendMotion('left');
+        } else if (acc.x < -1) {
+            IO.sendMotion('right');
+        } else {
+            IO.sendMotion('stop');
+        }
+    }else{
+        if (acc.x > 1) {
+            IO.sendMotion('right');
+        } else if (acc.x < -1) {
+            IO.sendMotion('left');
+        } else {
+            IO.sendMotion('stop');
+        }
     }
 }
