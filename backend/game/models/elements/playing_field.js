@@ -1,7 +1,6 @@
 var Brick = require("./brick");
 var Ball = require("./ball");
 var Paddle = require("./paddle");
-var custom = require("../../helper/custom_functions");
 var handler = require('../../../communication/socket_request_handler');
 var game = require('../../game');
 

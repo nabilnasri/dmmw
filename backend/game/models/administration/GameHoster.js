@@ -58,7 +58,7 @@ exports.GameHoster.prototype.setMobileSocketInUser = function (mobileSocketId) {
 };
 
 /**
- *
+ *gib user socket id zurueck
  * */
 exports.GameHoster.prototype.getUserSocketId = function (playerNumber) {
     if (this.playerList[playerNumber] != null) {
@@ -69,13 +69,15 @@ exports.GameHoster.prototype.getUserSocketId = function (playerNumber) {
 };
 
 /**
- * gib zurueck obs ein private oder random game ist * */
+ * gib zurueck obs ein private oder random game ist
+ * */
 exports.GameHoster.prototype.getIsPrivate = function () {
     return this.isPrivate;
 };
 
 /**
- * gib zurueck obs ein private oder random game ist * */
+ * gib zurueck obs ein private oder random game ist
+ * */
 exports.GameHoster.prototype.arePlayersReady = function (playerNumber) {
     this.playerList[playerNumber].setIsReady(true);
     if (this.playerList.length == 2) {
@@ -101,7 +103,7 @@ exports.GameHoster.prototype.getPlayerList = function () {
 };
 
 /**
- * gib Anzahl der angemeldeten user zurueck als dictionary zurueck
+ * gib Anzahl der angemeldeten user als dictionary zurueck
  * */
 exports.GameHoster.prototype.getUserAmount = function () {
     return this.playerList.length;

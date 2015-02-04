@@ -1,5 +1,7 @@
 var gameInfo = GameInfo.getInstance();
-
+/**
+ * initalisiert das Spiel
+ */
 function initGame(data) {
     if(data.game){
         gameInfo.playingField = data.game.playingField;
@@ -9,30 +11,45 @@ function initGame(data) {
         gameInfo.colorpicker = data.game.colorpicker;
     }
 }
-
+/**
+ * Updatet die Ball-Informationen
+ */
 function updateBalls(balls) {
     gameInfo.balls = balls;
 }
-
+/**
+ * Updatet die Paddle-Informationen
+ */
 function updatePaddles(paddles) {
     gameInfo.paddles = paddles;
 }
-
+/**
+ * Updatet die Brick-Informationen
+ */
 function updateBricks(row, col) {
     var brick = Draw.getInstance().gameInfo.bricks[row][col];
     Draw.getInstance().fadingOut(brick);
     gameInfo.bricks[row][col] = 0;
 }
 
+/**
+ * Updatet die MasterBrick-Informationen
+ */
 function updateMasterBrick(masterBrick) {
     gameInfo.bricksAvailable = false;
     gameInfo.masterBrick = masterBrick;
 }
 
+/**
+ * Updatet die Farb-Informationen
+ */
 function updateColorPicker(colorpicker) {
     gameInfo.colorpicker = colorpicker;
 }
 
+/**
+ * Updatet die Punkte-Informationen
+ */
 function updatePoints(points, player) {
     var currentPoints = 0;
     var newPoints = 0;

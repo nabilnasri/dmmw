@@ -56,22 +56,25 @@ function canvasApp() {
 
     function init() {
 
-        numParticles = 1; // kann man nutzen als Menge der PowerUps
+        numParticles = 1; // Menge der PowerUps
         maxParticleRad = 32;
         minParticleRad = 28;
-        particleRad = 15; // größe der PowerUps
+        particleRad = 15; // Groesse der PowerUps
 
         initVelMax = 5;
         maxVelComp = 10.5;
-        randAccel = 0.5; //bescheunigungsfaktor
+        randAccel = 0.5; //Bescheunigungsfaktor
 
         createParticles();
-        ctx.fillStyle = "#000000";  // muss unser window sein
-        ctx.fillRect(displayHeight * 0.1, displayHeight, displayWidth, displayHeight * 0.9); // unsere window daten //poweruparea
-        timer = setInterval(onTimer, 1000 / 40); // aktualisierungZeit
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(displayHeight * 0.1, displayHeight, displayWidth, displayHeight * 0.9);//poweruparea
+        timer = setInterval(onTimer, 1000 / 40); //aktualisierungZeit
     }
 
-    function createParticles() { // create PowerUps
+    /**
+     * erstellt neue "Partikel"
+     */
+    function createParticles() {
         var angle;
         var vAngle;
         var vMag;
@@ -85,9 +88,9 @@ function canvasApp() {
             vAngle = Math.random() * 2 * Math.PI;
             vMag = initVelMax * (0.6 + 0.4 * Math.random());
             r = Math.floor(minRGB + Math.random() * (maxRGB - minRGB)); //aussehen
-            g = Math.floor(minRGB + Math.random() * (maxRGB - minRGB)); //"
-            b = Math.floor(minRGB + Math.random() * (maxRGB - minRGB));	// "
-            color = "rgba(" + r + "," + g + "," + b + "," + alpha + ")"; //"
+            g = Math.floor(minRGB + Math.random() * (maxRGB - minRGB));
+            b = Math.floor(minRGB + Math.random() * (maxRGB - minRGB));
+            color = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
             var newParticle = {
                 x: Math.random() * displayWidth,
                 y: Math.random() * displayHeight,
@@ -100,22 +103,19 @@ function canvasApp() {
         }
     }
 
-    function onTimer() {  // bewegung des powerUps
-
-        //fading. This won't work very well in Chrome, IE, and Firefox - gray trails will be left behind.
+    /**
+     * Wird in einem Zeitintervall aufgerufen, damit sich die "Partikel bewegen.
+     */
+    function onTimer() {// bewegung des powerUps
         ctx.fillStyle = "rgba(0,0,0,0.04)";
         ctx.fillRect(0, displayHeight * 0.1, displayWidth, displayHeight * 0.9); //
 
-        //update and draw particles
         var c = 0;
         p = particleList[c];
         while (p != null) {
-
-            //random accleration
             p.velX += (1 - 2 * Math.random()) * randAccel;
             p.velY += (1 - 2 * Math.random()) * randAccel;
 
-            //don't let velocity get too large
             if (p.velX > maxVelComp) {
                 p.velX = maxVelComp;
             }
@@ -132,7 +132,6 @@ function canvasApp() {
             p.x += p.velX;
             p.y += p.velY;
 
-            //boundary
             if (p.x > displayWidth - p.rad) {
                 p.x = displayWidth - p.rad;
                 p.velX *= -1;
@@ -170,7 +169,6 @@ function canvasApp() {
                 py = p.y;
                 c+=1;
                 p = particleList[c];
-                //advance
             }
         }
     }
@@ -201,7 +199,6 @@ function rect(ctx, x, y, w, h, color) {
     ctx.fill();
 }
 
-
 function setControllerCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -215,9 +212,10 @@ function doTouchStart(eve) {
     var concan_y = event.targetTouches[0].pageY;
     hitPowerUp(px, py, concan_x, concan_y);
 }
-
+/**
+ * prueft ob PowerUp getroffen wurde
+ */
 function hitPowerUp(px, py, concan_x, concan_y) {
-
     px = Math.ceil(px);
     py = Math.ceil(py);
     concan_x = Math.ceil(concan_x);
@@ -270,8 +268,8 @@ function moveIt(ev) {
     }
 }
 
-/*
- Wenn sich das Handy im Landscape(Primary)[Seitlich 90grad nach Links] befindet
+/**
+ * Wenn sich das Handy im Landscape(Primary)[Seitlich 90grad nach Links] befindet
  */
 function landscape_primary(ev) {
     var acc = ev.accelerationIncludingGravity;
@@ -283,8 +281,8 @@ function landscape_primary(ev) {
         IO.sendMotion('stop');
     }
 }
-/*
- Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
+/**
+ * Wenn sich das Handy im Landscape(Secondary)[Seitlich 90grad nach rechts] befindet
  */
 function landscape_secondary(ev) {
     var acc = ev.accelerationIncludingGravity;
@@ -297,8 +295,8 @@ function landscape_secondary(ev) {
     }
 
 }
-/*
- Wenn sich das Handy im Potrait(normal)[0grad] befindet
+/**
+ *  Wenn sich das Handy im Potrait(normal)[0grad] befindet
  */
 function portrait_primary(ev) {
     var acc = ev.accelerationIncludingGravity;

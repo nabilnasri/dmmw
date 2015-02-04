@@ -1,4 +1,3 @@
-//TODO 'use strict'; ueberall einbauen
 window.onload = function () {
     setCanvasProperties();
     IO.sendReady();

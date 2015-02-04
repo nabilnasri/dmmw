@@ -40,10 +40,10 @@ Drawing.prototype.setScale = function () {
     }
 };
 
-/*
- Funktion zeichnet einen Kreis.
- Benötigt als erstes Attribut einen Context, um
- darin zeichnen zu können.
+/**
+ * Zeichnet einen Kreis.
+ * Benötigt als erstes Attribut einen Context,
+ * um darin zeichnen zu können.
  */
 Drawing.prototype.circle = function (ctx, x, y, r, color) {
     ctx.beginPath();
@@ -53,10 +53,10 @@ Drawing.prototype.circle = function (ctx, x, y, r, color) {
     ctx.fill();
 };
 
-/*
- Funktion zeichnet ein Rechteck.
- Wird verwendet fuer Bricks, Paddle.
- Benötigt einen Context, um da rein zeichnen zu können.
+/**
+ * Funktion zeichnet ein Rechteck.
+ * Wird verwendet fuer Bricks, Paddle.
+ * Benötigt einen Context, um da rein zeichnen zu können.
  */
 Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
     ctx.beginPath();
@@ -66,10 +66,10 @@ Drawing.prototype.rect = function (ctx, x, y, w, h, color) {
     ctx.fill();
 };
 
-/*
- Funktion zeichnet ein Rechteck.
- Wird verwendet fuer Paddle.
- Benötigt einen Context, um da rein zeichnen zu können.
+/**
+ * Zeichnet ein Rechteck.
+ * Wird verwendet fuer Paddle.
+ * Benötigt einen Context, um da rein zeichnen zu können.
  */
 Drawing.prototype.rect2 = function (ctx, x, y, w, h, color) {
     ctx.beginPath();
@@ -85,8 +85,8 @@ Drawing.prototype.rect2 = function (ctx, x, y, w, h, color) {
 };
 
 
-/*
- Funktion zeichnet Bricks ins Feld.
+/**
+ * Zeichnet Bricks ins Feld.
  */
 Drawing.prototype.drawBricks = function () {
     var i, j, current_brick;
@@ -110,6 +110,9 @@ Drawing.prototype.drawBricks = function () {
     }
 };
 
+/**
+ * zeichnet die Paddles
+ */
 Drawing.prototype.drawPaddle = function (ctx, yCoor, player_paddle) {
     yCoor = yCoor * this.scaleY;
     if (yCoor < 0) {
@@ -124,7 +127,9 @@ Drawing.prototype.drawPaddle = function (ctx, yCoor, player_paddle) {
         player_paddle.PaddleColor
     );
 };
-
+/**
+ * zeichnet die Baelle
+ */
 Drawing.prototype.drawBall = function (ctx, player_ball) {
     this.circle(
         ctx,
@@ -150,8 +155,8 @@ Drawing.prototype.drawBall = function (ctx, player_ball) {
 
 };
 
-/*
- Wie soll das Spielfeld aussehen?
+/**
+ * Das Aussehen vom Spielfeld
  */
 Drawing.prototype.setCanvasStyle = function () {
     this.canvas.Context().font = "80pt Impact";
@@ -159,18 +164,18 @@ Drawing.prototype.setCanvasStyle = function () {
     this.canvas.Context().lineWidth = 1;
 };
 
-/*
- Funktion "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
+/**
+ * "säubert" den "alten" Stand, damit "frisch" neu gezeichnet werden kann.
  */
 Drawing.prototype.clear = function () {
     this.canvas.Context().clearRect(0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight());
     this.rect(this.canvas.Context(), 0, 0, this.canvas.FieldWidth(), this.canvas.FieldHeight(), "rgba(0,0,0,0.7");
 };
-
+/**
+ * Alle Funktionen die zeichnen werden hier aufgerufen
+ */
 Drawing.prototype.draw = function () {
-    /*
-     Um nicht immer die Variablen "auszuschreiben".
-     */
+     //Um nicht immer die Variablen "auszuschreiben".
     var ctx = this.canvas.Context();
 
     var player_one_ball = this.gameInfo.balls[0];
@@ -179,9 +184,8 @@ Drawing.prototype.draw = function () {
     var player_two_ball = this.gameInfo.balls[1];
     var player_two_paddle = this.gameInfo.paddles[1];
 
-    /*
-     Canvas stylen.
-     */
+
+    //Canvas stylen.
     this.setCanvasStyle();
     this.clear();
     //Zeichne alle "statischen" Sachen
@@ -197,8 +201,8 @@ Drawing.prototype.draw = function () {
 };
 
 
-/*
- Animation des MasterBricks
+/**
+ * Animation des MasterBricks
  */
 Drawing.prototype.animate = function () {
     //Hier wird der Brick gezeichnet.
@@ -214,8 +218,8 @@ Drawing.prototype.animate = function () {
     );
 };
 
-/*
- Wenn Bricks getroffen werden, werden die "ausgefadet"
+/**
+ * Wenn Bricks getroffen werden, werden die "ausgefadet"
  */
 Drawing.prototype.fadingOut = function (brick) {
     var xCorr = brick.xCoor * this.scaleX;
@@ -246,7 +250,9 @@ Drawing.prototype.fadingOut = function (brick) {
         }
     }, 20);
 };
-
+/**
+ * Hex zu RGB Converter
+ */
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {

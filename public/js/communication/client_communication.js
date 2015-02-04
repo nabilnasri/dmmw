@@ -45,7 +45,7 @@ var IO = {
     },
 
     /**
-     * The client is successfully connected!
+     * Client ist erfolgreich verbunden
      */
     onConnected: function () {
         console.log('onConnected');
@@ -58,8 +58,7 @@ var IO = {
     },
 
     /**
-     * A new game has been created and a random game ID has been generated.
-     * @param data {{ gameId: int, mySocketId: * }}
+     * Ein neues Spiel mit einer zufaelligen ID wird erstellt.
      */
     initUser: function (data) {
         console.log('INIT USER ' + JSON.stringify(data));
@@ -72,22 +71,22 @@ var IO = {
     },
 
     /**
-     * A player has successfully joined the game.
-     * @param data {{playerName: string, gameId: int, mySocketId: int}}
+     * Spieler ist erfolgreich einem Spiel beigetreten.
      */
     playerJoinedRoom: function (data) {
         document.getElementById('name' + data.playerNumber).innerHTML = data.username;
     },
 
     /**
-     * A player has successfully joined the game.
-     * @param data {{playerName: string, gameId: int, mySocketId: int}}
+     * Spieler ist erfolgreich einem Spiel beigetreten.
      */
     allGameIds: function (data) {
         IO.user.setAllGameIds(data.allIds);
     },
 
+
     /**
+     * Mobile Device ist verbunden
      */
     mobiledeviceConnected: function (data) {
         IO.user.setUsername(data.username);
@@ -96,6 +95,9 @@ var IO = {
         $("#back-to-life-container").show();
     },
 
+    /**
+     * Ball ist ausserhalb des Spielfelds
+     */
     ballWasOutside: function (data){
         IO.socket.emit('iAmAlive', {gameId: IO.user.getGameId(), playerNumber: IO.user.getPlayerNumber()});
         if(data.ballstate){
@@ -108,11 +110,15 @@ var IO = {
     },
 
     /**
+     * Updatet mobile Device Status
      */
     updateMobileState: function () {
         refresh_site('waitingScreen');
     },
 
+    /**
+     * Alle Spieler im Wartemodus
+     */
     setAllUserWaitingscreen: function (data) {
         var userList = JSON.parse(data.users);
         for (var i = 0; i < userList.length; i++) {
@@ -131,6 +137,9 @@ var IO = {
         }
     },
 
+    /**
+     * Alle Spieler sehen das Gamingscreen
+     */
     setAllUserGamingscreen: function (data) {
         var userList = JSON.parse(data.users);
         for (var i = 0; i < userList.length; i++) {
@@ -138,6 +147,9 @@ var IO = {
         }
     },
 
+    /**
+     * Spieler hat den Ready Button gedrueckt
+     */
     playerPressedReady: function (data) {
         var playerNumber = data.playerNumber;
         document.getElementById('isReady' + playerNumber).classList.remove('glyphicon-remove');
@@ -148,12 +160,15 @@ var IO = {
         }
     },
 
+    /**
+     * Alle Spieler sind nun Bereit
+     */
     allPlayersAreReady: function () {
         refresh_site('game');
     },
 
     /**
-     * Both players have joined the game.
+     * Beide Spieler sind dem Spiel beigetreten
      * @param data beinhaltet beide Spielernamen dazugehoerige Spielenummern
      */
     beginNewGame: function (data) {
@@ -161,16 +176,14 @@ var IO = {
     },
 
     /**
-     * Let everyone know the game has ended.
-     * @param data
+     * Jeder bekommt mit das, dass Spiel zu Ende ist
      */
     gameOver: function (data) {
         IO.user.endGame(data);
     },
 
     /**
-     * An error has occurred.
-     * @param data
+     * Ein Fehler ist aufgetreten
      */
     error: function (data) {
         alert(data.message);

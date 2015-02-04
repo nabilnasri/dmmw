@@ -26,6 +26,9 @@ exports.Ball.prototype.createParticles = function() {
 /*
  BALL LOGIC --START--
  */
+/**
+ * prueft ob ein Brick getroffen wurde
+ */
 exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSocketId, playerList) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
@@ -46,9 +49,8 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSock
         var points = canvas.getBricks()[row][col].getPoints();
         canvas.countDestroyedBricks += 1;
         var hasPowerUp = canvas.getBricks()[row][col].getHasPowerUp();
-        canvas.getBricks()[row][col] = 0; //destroy Brick
+        canvas.getBricks()[row][col] = 0; //Brick zerstoeren
         handler.sendBrickCoordinates(sio, row, col, gameId, hasPowerUp, mobileSocketId);
-        //Ab hier muss anders gelöst werden!!
         if (this.player === "one") {
             if(playerList[0].getCurrentPowerUp().indexOf("DoublePoints") > -1){
                 winston.log("info", "POWERUP: DOUBLE POINTS");
@@ -70,26 +72,41 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSock
         }
     }
 };
+/**
+ * pruefe ob rechte Seite des Spielfelds getroffen wurde
+ */
 exports.Ball.prototype.checkHitRightBorder = function (canvas) {
     if (this.xCoor + this.dx + this.getRadius() > canvas.FieldWidth) {
         this.dx = -this.dx;
     }
 };
+/**
+ * * pruefe ob linke Seite des Spielfelds getroffen wurde
+ */
 exports.Ball.prototype.checkHitLeftBorder = function () {
     if (this.xCoor + this.dx - this.getRadius() < 0) {
         this.dx = -this.dx;
     }
 };
+/**
+ * * pruefe ob obere Seite des Spielfelds getroffen wurde
+ */
 exports.Ball.prototype.checkHitTopBorder = function () {
     if (this.yCoor + this.dy - this.getRadius() < 0) {
         this.dy = -this.dy;
     }
 };
+/**
+ * * pruefe ob untere Seite des Spielfelds getroffen wurde
+ */
 exports.Ball.prototype.checkHitBottomBorder = function (canvas) {
     if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
         this.dy = -this.dy;
     }
 };
+/**
+ * pruefe ob ein Paddle von einem Spieler getroffen wurde
+ */
 exports.Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player) {
     if (player === 1) {
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight - player_paddle.PaddleHeight) {
@@ -101,6 +118,9 @@ exports.Ball.prototype.checkHitPaddle = function (canvas, player_paddle, player)
         }
     }
 };
+/**
+ * lenkt den Ball nach dem Aufprall vom Paddle zurueck aufs Spielfeld
+ */
 exports.Ball.prototype.afterHittingPaddle = function (player_paddle) {
     if (this.xCoor > player_paddle.xCoor && this.xCoor < player_paddle.xCoor + player_paddle.PaddleWidth) {
         //BALL trifft PADDLE
@@ -108,6 +128,10 @@ exports.Ball.prototype.afterHittingPaddle = function (player_paddle) {
         this.dy = -this.dy; //SOLL zurück dotzen
     }
 };
+/**
+ * prueft ob der Ball vom jeweiligen Spieler auf seiner Seite draussen war
+ * und setzt den Ball zurueck aufs Spielfeld
+ */
 exports.Ball.prototype.checkOutside = function (canvas, player, sio, mobilesocket, ballstate) {
     if (player === 1) {
         if (this.yCoor + this.dy + this.getRadius() > canvas.FieldHeight) {
@@ -126,7 +150,7 @@ exports.Ball.prototype.checkOutside = function (canvas, player, sio, mobilesocke
     }
 };
 /*
- BALL LOGIC --END--
+ BALL LOGIC --ENDE--
  */
 exports.Ball.prototype.getYCoor = function (canvas) {
     return Math.floor(this.yCoor - (canvas.getFieldHeight() - (canvas.getRowHeight() * canvas.getRows()) / 2));
@@ -137,22 +161,26 @@ exports.Ball.prototype.getRadius = function () {
 exports.Ball.prototype.getColor = function () {
     return this.ballColor;
 };
+/**
+ * Schweif hinter den Baellen besteht aus einzelnen "Partikeln"
+ * und werden immer wieder neu erstellt
+ */
 exports.Particle = function(ball) {
     this.x = ball.xCoor;
     this.y = ball.yCoor;
     this.radius = 10 + Math.random() * 20;  // radius zwischen = 10-30
     //this.life = 20 + Math.random() * 10;    // life zwischen = 20-30
-    this.remainingLife = this.life = 20 + 10 * Math.random();         // Restleben
+    this.remainingLife = this.life = 20 + 10 * Math.random();
 
     if (ball.ballColor == "#009a80") {
-        this.r = Math.round(192 * Math.random());       // davor 255
+        this.r = Math.round(192 * Math.random());
         this.g = Math.round(100 + 255 * Math.random());
-        this.b = Math.round(170 * Math.random());       // davor 250
+        this.b = Math.round(170 * Math.random());
     }
     else {
         this.r = Math.round(139 + 255 * Math.random());
-        this.g = Math.round(110 * Math.random()); //davor 228 gewesen
-        this.b = Math.round(180 * Math.random()); //davor 225 gewesen
+        this.g = Math.round(110 * Math.random());
+        this.b = Math.round(180 * Math.random());
     }
 
 };

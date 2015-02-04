@@ -4,7 +4,6 @@ var powerUp = require('../elements/powerups');
 
 exports.Gamemanager = function Gamemanager() {
     //dictionary mit allen derzeit laufenden Spielinstanzen
-    //gamelist = {(gameid : Gamehoster Instanz)}
     this.gamelist = {};
 };
 
@@ -109,12 +108,6 @@ exports.Gamemanager.prototype.checkIfPlayersReady = function (gameId, playerNumb
     return null;
 };
 
-
-/*exports.GameHoster.prototype.checkThisId = function(gameId){
-    return gameId in this.gamelist;
-};*/
-
-
 /** ********************************
  *           PLAY ACTIONS          *
  * ****************************** **/
@@ -127,7 +120,9 @@ exports.Gamemanager.prototype.motionGame = function (data) {
     }
 };
 
-
+/**
+ * aendert den status des balles vom jeweiligen spieler
+ */
 exports.Gamemanager.prototype.changeCurrentBallState = function (gameId, playerNumber) {
     if(this.gamelist[gameId] != undefined){
         this.gamelist[gameId].changeBallState(playerNumber);

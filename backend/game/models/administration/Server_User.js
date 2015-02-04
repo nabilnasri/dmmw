@@ -1,5 +1,3 @@
-var winston = require('winston');
-
 exports.Server_User = function Server_User(playerSocketId) {
     this.username = null;
     this.playerSocketId = playerSocketId;

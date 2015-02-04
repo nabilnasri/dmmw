@@ -1,9 +1,9 @@
 var PlayingField = require("./models/elements/playing_field");
 var customFunctions = require("./helper/custom_functions");
 
-/*
- "Spielklasse" - Beinhaltet ein Singleton eines Spiels, um sie an
- mehreren Stellen des Programms zu nutzten.
+/**
+ * "Spielklasse" - Beinhaltet ein Singleton eines Spiels, um sie an
+ * mehreren Stellen des Programms zu nutzten.
  */
 exports.Dmmw = (function () {
     var gameList = {};
@@ -27,8 +27,8 @@ exports.Dmmw = (function () {
 })();
 
 
-/*
- Spielinitialisierung. Initialisiert Spielfeld und beinhalten die einzelen Events(motionMove, mouseMove, ..)
+/**
+ * Spielinitialisierung. Initialisiert Spielfeld und beinhalten die einzelen Events(motionMove, mouseMove, ..)
  */
 function Game() {
     this.playingField = null;

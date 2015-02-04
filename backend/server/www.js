@@ -2,7 +2,6 @@
 var debug = require('debug')('dmmw');
 var app = require('../app');
 var io = require('socket.io');
-var winston = require('winston');
 var socketServerAction = require('./socketActionsServer');
 var gamesManager = require('../game/models/administration/GamesManager');
 

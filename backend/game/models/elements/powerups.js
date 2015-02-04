@@ -8,9 +8,7 @@ module.exports =
             this.freezeOponent,
             this.freezeYourself
         ];
-
         var r = Math.floor(Math.random() * 5);
-
         return powerUpArray[r](playerList, playerNumber);
     },
 
