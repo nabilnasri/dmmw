@@ -24,6 +24,7 @@ module.exports =
     sendBrickCoordinates: function sendBrickCoordinates(sio, row, col, gameId, hasPowerUp, mobileSocketId) {
         sio.sockets.in(gameId).emit('gameBricks', {row: row, col: col});
         if (hasPowerUp){
+            winston.log("info", " BRICK HAS POWERUP " + mobileSocketId);
             sio.sockets.to(mobileSocketId).emit('unlockedPowerUp');
         }
     },

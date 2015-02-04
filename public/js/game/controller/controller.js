@@ -11,8 +11,6 @@ window.onload = function () {
 
 window.addEventListener('devicemotion', moveIt, false);
 window.addEventListener("resize", adaptToResize, false);
-//window.addEventListener('keydown', onKeyDown, false);
-//window.addEventListener('keyup', onKeyUp, false);
 
 function initialise() {
     $("body").css("overflow", "hidden");
@@ -188,9 +186,6 @@ function getNextId(){
     var particle_ids = Object.keys(particleList);
     return Math.max.apply( Math, particle_ids) + 1;
 }
-Array.max = function( array ){
-    return Math.max.apply( Math, array );
-};
 
 function adaptToResize() {
     setControllerCanvasSize();
@@ -214,22 +209,10 @@ function setControllerCanvasSize() {
     displayHeight = canvas.height;
 }
 
-
-function randomPUps() {
-
-    var r = Math.floor(Math.random() * 7);
-    var randomUp = new selectPowerUp();
-
-    randomUp.powerUpArray[r];
-}
-
-
 function doTouchStart(eve) {
     eve.preventDefault();
     var concan_x = event.targetTouches[0].pageX;
     var concan_y = event.targetTouches[0].pageY;
-
-
     hitPowerUp(px, py, concan_x, concan_y);
 }
 
@@ -241,9 +224,9 @@ function hitPowerUp(px, py, concan_x, concan_y) {
     concan_y = Math.ceil(concan_y);
 
     if (( concan_x <= px + 50 && concan_x >= px - 50 ) && ( concan_y <= py + 50 && concan_y >= py - 50 )) {
-        //randomPUps();
         for(var i=0; i<Object.keys(particleList).length; i++){
             if(Math.ceil(particleList[i].x) == px && Math.ceil(particleList[i].y) == py){
+                IO.sendPowerUpHitted();
                 delete particleList[i];
                 break;
             }

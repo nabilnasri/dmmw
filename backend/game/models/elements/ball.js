@@ -26,7 +26,7 @@ exports.Ball.prototype.createParticles = function() {
 /*
  BALL LOGIC --START--
  */
-exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSocketId) {
+exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSocketId, playerList) {
     var real_row = ((canvas.getFieldHeight() - ((canvas.getRowHeight() * canvas.getRows()))) / 2) / canvas.getRowHeight();
     var row = Math.floor(this.yCoor / canvas.getRowHeight() - real_row);
     var col = Math.floor(this.xCoor / canvas.getColWidth());
@@ -50,8 +50,22 @@ exports.Ball.prototype.checkHitBrick = function (canvas, sio, gameId, mobileSock
         handler.sendBrickCoordinates(sio, row, col, gameId, hasPowerUp, mobileSocketId);
         //Ab hier muss anders gelöst werden!!
         if (this.player === "one") {
+            if(playerList[0].getCurrentPowerUp().indexOf("DoublePoints") > -1){
+                winston.log("info", "POWERUP: DOUBLE POINTS");
+                points = points * 2;
+            }
+            if(playerList[0].getCurrentPowerUp().indexOf("HalfPoints") > -1){
+                winston.log("info", "POWERUP: HALF POINTS");
+                points = Math.floor(points / 2);
+            }
             handler.sendPoints(sio, points, "one", gameId);
         } else if (this.player === "two") {
+            if(playerList[1].getCurrentPowerUp().indexOf("DoublePoints") > -1){
+                points = points * 2;
+            }
+            if(playerList[1].getCurrentPowerUp().indexOf("HalfPoints") > -1){
+                points = Math.floor(points / 2);
+            }
             handler.sendPoints(sio, points, "two", gameId);
         }
     }

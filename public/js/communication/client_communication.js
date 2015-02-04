@@ -215,8 +215,9 @@ var IO = {
         updatePoints(data.points, data.player);
     },
 
-    unlockPowerUp: function () {
-        drawPowerUp();
+    unlockPowerUp: function (data) {
+        navigator.vibrate(1000);
+        canvasApp();
     },
 
 
@@ -243,7 +244,13 @@ var IO = {
 
     sendBrickColor: function (row, col, color) {
         IO.socket.emit("brickColor", {row: row, col: col, brickColor: color, gameId: IO.user.getGameId()});
+    },
+
+    sendPowerUpHitted: function(){
+        IO.socket.emit("powerUpHitted", {gameId: IO.user.getGameId(), playerNumber: IO.user.playerNumber});
     }
+
+
 };
 
 IO.init();

@@ -1,11 +1,13 @@
 var gameInfo = GameInfo.getInstance();
 
 function initGame(data) {
-    gameInfo.playingField = data.game.playingField;
-    gameInfo.balls = data.game.playingField.balls;
-    gameInfo.paddles = data.game.playingField.paddles;
-    gameInfo.bricks = data.game.playingField.bricks;
-    gameInfo.colorpicker = data.game.colorpicker;
+    if(data.game){
+        gameInfo.playingField = data.game.playingField;
+        gameInfo.balls = data.game.playingField.balls;
+        gameInfo.paddles = data.game.playingField.paddles;
+        gameInfo.bricks = data.game.playingField.bricks;
+        gameInfo.colorpicker = data.game.colorpicker;
+    }
 }
 
 function updateBalls(balls) {
@@ -65,8 +67,4 @@ function updatePoints(points, player) {
         }, 1000);
         IO.user.setCurrentPoints(newPoints);
     }
-}
-
-function drawPowerUp(data) {
-    canvasApp();
 }

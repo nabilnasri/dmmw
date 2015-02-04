@@ -34,6 +34,7 @@ exports.initGame = function (sio, socket, gamesManager) {
     gamersSocket.on('gameData', gameDataSocket);
     gamersSocket.on('gamePause', gamePauseSocket);
     gamersSocket.on('brickColor', brickColorSocket);
+    gamersSocket.on('powerUpHitted', hittedPowerUp);
 };
 
 /** ********************************
@@ -196,4 +197,8 @@ function gamePauseSocket(data) {
 
 function brickColorSocket(data) {
     gm.brickColorGame(data);
+}
+
+function hittedPowerUp(data) {
+    gm.powerUpHittedGame(data);
 }

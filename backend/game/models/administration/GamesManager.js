@@ -1,5 +1,6 @@
 var gamehost = require('./GameHoster');
 var winston = require('winston');
+var powerUp = require('../elements/powerups');
 
 exports.Gamemanager = function Gamemanager() {
     //dictionary mit allen derzeit laufenden Spielinstanzen
@@ -128,7 +129,6 @@ exports.Gamemanager.prototype.motionGame = function (data) {
 
 
 exports.Gamemanager.prototype.changeCurrentBallState = function (gameId, playerNumber) {
-    winston.log('info', ['changeCurrentBallState', gameId, playerNumber].join(' '));
     if(this.gamelist[gameId] != undefined){
         this.gamelist[gameId].changeBallState(playerNumber);
     }
@@ -159,4 +159,11 @@ exports.Gamemanager.prototype.brickColorGame = function (data) {
     if(this.gamelist[data.gameId] != undefined) {
         this.gamelist[data.gameId].brickColor(data);
     }
+};
+
+/**
+ * Wurde ein PowerUp getroffen?
+ * */
+exports.Gamemanager.prototype.powerUpHittedGame = function (data) {
+    powerUp.randomPowerUp(this.gamelist[data.gameId].getPlayerList(data.gameId), data.playerNumber);
 };

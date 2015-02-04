@@ -148,8 +148,19 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList)
     var player_one_ball = this.getBall(0);
     var player_one_paddle = this.getPaddle(0);
 
+    if (playerList[0].getCurrentPowerUp().indexOf("ResizePaddle") > -1){
+        player_one_paddle.PaddleWidth = 150;
+    }else{
+        player_one_paddle.PaddleWidth = 100;
+    }
     var player_two_ball = this.getBall(1);
     var player_two_paddle = this.getPaddle(1);
+
+    if (playerList[1].getCurrentPowerUp().indexOf("ResizePaddle") > -1){
+        player_two_paddle.PaddleWidth = 150;
+    }else{
+        player_two_paddle.PaddleWidth = 100;
+    }
 
     var mobilesocket_one = playerList[0].getMobileSocketId();
     var mobilesocket_two = playerList[1].getMobileSocketId();
@@ -158,18 +169,16 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList)
     ballArray[0] = player_one_ball;
     ballArray[1] = player_two_ball;
 
-    /*
-     player_one_paddle.checkRightDown();
-     player_one_paddle.checkLeftDown();
 
-     player_two_paddle.checkRightDown();
-     player_two_paddle.checkLeftDown();
-     */
-    player_one_paddle.motionMove(sio, gameId);
-    player_two_paddle.motionMove(sio, gameId);
+    if (playerList[0].getCurrentPowerUp().indexOf("Freeze") == -1) {
+        player_one_paddle.motionMove(sio, gameId);
+    }
+    if (playerList[1].getCurrentPowerUp().indexOf("Freeze") == -1) {
+        player_two_paddle.motionMove(sio, gameId);
+    }
 
     if (this.ballStates[0]) {
-        player_one_ball.checkHitBrick(this, sio, gameId,  mobilesocket_one);
+        player_one_ball.checkHitBrick(this, sio, gameId, mobilesocket_one, playerList);
         player_one_ball.checkHitRightBorder(this);
         player_one_ball.checkHitLeftBorder(this);
         //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht
@@ -179,7 +188,7 @@ exports.PlayingField.prototype.simulateGame = function (sio, gameId, playerList)
     }
     ////////////////////////////////////////////////////////////////////////
     if (this.ballStates[1]) {
-        player_two_ball.checkHitBrick(this, sio, gameId,  mobilesocket_two);
+        player_two_ball.checkHitBrick(this, sio, gameId, mobilesocket_two, playerList);
         player_two_ball.checkHitRightBorder(this);
         player_two_ball.checkHitLeftBorder(this);
         //Ab hier ist die Reihenfolge wichtig. Ansonsten funktioniert das nicht.
