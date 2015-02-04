@@ -39,7 +39,7 @@ function Game() {
     this.running = false;
 
     this.setProperties = function () {
-        this.playingField = new PlayingField.PlayingField(8, 10);
+        this.playingField = new PlayingField.PlayingField(8, 20);
         this.colorpicker = customFunctions.calculateColColors(this.playingField);
         this.colorcounter = 0;
     };

@@ -13,14 +13,13 @@
     <% include ../main/navbar.ejs %>
     <div id="content">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6">
+            <div class="box-with-content col-md-offset-3 col-md-6">
                 <div class="share-id-container" style="display: block;">
                     <div class="row">
-                        <div class="col-md-12 player text-center" id="gameId">
-                            <span id="gameIdValue">GameID teilen: 12345</span>
+                        <div class="col-md-12 player text-center phone-game-id" id="gameId">
+                            <span id="gameIdValue" style="font-size: 2em;">GameID teilen: 12345</span>
                         </div>
                     </div>
-                    <hr>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -40,8 +39,6 @@
                     </div>
                 </div>
 
-                <hr>
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-12 player text-center name" id="player-two">
@@ -59,10 +56,9 @@
                         </div>
                     </div>
                 </div>
-                <hr>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <input type="button" class="btn btn-danger" id="ready" value="I'M READY!">
+                        <input type="button" class="btn btn-danger" id="ready" value="I'M READY!" style="margin-top:5%;">
                     </div>
                 </div>
             </div>
