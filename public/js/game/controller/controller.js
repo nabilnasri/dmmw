@@ -257,16 +257,34 @@ function hitPowerUp(px, py, concan_x, concan_y) {
  * ****************************** **/
 function moveIt(ev) {
     var orientation = window.orientation;
-    if(IO.user.getGameId()){
-        if (orientation === 90) {
-            return landscape_primary(ev);
-        } else if (orientation === -90) {
-            return landscape_secondary(ev);
-        } else if (orientation === 0) {
-            return portrait_primary(ev);
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
+
+    if (isAndroid) {
+        if(IO.user.getGameId()){
+            if (orientation === 90) {
+                return landscape_primary(ev);
+            }
+            if (orientation === -90) {
+                return landscape_secondary(ev);
+            }
+            if (orientation === 0) {
+                return portrait_primary(ev);
+            }
+        }
+    }else{
+        if(IO.user.getGameId()){
+            if (orientation === -90) {
+                return landscape_primary(ev);
+            }
+            if (orientation === 90) {
+                return landscape_secondary(ev);
+            }
+            if (orientation === 0) {
+                return portrait_primary(ev);
+            }
         }
     }
-
 }
 
 /*

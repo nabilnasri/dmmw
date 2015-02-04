@@ -114,9 +114,9 @@ exports.PlayingField.prototype.initPaddles = function () {
     var randomColor1, randomColor2;
     var colorsOne = [], colorsTwo = [];
     for(var i = 1; i <= 6; i++){
-        r = Math.round(255 * Math.random());
+        r = Math.round(192 * Math.random());
         g = Math.round(100 + 255 * Math.random());
-        b = Math.round(250 * Math.random());
+        b = Math.round(170 * Math.random());
         randomColor1 = "rgba(" + r + ", " + g + ", " + b + ", 1)";
         colorsOne.push(randomColor1);
         // rot
