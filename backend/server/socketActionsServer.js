@@ -130,7 +130,7 @@ function setMobileSocket(data) {
         var playerdata = gm.setMobileSocketId(data.gameId, this.id);
         if(playerdata != null){
             //fuege nun den neuen nutzer zum room
-            this.join(data.gameId);
+            //this.join(data.gameId);
             //schicke userdaten an das mobile device
             this.emit('mobiledeviceConnected', {
                 playerNumber: playerdata.playerNumber,

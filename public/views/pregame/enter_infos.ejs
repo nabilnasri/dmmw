@@ -12,63 +12,74 @@
 <div class="container">
     <% include ../main/navbar.ejs %>
     <div id="content">
-        <div class="row center-block">
-            <form class="form-horizontal">
+        <div class=row>
+            <div class="box-with-content col-md-offset-4 col-md-4">
 
-                <div class="form-group form-group-lg">
-                    <div class="col-sm-4">
-                        <input name="username" class="form-control" type="text" id="username" maxlength="20" placeholder="Username" >
-                    </div>
-                </div>
-
-                <div class="form-group form-group-lg">
-                    <div class="col-sm-4">
-                        <div class="right-inner-addon">
-                            <i id ="boxIcon"  class="glyphicon"></i>
-                            <input onkeyup="checkId()" class="form-control" type="text" id="gameId" placeholder="Game ID" maxlength="5">
+                <div class="row center-block">
+                    <div class="row center-block">
+                        <div class="col-md-12">
+                            <div class="phone-game-id text-center">Enter username + Gameid</div>
                         </div>
-                        <span id="errormessage">...</span>
                     </div>
-                </div>
+                    <form class="form-horizontal">
+                        <div class="form-group form-group-lg">
+                            <div class="col-sm-12">
+                                <input name="username" class="form-control inputfield" type="text" id="username"
+                                       maxlength="20" placeholder="Username">
+                            </div>
+                        </div>
 
-                <input id="connect-to-room" class="btn btn-danger" value="connect to room">
-            </form>
+                        <div class="form-group form-group-lg">
+                            <div class="col-sm-12">
+                                <div class="right-inner-addon">
+                                    <i id="boxIcon" class="glyphicon"></i>
+                                    <input onkeyup="checkId()" class="form-control inputfield" type="text" id="gameId"
+                                           placeholder="Game ID" maxlength="5">
+                                </div>
+                                <span id="errormessage">...</span>
+                            </div>
+                        </div>
+
+                        <input id="connect-to-room" class="btn btn-danger" value="connect to room">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <% include ../main/footer.ejs %>
     <% include ../main/global_js_scripts.ejs %>
     <div id="content-scripts">
         <script>
-            function checkId(){
+            function checkId() {
                 var inputVal = document.getElementById('gameId').value;
                 var allIds = IO.user.getAllGameIds();
                 var errormessage = document.getElementById('errormessage');
                 var icon = document.getElementById('boxIcon');
-                if(inputVal.length == 2 ){
-                    for(var i = 0; i<allIds.length; i++){
-                        if(inputVal != allIds[i]){
+                if (inputVal.length == 2) {
+                    for (var i = 0; i < allIds.length; i++) {
+                        if (inputVal != allIds[i]) {
                             errormessage.innerHTML = 'die eingegebene Game ID existiert nicht!';
                             errormessage.style.display = 'block';
                             icon.classList.remove('glyphicon-ok');
                             icon.classList.add('glyphicon-remove');
-                            icon.style.color='red';
-                        }else{
+                            icon.style.color = 'red';
+                        } else {
                             errormessage.style.display = 'none';
                             icon.classList.remove('glyphicon-remove');
                             icon.classList.add('glyphicon-ok');
-                            icon.style.color='green';
+                            icon.style.color = 'green';
                         }
                     }
-                }else if (inputVal==0){
+                } else if (inputVal == 0) {
                     errormessage.style.display = 'none';
                     icon.classList.remove('glyphicon-remove');
                     icon.classList.remove('glyphicon-ok');
-                }else{
+                } else {
                     errormessage.innerHTML = 'GameID besteht aus 5 Zahlen!';
                     errormessage.style.display = 'block';
                     icon.classList.remove('glyphicon-ok');
                     icon.classList.add('glyphicon-remove');
-                    icon.style.color='red';
+                    icon.style.color = 'red';
                 }
             }
         </script>
