@@ -55,7 +55,7 @@
                 var allIds = IO.user.getAllGameIds();
                 var errormessage = document.getElementById('errormessage');
                 var icon = document.getElementById('boxIcon');
-                if (inputVal.length == 2) {
+                if (inputVal.length == 5) {
                     for (var i = 0; i < allIds.length; i++) {
                         if (inputVal != allIds[i]) {
                             errormessage.innerHTML = 'die eingegebene Game ID existiert nicht!';
